@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask import render_template
 
 post = Blueprint('post', __name__)
 

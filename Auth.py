@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask import render_template
 
 auth = Blueprint('auth', __name__)
 

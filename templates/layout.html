@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>itucsdb1629</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>itucsdb1629</title>
 
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/custom.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="{{ url_for('static', filename='css/materialize.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/custom.css') }}" type="text/css" rel="stylesheet"
+          media="screen,projection"/>
+    <link href="{{ url_for('static', filename='css/materialize.css') }}" type="text/css" rel="stylesheet"
+          media="screen,projection"/>
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><strong>itu</strong>csdb1629</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="/" class="brand-logo"><strong>itu</strong>csdb1629</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="/">Home</a></li>
+            <li><a href="/feed">Feed</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/publications">Publications</a></li>
+            <li><a href="/post">Posts</a></li>
+            <li><a href="/auth">Login</a></li>
+        </ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="side-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/feed">Feed</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/publications">Publications</a></li>
+            <li><a href="/post">Posts</a></li>
+            <li><a href="/auth">Login</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">Menu</i></a>
     </div>
-  </nav>
+</nav>
 
-  <main>
+<main>
     <div class="container">
-      {% block body %}{% endblock %}
+        {% block body %}{% endblock %}
     </div>
-  </main>
+</main>
 
-  <footer class="page-footer">
+<footer class="page-footer light-blue">
     <div class="footer-copyright">
-      <div class="container">
-      © 2016 - itucsdb1629
-      <div class="grey-text text-lighten-4 right">ITU Database Management Systems</div>
-      </div>
+        <div class="container">
+            © 2016 - itucsdb1629
+            <div class="grey-text text-lighten-4 right">ITU Database Management Systems</div>
+        </div>
     </div>
-  </footer>
+</footer>
 
 
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+<script src="{{ url_for('static', filename='js/init.js') }}"></script>
 
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/init.js') }}"></script>
-
-  </body>
+</body>
 </html>
