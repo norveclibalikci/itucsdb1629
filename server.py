@@ -2,17 +2,23 @@ import datetime
 import os
 
 from flask import Flask
-from flask import render_template
 from Feed import user_feed
+from Profile import profile
+from Publication import publication
+from Auth import auth
+from Home import home
+from Post import post
+
 
 app = Flask(__name__)
 
+# Register the blueprints for different team members, in order to minimize the conflicts.
+app.register_blueprint(home)
+app.register_blueprint(auth)
 app.register_blueprint(user_feed)
-
-@app.route('/')
-def home_page():
-    now = datetime.datetime.now()
-    return render_template('home.html', current_time=now.ctime())
+app.register_blueprint(post)
+app.register_blueprint(profile)
+app.register_blueprint(publication)
 
 
 if __name__ == '__main__':
