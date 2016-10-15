@@ -3,10 +3,11 @@ import os
 
 from flask import Flask
 from flask import render_template
-
+from Feed import user_feed
 
 app = Flask(__name__)
 
+app.register_blueprint(user_feed)
 
 @app.route('/')
 def home_page():

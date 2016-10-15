@@ -7,3 +7,7 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+footer.page-footer {
+    padding-top: 0 !important;
+}
