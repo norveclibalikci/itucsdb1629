@@ -1,19 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  </head>
-  <body>
-    <h1> Hello from itucsdb1629 </h1>
-    <h1>Ahmet Bilal CAN</h1>
-    <h1>Burak Karakan</h1>
-    <h1>Diedon BUJARI<h1>
-    <h1>Ugur Uysal</h1>
-    <h1>Sahin Olut</h1>
-    <footer>
-      <div id="datetime">{{ current_time }}</div>
-    </footer>
-  </body>
-</html>
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center red-text text-lighten-1">Hello from itu<strong>csdb16</strong></h1>
+        <div class="row center">
+            <h5 class="header col s12 light">You can click on the named buttons to see all of our pages.</h5>
+        </div>
+        <div class="row center">
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/feed">Feed</a>
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/profile">Profile</a>
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/publications">Publications</a>
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/post">Posts</a>
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/auth">Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
