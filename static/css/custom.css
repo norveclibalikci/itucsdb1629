@@ -11,3 +11,7 @@ main {
 footer.page-footer {
     padding-top: 0 !important;
 }
+
+.profile-text {
+	font-size:25px;
+}
