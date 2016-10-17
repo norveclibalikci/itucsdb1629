@@ -6,4 +6,4 @@ publication = Blueprint('publication', __name__)
 
 @publication.route("/publications")
 def main():
-    return "here comes the publications page."
+   return render_template('publications.html')
