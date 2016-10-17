@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center red-text text-lighten-1">Post</h1>
+        <div class="row center">
+            <h5 class="header col s12 light">Tell us your story.</h5>
+        </div>
+
+ <div class="row">
+        <div class="input-field col s4">
+          <input placeholder="Title" id="title" type="text" class="validate">
+          <label for="title">Title for your post</label>
+        </div>
+
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+          <label for="icon_prefix2">Enter a new post</label>
+        </div>
+      </div>
+    </form>
+  </div>
+        
+ <div class="row">
+
+        <div class="col s3">
+<label>Choose a category for your post(Click with control to select more categories)</label>
+  <select class="browser-default" multiple>
+    
+    <option value="1">Artifical Intelligence</option>
+    <option value="2">Internet of Things</option>
+    <option value="3">Cyber Security</option>
+  </select>
+  </div>
+  <div class="col s9">
+  <div class="right">
+  
+  <form action="#">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Upload photos</span>
+        <input type="file" multiple>
+      </div>
+      <div class="col s6">
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+      </div>
+      </div>
+    </div>
+
+  </form>
+  </div>
+  </div>
+  </div>
+  <div class="col s8">
+  <div class="right">
+  <button class="btn waves-effect waves-light" class="z-depth-3" type="submit" name="action">Submit post
+    <i class="material-icons right">send</i>
+  </button>
+        </div>
+        </div>
+  
+        {% for index in range(1, 2) %}
+            <div class="row center">
+                <div class="col s12 m12">
+                    <div class="card teal lighten-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Your most recent post</span>
+                            <p>
+                                Title of your most recent post
+                            </p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Pin this post</a>
+                            <a href="#">Delete from your posts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+  
+       
+
+        <div class="row center">
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
+        </div>
+        <div class="row center grey-text">
+            This page is created by Şahin Olut.
+        </div>
+    </div>
+</div>
+{% endblock %}
