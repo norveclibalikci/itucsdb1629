@@ -6,6 +6,10 @@ from flask import current_app as app
 def create_and_seed_database():
     create_feed_table()
     seed_feed_table()
+    
+    create_profile_table()
+    seed_profile_table()
+    
     return
 
 
@@ -24,8 +28,7 @@ def create_feed_table():
         cursor.execute(query)
         connection.commit()
         return True
-
-
+    
 # Seed the feed table with 3 random values.
 def seed_feed_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -41,7 +44,6 @@ def seed_feed_table():
         connection.commit()
         return True
 
-
 # Test the feed table of 3 random values.
 def test_feed_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -54,3 +56,49 @@ def test_feed_table():
         count = cursor.fetchone()[0]
         return count
 
+
+# Create the profile table with two fields, profile_id, name and surname.
+def create_profile_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DROP TABLE IF EXISTS PROFILE"""
+        cursor.execute(query)
+        query = """CREATE TABLE PROFILE (
+                profile_id INTEGER,
+                name_surname VARCHAR(40)
+        )"""
+        
+        cursor.execute(query)
+        connection.commit()
+        
+        return True
+    
+# Seed the profile table with 2 random values.
+def seed_profile_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """INSERT INTO
+                PROFILE (profile_id, name_surname)
+                VALUES
+                    (1, 'Sara Benincasa'),
+                    (2, 'Chirantha Premathilaka')"""
+                    
+        cursor.execute(query)
+        connection.commit()
+        
+        return True
+
+# Test the profile table of 2 random values.
+def test_profile_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT COUNT(*) FROM PROFILE;"""
+        
+        cursor.execute(query)
+        connection.commit()
+        count = cursor.fetchone()[0]
+        
+        return count    
