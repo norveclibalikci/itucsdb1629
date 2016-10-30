@@ -13,6 +13,8 @@ def create_and_seed_database():
     create_user_table()
     seed_user_table()
     
+    create_publication_table()
+    seed_publication_table()
     return
 
 
@@ -146,3 +148,55 @@ def test_user_table():
         count = cursor.fetchone()[0]
 
         return count
+
+    
+# Create the publication table  with 2 fields, publication_title, publisher , publication_id 
+def create_publication_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """DROP TABLE IF EXISTS PUBLICATION"""
+        cursor.execute(query)
+        query = """CREATE TABLE PUBLICATION (
+                publication_id INTEGER,    
+                publication_title VARCHAR(40),
+                publisher VARCHAR(20))"""
+        
+        try:
+            cursor.execute(query)
+        except:
+            return False;
+        connection.commit()
+        
+        return True
+    
+# Seed the publication table with 2 publications.
+def seed_publication_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        
+        query = """INSERT INTO
+                PUBLICATION (publication_id,  publication_title, publisher)
+                VALUES
+                    (1,'IoT', 'IEEE'),
+                    (2,'AI','Science')"""              
+        try: 
+            cursor.execute(query)
+        except:
+            return False
+        connection.commit()
+        
+        return True
+
+# Test the publication table
+def test_publication_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT COUNT(*) FROM PUBLICATION;"""
+        
+        cursor.execute(query)
+        connection.commit()
+        count = cursor.fetchone()[0]
+        
+        return count 
