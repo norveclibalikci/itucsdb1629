@@ -15,6 +15,10 @@ def create_and_seed_database():
     
     create_publication_table()
     seed_publication_table()
+    
+    create_post_table()
+    seed_post_table()
+    
     return
 
 
@@ -203,50 +207,45 @@ def test_publication_table():
     
     
     
- #Creating post table with three fields, post_id, profile_id, category_id
+#Creating post table with three fields, post_id, profile_id, category_id
 def create_post_table():
-	with dbApi.connect(app.config['dsn']) as connection:
-		cursor = connection.cursor()
+   with dbApi.connect(app.config['dsn']) as connection:
+	cursor = connection.cursor()
 
 	query = """DROP TABLE IF EXISTS POST"""
 	cursor.execute(query)
 
 
 	query = """CREATE TABLE POST (
-			post_id INTEGER,
-			profile_id INTEGER,
-			category_id INTEGER
-	)"""
+		post_id INTEGER,
+		profile_id INTEGER,
+		category_id INTEGER)"""
 	connection.execute(query)
 	connection.commit()
 	return True
 
 #Seed the post table with 3 random values
 def seed_post_table():
-	with dbApi.connection(app.config['dsn']) as connection:
-			cursor = connection.cursor()
+   with dbApi.connection(app.config['dsn']) as connection:
+	cursor = connection.cursor()
 
-
-			query= """INSERT INTO
-					POST (post_id, profile_id, category_id)
-					VALUES
-					(1,22,3),
-					(4,11,2),
-					(3,33,1)"""
-			cursor.execute(query)
-			connection.commit()
+	query= """INSERT INTO
+		POST (post_id, profile_id, category_id)
+		VALUES
+		(1,22,3),
+		(4,11,2),
+		(3,33,1)"""
+	cursor.execute(query)
+	connection.commit()
 	return True
 #Testing post table with 3 random values
 def test_post_table():
-	with dbApi.connect(app.config['dsn']) as connection:
-		cursor= connection.cursor()
+   with dbApi.connect(app.config['dsn']) as connection:
+	cursor= connection.cursor()
 
-		query= """SELECT COUNT(*) FROM POST;"""
-
-		cursor.execute(query)
-
-		connection.commit()
-
-		count=cursor.fetchone()[0]
-		return count
+	query= """SELECT COUNT(*) FROM POST;"""
+	cursor.execute(query)
+	connection.commit()
+	count=cursor.fetchone()[0]
+	return count
     
