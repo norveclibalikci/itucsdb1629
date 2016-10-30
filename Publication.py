@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import render_template
+from flask import redirect
 from SQL_init import create_publication_table
 from SQL_init import seed_publication_table
 from SQL_init import test_publication_table
