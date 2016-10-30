@@ -25,7 +25,7 @@ def seed_table():
 def create_and_seed():
     create_user_table()
     seed_user_table()
-    return
+    return "created and added"
 
 @auth.route("/test-user-table")
 def testdb():
