@@ -3,6 +3,7 @@ from flask import render_template
 from flask import redirect
 from SQL_init import create_feed_table
 from SQL_init import seed_feed_table
+from SQL_init import test_feed_table
 
 feed = Blueprint('feed', __name__)
 
@@ -29,3 +30,10 @@ def create_and_seed():
     create_feed_table()
     seed_feed_table()
     return redirect('/')
+
+
+@feed.route("/test-feed-table")
+def testdb():
+    count = test_feed_table()
+    return "Number of records: %d." % count
+
