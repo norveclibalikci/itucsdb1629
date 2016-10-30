@@ -10,6 +10,9 @@ def create_and_seed_database():
     create_profile_table()
     seed_profile_table()
     
+    create_user_table()
+    seed_user_table()
+    
     return
 
 
@@ -102,3 +105,44 @@ def test_profile_table():
         count = cursor.fetchone()[0]
         
         return count    
+def create_user_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS USER"""
+        cursor.execute(query)
+        query = """CREATE TABLE USER (
+                user_id INTEGER,
+                password VARCHAR(40)
+        )"""
+
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+def seed_user_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """INSERT INTO
+                USER (user_id, password)
+                VALUES
+                    (1, 'badpassword'),
+                    (2, 'g00d!p455W0rd*'),
+                    (3, 'onemorebadpassword')"""
+
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+def test_user_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT COUNT(*) FROM USER;"""
+
+        cursor.execute(query)
+        connection.commit()
+        count = cursor.fetchone()[0]
+
+        return count
