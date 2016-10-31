@@ -14,13 +14,13 @@ def main():
 
 @post.route("/create-post-table")
 def create_table():
-	create_post_table()
-	return redirect('/')
+    create_post_table()
+    return redirect('/')
 
 @post.route("/seed-post-table")
 def seed_table():
-	seed_post_table()
-	return redirect('/')
+    seed_post_table()
+    return redirect('/')
 
 @post.route("/create-and-seed-post-table")
 def create_and_seed():
