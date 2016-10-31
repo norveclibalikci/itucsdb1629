@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import render_template
+from flask import redirect
 from SQL_init import create_user_table
 from SQL_init import seed_user_table
 from SQL_init import test_user_table
