@@ -10,17 +10,20 @@ post = Blueprint('post', __name__)
 
 @post.route("/post")
 def main():
-    return render_template("post.html")
+    return render_template('post.html')
+
 
 @post.route("/create-post-table")
 def create_table():
     create_post_table()
     return redirect('/')
 
+
 @post.route("/seed-post-table")
 def seed_table():
     seed_post_table()
     return redirect('/')
+
 
 @post.route("/create-and-seed-post-table")
 def create_and_seed():
@@ -32,4 +35,5 @@ def create_and_seed():
 @post.route("/test-post-table")
 def testdb():
     count = test_post_table()
-    return "Record count: %d." % count
+    return "Number of records at database: %d." % count
+
