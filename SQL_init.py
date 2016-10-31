@@ -111,6 +111,7 @@ def test_profile_table():
         count = cursor.fetchone()[0]
         
         return count    
+#Create the user table with two field such as user_id and password
 def create_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -126,6 +127,7 @@ def create_user_table():
         connection.commit()
 
         return True
+#seed the user table with samples
 def seed_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -141,6 +143,7 @@ def seed_user_table():
         connection.commit()
 
         return True
+#test the user table with count
 def test_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
