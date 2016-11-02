@@ -4,14 +4,11 @@
 
 
 <body>
+	<div class = "center">
   <div class="section"></div>
-
-    <center>
-
       <div class="section"></div>
-
-      <h5 class="indigo-text">Please, login into your account</h5>
-      <div class="section"></div>
+      <h5 class="indigo-text" >Please, login into your account</h5>
+      <div class="section "></div>
 
       <div class="container">
         <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
@@ -29,34 +26,42 @@
               </div>
             </div>
 
-            <div class='row'>
+
               <div class='input-field col s12'>
                 <input class='validate' type='password' name='password' id='password' />
                 <label for='password'>Enter your password</label>
               </div>
-              <label style='float: right;'>
-								<a class='pink-text' href='#!'><b>Forgot Password?</b></a>
-							</label>
+               <div class='row'>
+              <div class='input-field col s6'>
+                <a class='pink-text' href='/change_pw'><b>Forgot Password?</b></a>
+
+              </div>
+              <div class='input-field col s6'>
+              <a class='pink-text' href='/delete_acc'><b>Want to delete your acc ?</b></a>
+
+              </div>
+
+
             </div>
 
             <br />
-            <center>
+
               <div class='row'>
-                <a class='col s12 btn btn-large waves-effect indigo' href = '#login'>Login</a>
+                <button class = "btn btn-large col s12  waves-effect waves-light indigo" value = 'login'> Login </button>
               </div>
-            </center>
+
           </form>
         </div>
       </div>
-      <a href="#!">Create account</a>
-    </center>
+      <a href="/create_acc"> Create account </a>
+
 
     <div class="section"></div>
     <div class="section"></div>
      <div class="row center grey-text text-light-1">
           This page is created by Ahmet Bilal Can
       </div>
-
+	</div>
 </body>
 
 {% endblock %}
