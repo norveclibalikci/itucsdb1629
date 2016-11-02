@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+
+<body>
+	<div class = "center">
+	<div class="section"></div>
+
+      <div class="section"></div>
+
+      <h5 class="indigo-text" >Create your XLarge account</h5>
+      <div class="section "></div>
+
+      <div class="container">
+        <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+          <form class="col s12" method="post">
+            <div class='row'>
+              <div class='col s12'>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s6'>
+                <input  type='text' name='firstname' id='firstname' />
+                <label for='first_name'>First name</label>
+              </div>
+                <div class='input-field col s6'>
+                <input type='text' name='lastname' id='lastname' />
+                <label for='last_name'>Last name</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s6'>
+                <input  type='email' name='email2' id='email2' />
+                <label for='email2'>Email</label>
+              </div>
+              <div class='input-field col s6'>
+                <input type='password' name='password2' id='password2' />
+                <label for='password2'>Password</label>
+              </div>
+            </div>
+			<div class = 'row'>
+				<div class ='input-field col s12'>
+					<input type='text' name = 'private' id = 'private' />
+					<label for = 'private'>What's your mother's maiden name ? </label>
+				</div>
+			</div>
+
+            <br />
+
+              <div class='row'>
+				   <button class = "btn btn-large col s12  waves-effect waves-light indigo" value = 'login'> Create and Go to your profile page </button>
+
+
+				</div>
+          </form>
+        </div>
+      </div>
+
+
+
+    <div class="section"></div>
+    <div class="section"></div>
+     <div class="row center grey-text text-light-1">
+          This page is created by Ahmet Bilal Can
+      </div>
+      </div>
+</body>
+
+{% endblock %}
