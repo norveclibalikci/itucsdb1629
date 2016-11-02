@@ -6,20 +6,22 @@ from flask import current_app as app
 def create_and_seed_database():
     create_feed_table()
     seed_feed_table()
-    
+
     create_profile_table()
     seed_profile_table()
-    
+
     create_user_table()
     seed_user_table()
-    
+
     create_publication_table()
     seed_publication_table()
-    
+
     create_post_table()
     seed_post_table()
-    
+
     return
+
+
 
 
 # Create the feed table with two fields, post_id and number_of_likes.
@@ -37,7 +39,7 @@ def create_feed_table():
         cursor.execute(query)
         connection.commit()
         return True
-    
+
 # Seed the feed table with 3 random values.
 def seed_feed_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -70,19 +72,19 @@ def test_feed_table():
 def create_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        
+
         query = """DROP TABLE IF EXISTS PROFILE"""
         cursor.execute(query)
         query = """CREATE TABLE PROFILE (
                 profile_id INTEGER,
                 name_surname VARCHAR(40)
         )"""
-        
+
         cursor.execute(query)
         connection.commit()
-        
+
         return True
-    
+
 # Seed the profile table with 2 random values.
 def seed_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -93,10 +95,10 @@ def seed_profile_table():
                 VALUES
                     (1, 'Sara Benincasa'),
                     (2, 'Chirantha Premathilaka')"""
-                    
+
         cursor.execute(query)
         connection.commit()
-        
+
         return True
 
 # Test the profile table of 2 random values.
@@ -105,94 +107,172 @@ def test_profile_table():
         cursor = connection.cursor()
 
         query = """SELECT COUNT(*) FROM PROFILE;"""
-        
-        cursor.execute(query)
-        connection.commit()
-        count = cursor.fetchone()[0]
-        
-        return count    
-#Create the user table with two field such as user_id and password
-def create_user_table():
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = """DROP TABLE IF EXISTS USER"""
-        cursor.execute(query)
-        query = """CREATE TABLE USER (
-                user_id INTEGER,
-                password VARCHAR(40)
-        )"""
-
-        cursor.execute(query)
-        connection.commit()
-
-        return True
-#seed the user table with samples
-def seed_user_table():
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = """INSERT INTO
-                USER (user_id, password)
-                VALUES
-                    (1, 'badpassword'),
-                    (2, 'g00d!p455W0rd*'),
-                    (3, 'onemorebadpassword')"""
-
-        cursor.execute(query)
-        connection.commit()
-
-        return True
-#test the user table with count
-def test_user_table():
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = """SELECT COUNT(*) FROM USER;"""
 
         cursor.execute(query)
         connection.commit()
         count = cursor.fetchone()[0]
 
         return count
+def create_user_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
 
-    
-# Create the publication table  with 2 fields, publication_title, publisher , publication_id 
+        query = """DROP TABLE IF EXISTS user_"""
+        cursor.execute(query)
+        query = """CREATE TABLE user_ (
+                user_id INTEGER,
+                password VARCHAR(40),
+                mail VARCHAR(40),
+                secret VARCHAR(40)
+        )"""
+
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+def seed_user_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """INSERT INTO
+                user_ (user_id, password,mail,secret)
+                VALUES
+                    (1, 'badpassword','abc@gmail.com','mom1'),
+                    (2, 'g00d!p455W0rd*','def@gmail.com','mom2'),
+                    (3, 'onemorebadpassword','xyz@gmail.com','mom3')"""
+
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+def test_user_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT COUNT(*) FROM user_;"""
+
+        cursor.execute(query)
+        connection.commit()
+        count = cursor.fetchone()[0]
+
+        return count
+def check_login(mail_address,pw):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+
+
+        cursor.execute("""select password from user_
+                        WHERE mail = %s """,(mail_address,))
+        connection.commit()
+        password = cursor.fetchone()[0]
+        print(password,pw)
+        if pw == password:
+            return True
+        else :
+            return False
+def change_password(new_pw,secret_quest,mail_addres):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+
+        cursor.execute("""SELECT user_id FROM user_
+                where %s = mail AND %s = secret
+                """,(mail_addres,secret_quest))
+        connection.commit()
+        user_id_change = cursor.fetchone()[0]
+
+
+        cursor = connection.cursor()
+        if user_id_change:
+
+            cursor.execute("""UPDATE user_ SET password = %s
+                    where user_id = %s   AND mail = %s  """,(new_pw,user_id_change,mail_addres,))
+
+            connection.commit()
+            return True
+        else: return False
+
+def create_account(password_,mail_,secret_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT * from user_
+                ORDER BY user_id
+                DESC
+                """
+
+        cursor.execute(query)
+        connection.commit()
+        last_user_id = cursor.fetchone()[0]
+        print(last_user_id)
+        new_id = last_user_id+1
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO user_ VALUES(%s,%s,%s,%s)
+                """ ,(new_id,password_,mail_,secret_,))
+
+        connection.commit()
+
+
+
+        return True
+
+def delete_account(password,mail,secret):
+     with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+
+        cursor.execute("""SELECT user_id FROM user_
+                where mail = %s  AND secret = %s
+                """,(mail,secret))
+        connection.commit()
+        user_id_delete = cursor.fetchone()[0]
+
+        print(user_id_delete)
+        cursor = connection.cursor()
+        if user_id_delete:
+
+            cursor.execute("""DELETE FROM user_ where user_id = %s  """,(user_id_delete,))
+
+            connection.commit()
+            return True
+        else: return False
+# Create the publication table  with 2 fields, publication_title, publisher , publication_id
 def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        
+
         query = """DROP TABLE IF EXISTS PUBLICATION"""
         cursor.execute(query)
         query = """CREATE TABLE PUBLICATION (
-                publication_id INTEGER,    
+                publication_id INTEGER,
                 publication_title VARCHAR(40),
                 publisher VARCHAR(20))"""
-        
+
         try:
             cursor.execute(query)
         except:
             return False;
         connection.commit()
-        
+
         return True
-    
+
 # Seed the publication table with 2 publications.
 def seed_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        
+
         query = """INSERT INTO
                 PUBLICATION (publication_id,  publication_title, publisher)
                 VALUES
                     (1,'IoT', 'IEEE'),
-                    (2,'AI','Science')"""              
-        try: 
+                    (2,'AI','Science')"""
+        try:
             cursor.execute(query)
         except:
             return False
         connection.commit()
-        
+
         return True
 
 # Test the publication table
@@ -201,15 +281,15 @@ def test_publication_table():
         cursor = connection.cursor()
 
         query = """SELECT COUNT(*) FROM PUBLICATION;"""
-        
+
         cursor.execute(query)
         connection.commit()
         count = cursor.fetchone()[0]
-        
-        return count 
-    
-    
-    
+
+        return count
+
+
+
 # Create the post table with three variables, post_id, profile_id and category_id
 def create_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -226,7 +306,7 @@ def create_post_table():
         cursor.execute(query)
         connection.commit()
         return True
-    
+
 # Seed the post table with 3 random values.
 def seed_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -252,5 +332,3 @@ def test_post_table():
 
         count = cursor.fetchone()[0]
         return count
-
-    
