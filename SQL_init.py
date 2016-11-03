@@ -78,7 +78,8 @@ def create_profile_table():
         cursor.execute(query)
         query = """CREATE TABLE PROFILE (
                 profile_id INTEGER,
-                name_surname VARCHAR(40)
+                name VARCHAR(20),
+                surname VARCHAR(20)
         )"""
 
         cursor.execute(query)
@@ -93,10 +94,10 @@ def seed_profile_table():
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                PROFILE (profile_id, name_surname)
+                PROFILE (profile_id, name, surname)
                 VALUES
-                    (1, 'Sara Benincasa'),
-                    (2, 'Chirantha Premathilaka')"""
+                    (1, 'Sara', 'Benincasa'),
+                    (2, 'Chirantha', 'Premathilaka')"""
 
         cursor.execute(query)
         connection.commit()
@@ -116,6 +117,60 @@ def test_profile_table():
         count = cursor.fetchone()[0]
 
         return count
+
+def insert_profile(firstname_, surname_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT * from PROFILE
+                ORDER BY profile_id
+                DESC
+                """
+
+        cursor.execute(query)
+        connection.commit()
+        last_profile_id = cursor.fetchone()[0]
+        new_profile_id = last_profile_id+1
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO PROFILE VALUES(%s,%s,%s)
+                """ ,(new_profile_id,firstname_,surname_,))
+
+        connection.commit()
+
+        return True
+
+def remove_profile(firstname_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""DELETE FROM PROFILE
+        where name = '%s'""",(firstname_,))
+        connection.commit()
+
+        return True
+
+def up_todate_profile(firstname_, newfirstname_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""UPDATE PROFILE SET name = %s
+                where name = %s""",(newfirstname_, firstname_,))
+        connection.commit()
+        
+        return True
+
+def get_all_profiles():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT profile_id, name, surname FROM PROFILE;"""
+        cursor.execute(query)
+        connection.commit()
+        for row in cursor:
+            profile_id, name, surname = row
+            print('{}: {} {}'.format(profile_id, name, surname))
+        cursor.close()
+        connection.commit()
 
 
 def create_user_table():
