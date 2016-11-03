@@ -329,8 +329,8 @@ def seed_post_table():
                 POST (post_id, profile_id, category_id, content)
                 VALUES
                     (1, 22, 3,'a'),
-                    (5, 41, 1,'a'),
-                    (7, 71, 2,'a')"""
+                    (2, 41, 1,'a'),
+                    (3, 71, 2,'Newpost3')"""
         cursor.execute(query)
         connection.commit()
         return True
