@@ -8,7 +8,6 @@
         <div class="row right">
             <h5 class="header col s12 light">Following</h5>
         </div>
-        {% for index in range(1, 3) %}
             <div class="row ">
                 <div class="col s12 m12">
                     <div class="row card green lighten-3">
@@ -18,9 +17,9 @@
                     		</a>
                     	</div>
                         <div class="col s6 m6 card-content white-text">
-                            <span class="card-title">Publication {{ index }}</span>
+                            <span class="card-title">Publication  </span>
                             <p>
-                                Description of publication {{ index }}
+                                Description of publication 
                             </p>
                         </div>
                         <div class="col s3 m3 card-action right">
@@ -29,12 +28,12 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
+
+       
         
-        <div class="row right">
+   		<div class="row right">
             <h5 class="header col s12 light">Suggested</h5>
         </div>
-        {% for index in range(1, 4) %}
             <div class="row ">
                 <div class="col s12 m12">
                     <div class="row card blue lighten-3">
@@ -56,8 +55,86 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
-
+		<div class="row">
+		    <form class="col s12" method="POST" action="publications">
+		      
+		      
+		      <div class="row">
+		        <div class="input-field col s12">
+		          <input id="pub_id" name="pub_id" type="number" class="validate">
+		          <label for="pub_id">Id</label>
+		        </div>
+		      </div>
+		      
+		      
+		      
+		      <div class="row">
+		        <div class="input-field col s12">
+		          <input name='title' id="title" type="text" class="validate">
+		          <label for="title">Title</label>
+		        </div>
+		      </div>
+		      
+		      <div class="row">
+		        <div class="input-field col s12">
+		          <input name='publisher' id="publisher" type="text" class="validate">
+		          <label for="publisher">Publisher</label>
+		        </div>
+		      </div>
+		     
+			  <button class="btn waves-effect waves-light" type="submit" name="action">ADD
+			    <i class="material-icons right">send</i>
+			  </button>		        
+		    </form>
+		  </div>
+		  
+		  <div class="row">
+		    <form class="col s12"  method="POST" action="publications/delete">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='del_id' id="del_id" type="number" class="validate">
+		         		 <label for="del_id">Enter ID to delete</label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">DELETE
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   
+		  <div class="row">
+		    <form class="col s12"  method="POST" action="publications/select">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='sel_id' id="sel_id" type="number" class="validate">
+		         		 <label for="sel_id">Enter the ID </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Select from ID
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   <div class="row">
+		    <form class="col s12"  method="POST" action="publications/update">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='up_id' id="up_id" type="number" class="validate">
+		         		 <label for="up_id">Enter the ID </label>
+		       		 </div>
+		     	 </div>
+		     	 <div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='up_tit' id="up_tit" type="text" class="validate">
+		         		 <label for="up_tit">Enter the new title </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Update with ID
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   
         <div class="row center">
             <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
         </div>
@@ -67,3 +144,4 @@
     </div>
 </div>
 {% endblock %}
+
