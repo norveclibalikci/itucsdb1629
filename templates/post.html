@@ -17,14 +17,21 @@
         </div>
 
   <div class="row">
-    <form class="col s12">
+    <form class="col s12" method="POST" action="post">
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">mode_edit</i>
-          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+          <textarea id="post_string" name="post_string" class="materialize-textarea"></textarea>
           <label for="icon_prefix2">Enter a new post</label>
         </div>
       </div>
+       <div class="col s12">
+  <div class="right">
+  <button class="btn waves-effect waves-light" class="z-depth-3" type="submit" name="action" action="post">Submit post
+    <i class="material-icons right">send</i>
+  </button>
+        </div>
+        </div>
     </form>
   </div>
         
@@ -59,32 +66,26 @@
   </div>
   </div>
   </div>
-  <div class="col s12">
-  <div class="right">
-  <button class="btn waves-effect waves-light" class="z-depth-3" type="submit" name="action">Submit post
-    <i class="material-icons right">send</i>
-  </button>
-        </div>
-        </div>
+ 
   
-        {% for index in range(1, 2) %}
+        
             <div class="row center">
                 <div class="col s12 m12">
                     <div class="card teal lighten-1">
                         <div class="card-content white-text">
                             <span class="card-title">Your most recent post</span>
                             <p>
-                                Title of your most recent post
+                                {{ text }}
                             </p>
                         </div>
                         <div class="card-action">
-                            <a href="#">Pin this post</a>
-                            <a href="#">Delete from your posts</a>
+                            <a href="/edit">Edit this post</a>
+                            <a href="/post/delete-most-recent">Delete from your posts</a>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+    
 
   
        
