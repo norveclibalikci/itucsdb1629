@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<body>
+<div class="center">
+    <br><br><br><br>
+    <h5 class="indigo-text">Create new Feed Post</h5>
+    <div class="section "></div>
+
+    <div class="container">
+        <div class="z-depth-1 grey lighten-4 row"
+             style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+            <form class="col s12" method="post">
+                <div class='row'>
+                    <div class='col s12'>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='input-field col s2'>
+                        <input type='text' name='post_id' id='post_id'/>
+                        <label for='post_id'>ID</label>
+                    </div>
+                    <div class='input-field col s10'>
+                        <input type='text' name='post_title' id='post_title'/>
+                        <label for='post_title'>Post Title</label>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='input-field col s8'>
+                        <input type='text' name='author' id='author'/>
+                        <label for='author'>Author</label>
+                    </div>
+                    <div class='input-field col s4'>
+                        <input type='text' name='number_of_likes' id='number_of_likes'/>
+                        <label for='number_of_likes'>Number of Likes</label>
+                    </div>
+                </div>
+                <br/>
+
+                <div class='row'>
+                    <button class="btn btn-large col s12  waves-effect waves-light indigo" value='create'>
+                        Create new feed post
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row center grey-text text-light-1">
+        This page is created by Burak Karakan
+    </div>
+</div>
+</body>
+
+{% endblock %}

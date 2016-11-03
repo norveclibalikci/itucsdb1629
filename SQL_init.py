@@ -22,8 +22,6 @@ def create_and_seed_database():
     return
 
 
-
-
 # Create the feed table with two fields, post_id and number_of_likes.
 def create_feed_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -34,11 +32,13 @@ def create_feed_table():
 
         query = """CREATE TABLE FEED (
                 post_id INTEGER,
-                number_of_likes INTEGER
-        )"""
+                post_title VARCHAR(30),
+                author VARCHAR(20),
+                number_of_likes INTEGER)"""
         cursor.execute(query)
         connection.commit()
         return True
+
 
 # Seed the feed table with 3 random values.
 def seed_feed_table():
@@ -46,14 +46,15 @@ def seed_feed_table():
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                FEED (post_id, number_of_likes)
+                FEED (post_id, post_title, author, number_of_likes)
                 VALUES
-                    (1, 25),
-                    (2, 35),
-                    (5, 17)"""
+                    (1, 'Living in the Edge', 'Joe Doe', 25),
+                    (2, 'A Hard Peace', 'Nick Denton', 35),
+                    (5, 'Failed Life', 'Jake Holden', 35)"""
         cursor.execute(query)
         connection.commit()
         return True
+
 
 # Test the feed table of 3 random values.
 def test_feed_table():
@@ -85,6 +86,7 @@ def create_profile_table():
 
         return True
 
+
 # Seed the profile table with 2 random values.
 def seed_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -101,6 +103,7 @@ def seed_profile_table():
 
         return True
 
+
 # Test the profile table of 2 random values.
 def test_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -113,6 +116,8 @@ def test_profile_table():
         count = cursor.fetchone()[0]
 
         return count
+
+
 def create_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -130,6 +135,8 @@ def create_user_table():
         connection.commit()
 
         return True
+
+
 def seed_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -145,6 +152,8 @@ def seed_user_table():
         connection.commit()
 
         return True
+
+
 def test_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -156,44 +165,46 @@ def test_user_table():
         count = cursor.fetchone()[0]
 
         return count
-def check_login(mail_address,pw):
+
+
+def check_login(mail_address, pw):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
-
 
         cursor.execute("""select password from user_
-                        WHERE mail = %s """,(mail_address,))
+                        WHERE mail = %s """, (mail_address,))
         connection.commit()
         password = cursor.fetchone()[0]
-        print(password,pw)
+        print(password, pw)
         if pw == password:
             return True
-        else :
+        else:
             return False
-def change_password(new_pw,secret_quest,mail_addres):
+
+
+def change_password(new_pw, secret_quest, mail_addres):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
 
         cursor.execute("""SELECT user_id FROM user_
                 where %s = mail AND %s = secret
-                """,(mail_addres,secret_quest))
+                """, (mail_addres, secret_quest))
         connection.commit()
         user_id_change = cursor.fetchone()[0]
-
 
         cursor = connection.cursor()
         if user_id_change:
 
             cursor.execute("""UPDATE user_ SET password = %s
-                    where user_id = %s   AND mail = %s  """,(new_pw,user_id_change,mail_addres,))
+                    where user_id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
 
             connection.commit()
             return True
-        else: return False
+        else:
+            return False
 
-def create_account(password_,mail_,secret_):
+
+def create_account(password_, mail_, secret_):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
@@ -206,25 +217,23 @@ def create_account(password_,mail_,secret_):
         connection.commit()
         last_user_id = cursor.fetchone()[0]
         print(last_user_id)
-        new_id = last_user_id+1
+        new_id = last_user_id + 1
         cursor = connection.cursor()
         cursor.execute("""INSERT INTO user_ VALUES(%s,%s,%s,%s)
-                """ ,(new_id,password_,mail_,secret_,))
+                """, (new_id, password_, mail_, secret_,))
 
         connection.commit()
 
-
-
         return True
 
-def delete_account(password,mail,secret):
-     with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
 
+def delete_account(password, mail, secret):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
 
         cursor.execute("""SELECT user_id FROM user_
                 where mail = %s  AND secret = %s
-                """,(mail,secret))
+                """, (mail, secret))
         connection.commit()
         user_id_delete = cursor.fetchone()[0]
 
@@ -232,11 +241,14 @@ def delete_account(password,mail,secret):
         cursor = connection.cursor()
         if user_id_delete:
 
-            cursor.execute("""DELETE FROM user_ where user_id = %s  """,(user_id_delete,))
+            cursor.execute("""DELETE FROM user_ where user_id = %s  """, (user_id_delete,))
 
             connection.commit()
             return True
-        else: return False
+        else:
+            return False
+
+
 # Create the publication table  with 2 fields, publication_title, publisher , publication_id
 def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -257,6 +269,7 @@ def create_publication_table():
 
         return True
 
+
 # Seed the publication table with 2 publications.
 def seed_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -275,6 +288,7 @@ def seed_publication_table():
 
         return True
 
+
 # Test the publication table
 def test_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -287,7 +301,6 @@ def test_publication_table():
         count = cursor.fetchone()[0]
 
         return count
-
 
 
 # Create the post table with three variables, post_id, profile_id and category_id
@@ -307,6 +320,7 @@ def create_post_table():
         connection.commit()
         return True
 
+
 # Seed the post table with 3 random values.
 def seed_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -321,6 +335,8 @@ def seed_post_table():
         cursor.execute(query)
         connection.commit()
         return True
+
+
 # Testing the post table of 3 random values.
 def test_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -332,3 +348,63 @@ def test_post_table():
 
         count = cursor.fetchone()[0]
         return count
+
+
+def get_all_feed():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT post_id, post_title, author FROM FEED;"""
+        cursor.execute(query)
+        connection.commit()
+        return cursor
+
+
+def create_feed_post(post_id, post_title, post_author, post_likes):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """INSERT INTO FEED (post_id, post_title, author, number_of_likes) VALUES(%s,'%s','%s',%s)""" % (
+            post_id, post_title, post_author, post_likes)
+
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+
+
+def get_feed_post_with_id(id):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT * FROM FEED WHERE post_id = %s;""" % id
+
+        cursor.execute(query)
+        connection.commit()
+
+        return cursor
+
+
+def update_feed_post(id, title, author, likes):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """UPDATE FEED
+        SET post_id=%s, post_title='%s', author='%s', number_of_likes=%s
+        WHERE post_id = %s;""" % (id, title, author, likes, id)
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+
+
+def delete_feed_post(id):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DELETE FROM FEED
+        WHERE post_id = %s;""" % id
+        cursor.execute(query)
+        connection.commit()
+
+        return True
