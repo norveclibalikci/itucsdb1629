@@ -12,7 +12,8 @@ publication = Blueprint('publication', __name__)
 
 @publication.route("/publications")
 def main():
-   return render_template('publications.html')
+   feed=get_all_feed()
+   return render_template('publications.html',feed = feed)
 
 @publication.route("/publications", methods=['POST'])
 def new_publication_form():
@@ -32,7 +33,7 @@ def new_publication_form():
         
    connection.close()
    
-   return "Added"
+   return redirect("/publications")
 
 
 @publication.route("/publications/delete" , methods=['POST'] )
@@ -48,7 +49,16 @@ def delete_form():
         
    connection.close()
    
-   return "Deleted"
+   return redirect("/publications")
+
+def get_all_feed():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT * FROM PUBLICATION ORDER BY publication_id;"""
+        cursor.execute(query)
+        connection.commit()
+        return cursor
 
 @publication.route("/publications/select" , methods=['POST'] )
 def select_from_form():
@@ -76,10 +86,15 @@ def update_form():
 
         cursor.execute(query,(up_tit,up_id))
         connection.commit()
-        
-   return "updated"
+   return redirect("/publications")
 
-
+def get_all_feed():
+   with dbApi.connect(app.config['dsn']) as connection:
+       cursor = connection.cursor()
+       query = """SELECT * FROM PUBLICATION;"""
+       cursor.execute(query)
+       connection.commit()
+       return cursor
 
 @publication.route("/create-publication-table")
 def create_table():
@@ -110,3 +125,4 @@ def create_and_seed():
     create_publication_table()
     seed_publication_table()
     return redirect('/publications')
+
