@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
+
+<ul>
+    	<li><a href="{{ url_for('profile.create_and_seed') }}">Create and seed Profile table</a></li>
+    	<li><a href="{{ url_for('profile.add_profile') }}">Add Profile</a></li>
+    	<li><a href="{{ url_for('profile.delete_profile') }}">Delete Profile</a></li>
+    	<li><a href="{{ url_for('profile.update_profile') }}">Update Profile</a></li>
+    	
+</ul>
+
       <div class="row">
         <div class="card-panel grey lighten-5 z-depth-1">
           <div class="row center valign-wrapper">
