@@ -302,8 +302,7 @@ def test_publication_table():
 
         return count
 
-
-# Create the post table with three variables, post_id, profile_id and category_id
+# Create the post table with four variables, post_id, profile_id, category_id and content
 def create_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -314,29 +313,27 @@ def create_post_table():
         query = """CREATE TABLE POST (
                 post_id INTEGER,
                 profile_id INTEGER,
-                category_id INTEGER
+                category_id INTEGER,
+                content VARCHAR(250)    
         )"""
         cursor.execute(query)
         connection.commit()
         return True
-
-
+    
 # Seed the post table with 3 random values.
 def seed_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                POST (post_id, profile_id, category_id)
+                POST (post_id, profile_id, category_id, content)
                 VALUES
-                    (1, 22, 3),
-                    (5, 41, 1),
-                    (7, 71, 2)"""
+                    (1, 22, 3,'a'),
+                    (5, 41, 1,'a'),
+                    (7, 71, 2,'a')"""
         cursor.execute(query)
         connection.commit()
         return True
-
-
 # Testing the post table of 3 random values.
 def test_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -348,6 +345,7 @@ def test_post_table():
 
         count = cursor.fetchone()[0]
         return count
+
 
 
 def get_all_feed():
