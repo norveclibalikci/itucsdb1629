@@ -34,10 +34,11 @@ def main():
 @auth.route("/create_acc",methods=['GET','POST'])
 def create_acc():
     if submit():
+        name = request.form.get('name')
         pw = request.form.get('password2')
         mail = request.form.get('email2')
         secret = request.form.get('private')
-        create_account(pw,mail,secret)
+        create_account(name, pw,mail,secret)
         return redirect('/profile')
     return render_template('create_acc.html')
 

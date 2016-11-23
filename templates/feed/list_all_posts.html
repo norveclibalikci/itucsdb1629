@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center red-text text-lighten-1">Feed</h1>
+        <div class="row center">
+            <h5 class="header col s12 light">This page is where the post feed will be shown.</h5>
+        </div>
+
+        <form method="post">
+            <div class="card">
+                <div class="card-content">
+
+                    {% for post_id, title, name in posts %}
+                    <p>
+                        <input type="checkbox" name="selected_posts" id="{{post_id}}" value="{{post_id}}"/>
+                        <label for="{{post_id}}">{{ title }} - written by {{ name }}</label>
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row center">
+                <button class="btn waves-effect waves-light red lighten-1" type="submit" name="action">Add These
+                    to Feed
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+
+        <div class="row center grey-text">
+            This page is created by Burak Karakan.
+        </div>
+    </div>
+</div>
+{% endblock %}

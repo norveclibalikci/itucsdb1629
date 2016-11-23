@@ -16,3 +16,7 @@ footer.page-footer {
 	font-weight:bold;
 	font-size:30px;
 }
+
+#feedactions a{
+    color: aliceblue !important;
+}

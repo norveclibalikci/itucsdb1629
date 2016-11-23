@@ -10,66 +10,72 @@ from flask import current_app as app
 
 post = Blueprint('post', __name__)
 
-counter=3
+counter = 3
+
 
 @post.route("/post")
 def main():
-    return render_template('post.html',text=show_most_recent()[0])
+    return render_template('post.html', text=show_most_recent()[0])
 
-@post.route("/edit", methods=['GET','POST'])
+
+@post.route("/edit", methods=['GET', 'POSTS'])
 def edit_post():
-    string_to_post=request.form.get('post_string')
+    string_to_post = request.form.get('post_string')
 
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         global counter
-        query = """UPDATE POST SET content = %s WHERE post_id = %s;"""
-        cursor.execute(query,(string_to_post,counter)   )
+        query = """UPDATE POSTS SET content = %s WHERE post_id = %s;"""
+        cursor.execute(query, (string_to_post, counter))
         connection.commit()
-    return render_template('edit-post.html',recent_post=show_most_recent()[0])
+    return render_template('edit-post.html', recent_post=show_most_recent()[0])
 
 
 @post.route("/post", methods=['POST'])
 def send_form():
-    string_to_post=request.form['post_string']
+    title = request.form.get('title')
+    content = request.form.get('post_string')
 
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         global counter
-        counter=counter+1
+        counter = counter + 1
         query = """INSERT INTO
-                POST (post_id, profile_id, category_id, content)
+                POSTS (user_id, category_id, title, content)
                 VALUES
-                    (%s, 22, 3,%s)"""
-        cursor.execute(query,(counter,string_to_post))
+                    (22, 3,'%s', '%s')""" % (title, content)
+        cursor.execute(query)
         connection.commit()
     return redirect('/post')
+
 
 @post.route("/post/delete-most-recent")
 def drop_most_recent():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         global counter
-        
-        query = """DELETE FROM POST WHERE post_id = %s"""
-        cursor.execute(query,(counter,))
-        
-        counter=counter-1
+
+        query = """DELETE FROM POSTS WHERE post_id = %s"""
+        cursor.execute(query, (counter,))
+
+        counter = counter - 1
         return redirect('/post')
+
 
 def show_most_recent():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         global counter
-        query= """SELECT content FROM POST WHERE post_id = %s"""
-        cursor.execute(query,(counter,))
+        query = """SELECT content FROM POSTS WHERE post_id = %s"""
+        cursor.execute(query, (counter,))
         connection.commit()
         p = cursor.fetchone()
         if p is not None:
             return p
         else:
-             return (" ",)
-    
+            return (" ",)
+
+
 @post.route("/create-post-table")
 def create_table():
     create_post_table()
@@ -93,4 +99,3 @@ def create_and_seed():
 def testdb():
     count = test_post_table()
     return "Number of records at database: %d." % count
-

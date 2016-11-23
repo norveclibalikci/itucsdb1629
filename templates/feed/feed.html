@@ -9,19 +9,19 @@
             <h5 class="header col s12 light">This page is where the post feed will be shown.</h5>
         </div>
 
-        {% for id, post_title, author in feed %}
+        {% for post_title, author in feed %}
 
 
             <div class="row center">
                 <div class="col s12 m12">
-                    <div class="card teal lighten-1">
-                        <div class="card-content white-text">
+                    <div class="card light-blue lighten-3">
+                        <div class="card-content">
                             <span class="card-title">{{ post_title }}</span>
                             <p>
                                 {{ author }}
                             </p>
                         </div>
-                        <div class="card-action">
+                        <div class="card-action" id="feedactions">
                             <a href="/update-post/{{id}}">Update this post</a>
                             <a href="/delete-post/{{id}}">Delete this post</a>
                         </div>
@@ -32,7 +32,7 @@
 
         <div class="row center">
             <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
-            <a class="btn-large waves-effect waves-light red lighten-1" href="/create-feed-post">Create New Post</a>
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/add-posts-to-feed">Update Feed List</a>
         </div>
         <div class="row center grey-text">
             This page is created by Burak Karakan.
