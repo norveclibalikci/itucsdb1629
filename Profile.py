@@ -1,8 +1,12 @@
+import psycopg2 as dbApi
+from datetime import datetime
+
 from flask import Blueprint
 from flask import render_template
 from flask import redirect
-from flask import  request,url_for
-from SQL_init import insert_profile, remove_profile, up_todate_profile, get_all_profiles
+from flask import request,url_for
+from flask import current_app as app
+
 from SQL_init import create_profile_table
 from SQL_init import seed_profile_table
 from SQL_init import test_profile_table
@@ -61,3 +65,62 @@ def update_profile():
             up_todate_profile(profile_name,new_profile_name)
             return redirect('/profile')
     return render_template('update_profile.html')
+
+
+def insert_profile(firstname_, surname_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT * from PROFILE
+                ORDER BY profile_id
+                DESC
+                """
+
+        cursor.execute(query)
+        connection.commit()
+        last_profile_id = cursor.fetchone()[0]
+        new_profile_id = last_profile_id + 1
+        cursor = connection.cursor()
+        cursor.execute("""INSERT INTO PROFILE VALUES(%s,%s,%s)
+                """, (new_profile_id, firstname_, surname_,))
+
+        connection.commit()
+
+        return True
+
+
+def remove_profile(firstname_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""DELETE FROM PROFILE
+        where name = '%s'""", (firstname_,))
+        connection.commit()
+
+        return True
+
+
+def up_todate_profile(firstname_, newfirstname_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""UPDATE PROFILE SET name = %s
+                where name = %s""", (newfirstname_, firstname_,))
+        connection.commit()
+
+        return True
+
+
+def get_all_profiles():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT profile_id, name, surname FROM PROFILE;"""
+        cursor.execute(query)
+        connection.commit()
+        for row in cursor:
+            profile_id, name, surname = row
+            print('{}: {} {}'.format(profile_id, name, surname))
+        cursor.close()
+        connection.commit()
+
