@@ -9,7 +9,7 @@
             <h5 class="header col s12 light">This page is where the post feed will be shown.</h5>
         </div>
 
-        {% for post_title, author in feed %}
+        {% for id, post_title, author, likes in feed %}
 
 
             <div class="row center">
@@ -22,8 +22,10 @@
                             </p>
                         </div>
                         <div class="card-action" id="feedactions">
-                            <a href="/update-post/{{id}}">Update this post</a>
-                            <a href="/delete-post/{{id}}">Delete this post</a>
+                            <a>Likes: {{ likes }}</a>
+                            <a href="/upvote-post/{{id}}/{{likes}}">Upvote</a>
+                            <a href="/delete-from-feed/{{id}}">Remove from feed</a>
+                            <a href="/delete-from-posts/{{id}}">Delete this post</a>
                         </div>
                     </div>
                 </div>

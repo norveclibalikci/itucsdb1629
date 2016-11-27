@@ -9,6 +9,8 @@
             <h5 class="header col s12 light">This page is where the post feed will be shown.</h5>
         </div>
 
+        {% if data %}
+
         <form method="post">
             <div class="card">
                 <div class="card-content">
@@ -29,6 +31,23 @@
                 </button>
             </div>
         </form>
+
+        {% else %}
+        <div class="row center">
+            <div class="col l6 offset-l3">
+                <div class="card red darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">No more posts to add :(</span>
+                        <p>All the posts are added to the feed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row center">
+            <a class="btn-large waves-effect waves-light red lighten-1" href="/feed">Back to Feed</a>
+        </div>
+        {% endif %}
 
         <div class="row center grey-text">
             This page is created by Burak Karakan.

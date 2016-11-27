@@ -4,20 +4,20 @@ from flask import current_app as app
 
 # Create and seed all the database tables.
 def create_and_seed_database():
-    create_feed_table()
-    seed_feed_table()
+    create_user_table()
+    seed_user_table()
+
+    create_post_table()
+    seed_post_table()
 
     create_profile_table()
     seed_profile_table()
 
-    create_user_table()
-    seed_user_table()
+    create_feed_table()
+    seed_feed_table()
 
     create_publication_table()
     seed_publication_table()
-
-    create_post_table()
-    seed_post_table()
 
     return
 
@@ -32,7 +32,7 @@ def create_feed_table():
 
         query = """CREATE TABLE FEED (
                 feed_id SERIAL PRIMARY KEY,
-                post_id INTEGER,
+                post_id INTEGER REFERENCES POSTS ON DELETE CASCADE,
                 publication_id INTEGER,
                 number_of_likes INTEGER,
                 created_at TIMESTAMP)"""
@@ -129,6 +129,7 @@ def test_profile_table():
         count = cursor.fetchone()[0]
 
         return count
+
 
 def create_user_table():
     with dbApi.connect(app.config['dsn']) as connection:

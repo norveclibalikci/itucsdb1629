@@ -57,23 +57,22 @@ def create_post_feed():
     return render_template("feed/create_feed_post.html")
 
 
-@feed.route("/update-post/<post_id>", methods=['GET', 'POST'])
-def update_post_feed(post_id):
-    if request.method == "POST":
-        id = request.form.get('post_id')
-        title = request.form.get('post_title')
-        author = request.form.get('author')
-        likes = request.form.get('number_of_likes')
-        update_feed_post(id, title, author, likes)
-        return redirect('/feed')
-    else:
-        data = get_feed_post_with_id(post_id)
-        return render_template("feed/update_feed_post.html", data=data)
+@feed.route("/upvote-post/<post_id>/<likes>")
+def update_post_feed(post_id, likes):
+
+    upvote_feed_post(post_id, likes)
+    return redirect('/feed')
 
 
-@feed.route("/delete-post/<post_id>")
+@feed.route("/delete-from-feed/<post_id>")
 def delete_post_feed(post_id):
     delete_feed_post(post_id)
+    return redirect('/feed')
+
+
+@feed.route("/delete-from-posts/<post_id>")
+def delete_post_from_posts(post_id):
+    delete_posts_post(post_id)
     return redirect('/feed')
 
 
@@ -81,11 +80,15 @@ def delete_post_feed(post_id):
 def list_all_the_posts():
     if request.method == "GET":
         posts = get_all_posts()
+
+
         return render_template("feed/list_all_posts.html", posts=posts)
     else:
         id_list = request.form.getlist('selected_posts')
-        insert_into_feed(id_list)
-        return redirect('/add-posts-to-feed')
+
+        if id_list:
+            insert_into_feed(id_list)
+        return redirect('/feed')
 
 
 def insert_into_feed(id_list):
@@ -120,7 +123,7 @@ def get_all_feed():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT title, name FROM FEED
+        query = """SELECT FEED.post_id, title, name, number_of_likes FROM FEED
         JOIN POSTS ON FEED.post_id = POSTS.post_id
         JOIN USERS ON POSTS.user_id = USERS.id
         ORDER BY feed_id"""
@@ -154,13 +157,15 @@ def get_feed_post_with_id(id):
         return cursor
 
 
-def update_feed_post(id, title, author, likes):
+def upvote_feed_post(post_id, likes):
     with dbApi.connect(app.config['dsn']) as connection:
+
+        likes = int(likes) + 1
         cursor = connection.cursor()
 
         query = """UPDATE FEED
-        SET post_id=%s, post_title='%s', author='%s', number_of_likes=%s
-        WHERE post_id = %s;""" % (id, title, author, likes, id)
+        SET number_of_likes=%s
+        WHERE post_id = %s;""" % (likes, post_id)
         cursor.execute(query)
         connection.commit()
 
@@ -173,6 +178,17 @@ def delete_feed_post(id):
 
         query = """DELETE FROM FEED
         WHERE post_id = %s;""" % id
+        cursor.execute(query)
+        connection.commit()
+
+        return True
+
+def delete_posts_post(post_id):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DELETE FROM POSTS
+        WHERE post_id = %s;""" % post_id
         cursor.execute(query)
         connection.commit()
 
