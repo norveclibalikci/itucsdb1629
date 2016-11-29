@@ -50,7 +50,7 @@ def add_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
         cursor.execute(query)
-        query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id);"""
+        query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
         cursor.execute(query)
 
         connection.commit()
