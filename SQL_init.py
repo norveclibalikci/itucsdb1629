@@ -9,6 +9,9 @@ def create_and_seed_database():
     
     create_user_table()
     seed_user_table()
+    
+    create_category_table()
+    seed_category_table()
 
     create_post_table()
     seed_post_table()
@@ -39,6 +42,9 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS PUBLICATION DROP CONSTRAINT IF EXISTS publication_author_id_fkey;"""
         cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS POSTS DROP CONSTRAINT IF EXISTS posts_category_id_fkey;"""
+        cursor.execute(query)
+        
 
         connection.commit()
 
@@ -52,7 +58,8 @@ def add_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
         cursor.execute(query)
-
+        query = """ALTER TABLE POSTS ADD FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id) ON DELETE CASCADE;"""
+        cursor.execute(query)
         connection.commit()
 
 # Create the feed table with two fields, post_id and number_of_likes.
@@ -405,30 +412,66 @@ def create_post_table():
         return True
 
 
+def create_post_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS POSTS CASCADE"""
+        cursor.execute(query)
+
+        query = """CREATE TABLE POSTS (
+                post_id SERIAL PRIMARY KEY,
+                id INTEGER,
+                category_id INTEGER,
+                title VARCHAR(50),
+                content VARCHAR(250)
+                
+        )"""
+        cursor.execute(query)
+        connection.commit()
+        return True
+def create_category_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS CATEGORIES CASCADE"""
+        cursor.execute(query)
+        
+        query = """CREATE TABLE CATEGORIES (
+                category_id SERIAL PRIMARY KEY,
+                category_name VARCHAR(40)  UNIQUE,
+                related_category VARCHAR(40)
+        )"""
+
+        cursor.execute(query)
+        connection.commit()
+        return True
+    
+
 # Seed the post table with 3 random values.
 def seed_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                POSTS (user_id, category_id, title, content)
+                POSTS (id, category_id, title, content)
                 VALUES
-                    (1, 3, 'First Post', 'Post 1 is about something that is unique to the post 1.'),
-                    (1, 1, 'Second Post', 'Post 2 is about something that is unique to the post 2.'),
-                    (2, 2, 'Third Post', 'Post 3 is about something that is unique to the post 3.')"""
+                    (1, 1, 'First Post', 'Post 1 is about something that is unique to the post 1.'),
+                    (2, 2, 'Second Post', 'Post 2 is about something that is unique to the post 2.'),
+                    (3, 3, 'Third Post', 'Post 3 is about something that is unique to the post 3.')"""
+        cursor.execute(query)
+        connection.commit()
+        return True
+def seed_category_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """INSERT INTO
+                CATEGORIES (category_name, related_category)
+                VALUES
+                    ('Artifical Intelligence', 'Machine Learning'),
+                    ('IoT', 'Computer Networks'),
+                    ('Cyber Security', 'Computer Networks')"""
         cursor.execute(query)
         connection.commit()
         return True
 
-
-# Testing the post table of 3 random values.
-def test_post_table():
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = """SELECT COUNT(*) FROM POSTS;"""
-        cursor.execute(query)
-        connection.commit()
-
-        count = cursor.fetchone()[0]
-        return count
