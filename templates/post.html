@@ -32,48 +32,21 @@
                             </button>
                         </div>
                     </div>
+                   
+                        <div class="input-field col s3">
+                            <input placeholder="category" id="category" name="category" type="text">
+                            <label for="category">Category of your post</label>
+                        </div>
                 </form>
             </div>
 
-            <div class="row">
-
-                <div class="col s3">
-                    <label>Choose a category for your post(Click with control to select more categories)</label>
-                    <select class="browser-default" multiple>
-
-                        <option value="1">Artifical Intelligence</option>
-                        <option value="2">Internet of Things</option>
-                        <option value="3">Cyber Security</option>
-                    </select>
-                </div>
-                <div class="col s9">
-                    <div class="right">
-
-                        <form action="#">
-                            <div class="file-field input-field">
-                                <div class="btn">
-                                    <span>Upload photos</span>
-                                    <input type="file" multiple>
-                                </div>
-                                <div class="col s6">
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text"
-                                               placeholder="Upload one or more files">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
 
 
             <div class="row center">
                 <div class="col s12 m12">
                     <div class="card teal lighten-1">
                         <div class="card-content white-text">
-                            <span class="card-title">Your most recent post</span>
+                            <span class="card-title">Your most recent post about {{category_name}}</span>
                             <p>
                                 {{ text }}
                             </p>
@@ -85,6 +58,28 @@
                     </div>
                 </div>
             </div>
+<p> Most relevant 2 categories nowadays </p>
+          <ul class="collection">
+    <li class="collection-item avatar">
+      <img src="images/yuna.jpg" alt="" class="circle">
+      <span class="title">{{category1}}</span>
+      <p><a href="/edit-category"> Edit<br> </a>
+
+      </p>
+      <a href="/post/delete_most_relevant_category" class="secondary-content"><i class="material-icons">delete</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle">folder</i>
+      <span class="title">{{category2}}	</span>
+   <p><a href="/edit-category2"> Edit<br> </a>
+   
+      </p>
+      <a href="post/delete_most_relevant_category" class="secondary-content"><i class="material-icons">delete</i></a>
+    </li>
+    
+    
+  </ul>
+         
 
 
             <div class="row center">
