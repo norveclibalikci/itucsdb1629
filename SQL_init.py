@@ -483,4 +483,4 @@ def test_post_table():
         connection.commit()
 
         count = cursor.fetchone()[0]
-        return coun
+        return count
