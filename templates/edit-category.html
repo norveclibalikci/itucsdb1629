@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+    <form class="col s12" method="POST" action="edit-category">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="string" name="string" class="materialize-textarea"></textarea>
+          <label for="icon_prefix2"></label>
+        </div>
+      </div>
+       <div class="col s12">
+  <div class="right">
+  <button class="btn waves-effect waves-light" class="z-depth-3" type="submit" name="action" action="post">Edit category
+    <i class="material-icons right">send</i>
+  </button>
+        </div>
+        </div>
+    </form>
+  </div>
+  {% endblock %}
