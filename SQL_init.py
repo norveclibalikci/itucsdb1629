@@ -338,24 +338,6 @@ def create_post_table():
         return True
 
 
-def create_post_table():
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = """DROP TABLE IF EXISTS POSTS CASCADE"""
-        cursor.execute(query)
-
-        query = """CREATE TABLE POSTS (
-                post_id SERIAL PRIMARY KEY,
-                id INTEGER,
-                category_id INTEGER,
-                title VARCHAR(50),
-                content VARCHAR(250)
-                
-        )"""
-        cursor.execute(query)
-        connection.commit()
-        return True
 def create_category_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -380,7 +362,7 @@ def seed_post_table():
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                POSTS (id, category_id, title, content)
+                POSTS (user_id, category_id, title, content)
                 VALUES
                     (1, 1, 'First Post', 'Post 1 is about something that is unique to the post 1.'),
                     (2, 2, 'Second Post', 'Post 2 is about something that is unique to the post 2.'),
