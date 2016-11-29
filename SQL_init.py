@@ -4,6 +4,7 @@ from flask import current_app as app
 
 # Create and seed all the database tables.
 def create_and_seed_database():
+    
     create_user_table()
     seed_user_table()
 
@@ -15,10 +16,13 @@ def create_and_seed_database():
 
     create_feed_table()
     seed_feed_table()
-
+    
+    create_authors_table()
+    seed_authors_table()
+    
     create_publication_table()
     seed_publication_table()
-
+    
     return
 
 
@@ -252,7 +256,7 @@ def delete_account(password, mail, secret):
             return False
 
 
-# Create the publication table  with 2 fields, publication_title, publisher , publication_id
+
 def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -260,10 +264,11 @@ def create_publication_table():
         query = """DROP TABLE IF EXISTS PUBLICATION"""
         cursor.execute(query)
         query = """CREATE TABLE PUBLICATION (
-                publication_id INTEGER,
+                publication_id SERIAL PRIMARY KEY,
                 publication_title VARCHAR(40),
-                publisher VARCHAR(20))"""
-
+                publisher VARCHAR(20),
+                author_id INTEGER REFERENCES AUTHORS ON DELETE CASCADE)"""
+                
         try:
             cursor.execute(query)
         except:
@@ -273,16 +278,15 @@ def create_publication_table():
         return True
 
 
-# Seed the publication table with 2 publications.
 def seed_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                PUBLICATION (publication_id,  publication_title, publisher)
+                PUBLICATION (publication_title, publisher, author_id)
                 VALUES
-                    (1,'IoT', 'IEEE'),
-                    (2,'AI','Science')"""
+                    ('IoT', 'IEEE',1),
+                    ('AI','Science',2)"""
         try:
             cursor.execute(query)
         except:
@@ -292,7 +296,7 @@ def seed_publication_table():
         return True
 
 
-# Test the publication table
+
 def test_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -305,6 +309,42 @@ def test_publication_table():
 
         return count
 
+
+def create_authors_table():
+     with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """DROP TABLE IF EXISTS AUTHORS CASCADE"""
+        cursor.execute(query)
+        query = """CREATE TABLE AUTHORS (
+                author_id SERIAL PRIMARY KEY,
+                author_name VARCHAR(20) UNIQUE)"""
+
+        try:
+            cursor.execute(query)
+        except:
+            return False;
+        connection.commit()
+
+        return True
+
+def seed_authors_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """INSERT INTO
+                AUTHORS (author_name)
+                VALUES
+                    ('Ali'),
+                    ('Veli'),
+                    ('Mehmet'),
+                    ('Samuel')"""
+        try:
+            cursor.execute(query)
+        except:
+            return False
+        connection.commit()
+        
+        return True
 
 # Create the post table with four variables, post_id, profile_id, category_id and content
 def create_post_table():
