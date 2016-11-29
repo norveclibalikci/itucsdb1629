@@ -16,7 +16,7 @@ post = Blueprint('post', __name__)
 
 @post.route("/post")
 def main():
-    return render_template('post.html', text=show_most_recent()[0], category1=str(show_most_relevant()[0]),category2=show_2nd_relevant()[0])
+    return render_template('post.html', text=show_most_recent()[0], category1=str(show_most_relevant()[0]),category2=show_2nd_relevant()[0],category_name=show_most_recent()[1])
 
 
 @post.route("/edit", methods=['GET', 'POST'])
@@ -134,7 +134,7 @@ def show_most_recent():
         query= """SELECT post_id FROM POSTS ORDER BY post_id DESC LIMIT 1;"""
         cursor.execute(query)
         counter=cursor.fetchone()[0]
-        query = """SELECT content FROM POSTS WHERE (post_id = %s)"""
+        query = """SELECT content,category_name FROM POSTS,CATEGORIES WHERE (post_id = %s AND POSTS.category_id=CATEGORIES.category_id)"""
         cursor.execute(query, (counter,))
         connection.commit()
         p = cursor.fetchone()
