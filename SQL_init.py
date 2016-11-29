@@ -44,7 +44,6 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS POSTS DROP CONSTRAINT IF EXISTS posts_category_id_fkey;"""
         cursor.execute(query)
-        
 
         connection.commit()
 
@@ -229,79 +228,6 @@ def test_user_table():
         count = cursor.fetchone()[0]
 
         return count
-
-
-def check_login(mail_address, pw):
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("""select password from USERS
-                        WHERE mail = %s """, (mail_address,))
-        connection.commit()
-        password = cursor.fetchone()[0]
-        print(password, pw)
-        if pw == password:
-            return True
-        else:
-            return False
-
-
-def change_password(new_pw, secret_quest, mail_addres):
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("""SELECT user_id FROM USERS
-                where %s = mail AND %s = secret
-                """, (mail_addres, secret_quest))
-        connection.commit()
-        user_id_change = cursor.fetchone()[0]
-
-        cursor = connection.cursor()
-        if user_id_change:
-
-            cursor.execute("""UPDATE USERS SET password = %s
-                    where user_id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
-
-            connection.commit()
-            return True
-        else:
-            return False
-
-
-def create_account(name_, password_, mail_, secret_):
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("""INSERT INTO USERS (name, password,mail,secret) VALUES(%s,%s,%s,%s)
-                """, (name_, password_, mail_, secret_,))
-
-        connection.commit()
-
-        return True
-
-
-def delete_account(password, mail, secret):
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        cursor.execute("""SELECT user_id FROM USERS
-                where mail = %s  AND secret = %s
-                """, (mail, secret))
-        connection.commit()
-        user_id_delete = cursor.fetchone()[0]
-
-        print(user_id_delete)
-        cursor = connection.cursor()
-        if user_id_delete:
-
-            cursor.execute("""DELETE FROM USERS where user_id = %s  """, (user_id_delete,))
-
-            connection.commit()
-            return True
-        else:
-            return False
-
-
 
 def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
