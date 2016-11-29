@@ -2,11 +2,14 @@ from flask import Blueprint
 from flask import render_template
 from flask import  request,url_for
 from flask import redirect
+from flask import current_app as app
+import psycopg2 as dbApi
 
 from SQL_init import create_user_table
 from SQL_init import seed_user_table
 from SQL_init import test_user_table
-from SQL_init import check_login,create_account,change_password,delete_account
+from multiprocessing.managers import public_methods
+
 
 
 
@@ -26,8 +29,18 @@ def main():
             email_var = request.form.get('email')
             pw_var = request.form.get('password')
             if check_login(email_var,pw_var):
+                    with dbApi.connect(app.config['dsn']) as connection:
+                        cursor = connection.cursor()
 
-                return redirect('/publications')
+                        cursor.execute("""SELECT id FROM USERS
+                                where %s = mail AND %s = password
+                                """, (email_var, pw_var))
+                        connection.commit()
+
+                        user_id = cursor.fetchone()[0]
+                        users_publications = get_publications(user_id)
+                        users_not_publications = get_no_publications(user_id)
+                        return render_template('users_pub.html',userspubs = users_publications,notuserpubs =  users_not_publications,user_id = user_id )
             else :
                 return redirect('/auth')
     return  render_template('login.html')
@@ -39,7 +52,7 @@ def create_acc():
         mail = request.form.get('email2')
         secret = request.form.get('private')
         create_account(name, pw,mail,secret)
-        return redirect('/profile')
+        return redirect('/')
     return render_template('create_acc.html')
 
 @auth.route("/change_pw",methods=['GET','POST'])
@@ -79,3 +92,163 @@ def delete_acc():
 def testdb():
     count = test_user_table()
     return "number of users in the user table: %d" % count
+
+
+def check_login(mail_address, pw):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""select password from USERS
+                        WHERE mail = %s """, (mail_address,))
+        connection.commit()
+        password = cursor.fetchone()[0]
+        print(password, pw)
+        if pw == password:
+            return True
+        else:
+            return False
+
+
+def change_password(new_pw, secret_quest, mail_addres):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""SELECT user_id FROM USERS
+                where %s = mail AND %s = secret
+                """, (mail_addres, secret_quest))
+        connection.commit()
+        user_id_change = cursor.fetchone()[0]
+
+        cursor = connection.cursor()
+        if user_id_change:
+
+            cursor.execute("""UPDATE USERS SET password = %s
+                    where user_id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
+
+            connection.commit()
+            return True
+        else:
+            return False
+
+
+def create_account(name_, password_, mail_, secret_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""INSERT INTO USERS (name, password,mail,secret) VALUES(%s,%s,%s,%s)
+                """, (name_, password_, mail_, secret_,))
+
+        connection.commit()
+
+        return True
+
+
+def delete_account(password, mail, secret):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""SELECT user_id FROM USERS
+                where mail = %s  AND secret = %s
+                """, (mail, secret))
+        connection.commit()
+        user_id_delete = cursor.fetchone()[0]
+
+        print(user_id_delete)
+        cursor = connection.cursor()
+        if user_id_delete:
+
+            cursor.execute("""DELETE FROM USERS where user_id = %s  """, (user_id_delete,))
+
+            connection.commit()
+            return True
+        else:
+            return False
+@auth.route("/seed_pubs")
+def create_and_test_user_publication_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS USERSPUBS"""
+        cursor.execute(query)
+        query = """CREATE TABLE USERSPUBS (
+                 user_id SERIAL REFERENCES USERS ON DELETE CASCADE,
+                 publication_id INTEGER REFERENCES PUBLICATION ON DELETE CASCADE
+                )"""
+
+        cursor.execute(query)
+        connection.commit()
+
+        query = """INSERT INTO
+                USERSPUBS (user_id,publication_id)
+                VALUES
+                ('1','2'),
+                ('1','1'),
+                ('3','3'),
+                ('2','1'),
+                ('4','4')
+                    """
+
+        cursor.execute(query)
+        connection.commit()
+
+        return "okay"
+def get_publications(user_id):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT publication_id, publication_title FROM PUBLICATION WHERE publication_id in(
+                SELECT publication_id FROM USERSPUBS
+                WHERE user_id = %s)
+                """ % user_id
+
+        cursor.execute(query)
+        connection.commit()
+
+    return cursor
+def get_no_publications(user_id):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT publication_id, publication_title FROM PUBLICATION WHERE publication_id in (
+                    SELECT publication_id  FROM USERSPUBS
+                    WHERE publication_id not in (SELECT publication_id  FROM USERSPUBS
+                                WHERE user_id = %s
+                                GROUP BY publication_id)
+                    GROUP BY publication_id)
+                """ % user_id
+
+        cursor.execute(query)
+        connection.commit()
+
+    return cursor
+@auth.route('/follow', methods=['GET', 'POST'])
+def follow():
+    user_id = request.form.get('user_id')
+    publication_id = request.form.get('publication_id')
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""INSERT INTO USERSPUBS(user_id,publication_id)
+                VALUES(%s,%s)
+                """ ,( user_id,publication_id))
+        connection.commit()
+    return redirect('/auth')
+@auth.route('/unfollow', methods=['GET', 'POST'])
+def unfollow():
+    user_id = request.form.get('user_id')
+    publication_id = request.form.get('publication_id')
+    print(user_id)
+    print(publication_id)
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""DELETE FROM USERSPUBS WHERE user_id = %s AND publication_id = %s
+                """ ,( user_id,publication_id))
+        connection.commit()
+    return redirect('/auth')
+@auth.route("/user_pub")
+def users_publications():
+
+    return render_template('users_pub.html',userspubs = users_publications,notuserpubs =  users_not_publications )
+
+
