@@ -3,13 +3,9 @@
 
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
-        <br><br>
         <h1 class="header  red-text text-lighten-1">Publications</h1>
-        <div class="row right">
-            <h5 class="header col s12 light">Following</h5>
-        </div>
-         {% for publication_id, publication_title, publisher in feed %}
-            <div class="row ">
+      {% for publication_id, publication_title, publisher , author_name  in pubs %}
+         
                 <div class="col s12 m12">
                     <div class="row card green lighten-3">
                     	<div class="col s2 m2 img-pub card-content">
@@ -20,53 +16,29 @@
                         <div class="col s6 m6 card-content white-text">
                             <span class="card-title"> {{publication_title}}  </span>
                             <p>
-                                {{publication_title}} {{publication_id}}
+                             	  ID      	{{publication_id}}  
+                            </p>
+                            <p> 
+                           		 Author 	 {{author_name}} 
+                             </p> 
+                            <p> 
+                           	 	Publisher	 {{publisher}}
                             </p>
                         </div>
-                        <div class="col s3 m3 card-action right">
-                            <a href="http://twitter.com/norveclibalikci">Unfollow</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-  			{% endfor %}
+                     
+			  		</button>
+                 </div>
         
-   		<div class="row right">
-            <h5 class="header col s12 light">Suggested</h5>
-        </div>
-            <div class="row ">
-                <div class="col s12 m12">
-                    <div class="row card blue lighten-3">
-                    	<div class="col s2 m2 img-pub card-content ">
-                    		<a href="https://twitter.com/norveclibalikci">
-                    			<img class="circle responsive-img" src="http://www.usanetwork.com/sites/usanetwork/files/mrrobot_s2_cast_martin_wallstrom.jpg">
-                    		</a>
-                    	</div>
-                        <div class="col s6 m6 card-content ">
-                            <span class="card-title">Publication {{ index }}</span>
-                            <p>
-                                Description of publication {{ index }}
-                            </p>
-                        </div>
-                        <div class="col s3 m3 card-action right">
-                            <a href="https://twitter.com/miraclefanboi">Follow</a>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+         
+  	{% endfor %}
 		<div class="row">
-		    <form class="col s12" method="POST" action="publications">
-		      
-		      
-		      <div class="row">
+		    <form class="col s12" method="POST" action="publications/add">
+			<div class="row">
 		        <div class="input-field col s12">
-		          <input id="pub_id" name="pub_id" type="number" class="validate">
-		          <label for="pub_id">Id</label>
+		          <input name='author' id="author" type="text" class="validate">
+		          <label for="author">Author(s)</label>
 		        </div>
 		      </div>
-		      
-		      
 		      
 		      <div class="row">
 		        <div class="input-field col s12">
@@ -84,7 +56,8 @@
 		     
 			  <button class="btn waves-effect waves-light" type="submit" name="action">ADD
 			    <i class="material-icons right">send</i>
-			  </button>		        
+			  </button>	
+			  	        
 		    </form>
 		  </div>
 		  
@@ -92,8 +65,8 @@
 		    <form class="col s12"  method="POST" action="publications/delete">
 		    	<div class="row">
 		        	<div class="input-field col s12">
-		         	 <input name='del_id' id="del_id" type="number" class="validate">
-		         		 <label for="del_id">Enter ID to delete</label>
+		         	 <input name='del_tit' id="del_tit" type="text" class="validate">
+		         		 <label for="del_tit">Enter title to delete</label>
 		       		 </div>
 		     	 </div>
 		    <button class="btn waves-effect waves-light" type="submit" name="action">DELETE
@@ -106,11 +79,11 @@
 		    <form class="col s12"  method="POST" action="publications/select">
 		    	<div class="row">
 		        	<div class="input-field col s12">
-		         	 <input name='sel_id' id="sel_id" type="number" class="validate">
-		         		 <label for="sel_id">Enter the ID </label>
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Enter the author names to see how many publications author's have </label>
 		       		 </div>
 		     	 </div>
-		    <button class="btn waves-effect waves-light" type="submit" name="action">Select from ID
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Select
 			   	 <i class="material-icons right">send</i>
 				  </button>
 				  </form>
@@ -119,8 +92,8 @@
 		    <form class="col s12"  method="POST" action="publications/update">
 		    	<div class="row">
 		        	<div class="input-field col s12">
-		         	 <input name='up_id' id="up_id" type="number" class="validate">
-		         		 <label for="up_id">Enter the ID </label>
+		         	 <input name='up_name' id="up_name" type="text" class="validate">
+		         		 <label for="up_name">Enter the old title </label>
 		       		 </div>
 		     	 </div>
 		     	 <div class="row">
@@ -129,20 +102,95 @@
 		         		 <label for="up_tit">Enter the new title </label>
 		       		 </div>
 		     	 </div>
-		    <button class="btn waves-effect waves-light" type="submit" name="action">Update with ID
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Update
+			   	 <i class="material-icons right">send</i>
+				 </button>
+				  </form>
+		   </div>
+		   
+    </div>
+</div>
+ <h1 class="header  red-text text-lighten-1">Authors</h1>
+{% for author_id, author_name  in authors %}
+            <div class="row ">
+                <div class="col s12 m16">
+                    <div class="row card green lighten-3">
+                    	<div class="col s2 m2 img-pub card-content">
+                    		<a href="https://instagram.com/bbyalcinkaya">
+                    			<img class="circle responsive-img" src="https://neurosculptinginstitute.com/wp-content/uploads/2015/08/Co-Author.jpg">
+                    		</a>
+                    	</div>
+                        <div class="col s6 m6 card-content white-text">
+                            <span class="card-title"> {{author_id}}  </span>
+                            <p>
+                               {{author_name}}
+                            </p>
+                        </div>
+                        <div class="col s3 m3 card-action right">
+                            <a href="http://twitter.com/norveclibalikci"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  			{% endfor %}
+	<div class="row">
+		    <form class="col s12"  method="POST" action="publications/author-add">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Add an Author</label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Add an Author
 			   	 <i class="material-icons right">send</i>
 				  </button>
 				  </form>
 		   </div>
 		   
-        <div class="row center">
-            <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
-        </div>
-        <div class="row center grey-text">
-            This page is created by Ugur Uysal.
-        </div>
+		  <div class="row">
+		    <form class="col s12"  method="POST" action="publications/author-delete">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Enter the name for delete </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Delete Author
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   <div class="row">
+		    <form class="col s12"  method="POST" action="publications/author-update">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='up_name' id="up_name" type="text" class="validate">
+		         		 <label for="name">Enter the old name </label>
+		       		 </div>
+		       		 <div class="row">
+		        <div class="input-field col s12">
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Enter the new name </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Update Author
+			   	 <i class="material-icons right">send</i>
+				 </button>
+				  </form>
+		   </div>
+		   
     </div>
+</div>			
+   <div class="row center">
+       <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
+  </div>
+     <div class="row center grey-text">
+          This page is created by Ugur Uysal.
+       </div>
 </div>
 {% endblock %}
+
+
+
 
 
