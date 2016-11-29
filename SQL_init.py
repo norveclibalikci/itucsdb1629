@@ -474,4 +474,13 @@ def seed_category_table():
         cursor.execute(query)
         connection.commit()
         return True
+def test_post_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
 
+        query = """SELECT COUNT(*) FROM POSTS;"""
+        cursor.execute(query)
+        connection.commit()
+
+        count = cursor.fetchone()[0]
+        return coun
