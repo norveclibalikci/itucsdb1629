@@ -5,22 +5,24 @@
         <h1>Delete Profile</h1>
       </div>
 
-      <form role="form" action="" method="post" name="addprofile"
+      <form role="form" action="" method="post" name="deleteprofile"
             class="form-horizontal">
-		
+            
+        <div>
+		<label for="university" class="control-label col-sm-2">Select the profile to delete:</label>    
 		<div class="input-field col s12">
-		<select name="profile_id">
-		{% for id, name, surname in profiles %}		
-  			<option value="{{ id }}">{{ name }} {{ surname }}</option>
-  		{% endfor %}
-  		</select>
+			<select name="profile_id">
+				{% for id, name, surname in profiles %}
+  				<option value="{{ id }}">{{ name }} {{ surname }}</option>
+  				{% endfor %}
+  			</select>
+  		</div>
   		</div>
 
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-primary">Delete</button>
-          </div>
-        </div>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Delete Profile!
+    		<i class="material-icons right">remove_circle_outline</i>
+  		</button>
+  		
       </form>
 
 {% endblock %}

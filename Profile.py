@@ -105,7 +105,7 @@ def list_profiles():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT PROFILE.name, surname, UNIVERSITIES.name, country FROM 
+        query = """SELECT PROFILE.name, surname, UNIVERSITIES.name, country, message FROM 
         PROFILE join UNIVERSITIES on PROFILE.uni_id=UNIVERSITIES.id;"""
         cursor.execute(query)
         connection.commit()

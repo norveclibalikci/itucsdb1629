@@ -1,28 +1,31 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<ul>
-    	<li><a href="{{ url_for('profile.add_profile') }}">Add Profile</a></li>
-    	<li><a href="{{ url_for('profile.delete_profile') }}">Delete Profile</a></li>
-    	<li><a href="{{ url_for('profile.update_profile') }}">Update Profile</a></li>
-    	
-</ul>
+<div style="position:relative;top:20px;" class="row center">
+<a href="{{ url_for('profile.add_profile') }}" class="waves-effect waves-light btn"><i class="material-icons right">add_circle_outline</i>Add Profile</a>
+<a href="{{ url_for('profile.delete_profile') }}" class="waves-effect waves-light btn"><i class="material-icons right">remove_circle_outline</i>Delete Profile</a>
+<a href="{{ url_for('profile.update_profile') }}" class="waves-effect waves-light btn"><i class="material-icons right">create</i>Update Profile</a>
+</div>
+<br>
 
-{% for name, surname, uni, country in profile %}
+{% for name, surname, uni, country, mess in profile %}
 
       <div class="row">
         <div class="card-panel grey lighten-5 z-depth-1">
-          <div class="row center valign-wrapper">
-            <div class="col s10 center">
-              <h4 class="pink-text text-darken-1 profile-text">{{ name }} {{ surname }}</h4><br>
-              <div class="row center grey-text text-light-1">
-          			<i>{{ uni }} -- {{ country }}</i>
+          <div class="row center">
+              <h4 class="pink-text text-darken-1 profile-text">{{ name }} {{ surname }}</h4>
+              <div class="row center grey-text text-darken-1">
+          			<i>{{ uni }} --- {{ country }}</i>
       		  </div>
-            </div>
+      		  <div class="row center grey-text text-light-1">
+          			<i>"{{ mess }}"</i>
+      		  </div>
           </div>
         </div>
       </div>
 {% endfor %}
+
+	  <br>
       <div class="row center grey-text text-light-1">
           This page is created by Diedon Bujari.
       </div>
