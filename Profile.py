@@ -7,32 +7,14 @@ from flask import redirect
 from flask import request,url_for
 from flask import current_app as app
 
-from SQL_init import create_profile_table
-from SQL_init import seed_profile_table
 from SQL_init import test_profile_table
 
 profile = Blueprint('profile', __name__)
 
 @profile.route("/profile")
 def main():
-    profile = get_all_profiles()
-    return render_template('profile.html', profile=profile)
-
-@profile.route("/create-profile-table")
-def create_table():
-    create_profile_table()
-    return "PROFILE table is created"
-
-@profile.route("/seed-profile-table")
-def seed_table():
-    seed_profile_table()
-    return "Entries are added to the PROFILE table!"
-
-@profile.route("/create-and-seed-profile-table")
-def create_and_seed():
-    create_profile_table()
-    seed_profile_table()
-    return redirect('/profile')
+    profile = list_profiles()
+    return render_template('profile/profile.html', profile=profile)
 
 @profile.route("/test-profile-table")
 def testdb():
@@ -44,18 +26,24 @@ def add_profile():
     if request.method == 'POST':
         profile_name = request.form.get('first_name')
         profile_surname = request.form.get('surname')
-        insert_profile(profile_name,profile_surname)
+        profile_university = request.form.get('uni_id')
+        profile_message = request.form.get('mess')
+        insert_profile(profile_name,profile_surname, profile_university, profile_message)
         return redirect('/profile')
-    return render_template('add_profile.html')
+    
+    else:
+        universities = get_all_universities() 
+        return render_template('profile/add_profile.html', universities=universities)
 
 @profile.route('/delete_profile',methods=['GET','POST'])
 def delete_profile():
-        if request.method == 'GET':
-            profile_name = request.form.get('first_name')
-            remove_profile(profile_name)
+        if request.method == 'POST':
+            profile_id = request.form.get('profile_id')
+            remove_profile(profile_id)
+            return redirect("/profile")
         else:
-            return redirect('/profile')
-        return render_template('delete_profile.html')
+            profiles = get_all_profiles()
+            return render_template('profile/delete_profile.html', profiles=profiles)
 
 @profile.route("/update_profile",methods=['GET','POST'])
 def update_profile():
@@ -64,25 +52,16 @@ def update_profile():
             new_profile_name = request.form.get('new_first_name')
             up_todate_profile(profile_name,new_profile_name)
             return redirect('/profile')
-    return render_template('update_profile.html')
+    return render_template('profile/update_profile.html')
 
 
-def insert_profile(firstname_, surname_):
+def insert_profile(firstname_, surname_, uni_id, message):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT * from PROFILE
-                ORDER BY profile_id
-                DESC
-                """
-
-        cursor.execute(query)
-        connection.commit()
-        last_profile_id = cursor.fetchone()[0]
-        new_profile_id = last_profile_id + 1
-        cursor = connection.cursor()
-        cursor.execute("""INSERT INTO PROFILE VALUES(%s,%s,%s)
-                """, (new_profile_id, firstname_, surname_,))
+        cursor.execute("""INSERT INTO PROFILE(name, surname, uni_id, message) 
+        VALUES(%s, %s, %s,%s)
+                """, (firstname_, surname_,uni_id, message))
 
         connection.commit()
 
@@ -94,7 +73,7 @@ def remove_profile(firstname_):
         cursor = connection.cursor()
 
         cursor.execute("""DELETE FROM PROFILE
-        where name = '%s'""", (firstname_,))
+        where id = %s""", (firstname_,))
         connection.commit()
 
         return True
@@ -115,12 +94,32 @@ def get_all_profiles():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT profile_id, name, surname FROM PROFILE;"""
+        query = """SELECT id, name, surname FROM PROFILE;"""
         cursor.execute(query)
         connection.commit()
-        for row in cursor:
-            profile_id, name, surname = row
-            print('{}: {} {}'.format(profile_id, name, surname))
-        cursor.close()
-        connection.commit()
+        
+        return cursor
 
+
+def list_profiles():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT PROFILE.name, surname, UNIVERSITIES.name, country FROM 
+        PROFILE join UNIVERSITIES on PROFILE.uni_id=UNIVERSITIES.id;"""
+        cursor.execute(query)
+        connection.commit()
+        
+        return cursor
+
+
+
+def get_all_universities():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT id, name FROM UNIVERSITIES;"""
+        cursor.execute(query)
+        connection.commit()
+        
+        return cursor

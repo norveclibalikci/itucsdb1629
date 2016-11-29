@@ -5,6 +5,8 @@ from flask import current_app as app
 # Create and seed all the database tables.
 def create_and_seed_database():
     
+    drop_foreign_keys()
+    
     create_user_table()
     seed_user_table()
 
@@ -12,7 +14,7 @@ def create_and_seed_database():
     seed_post_table()
 
     create_profile_table()
-    seed_profile_table()
+    seed_universities_table()
 
     create_feed_table()
     seed_feed_table()
@@ -23,8 +25,35 @@ def create_and_seed_database():
     create_publication_table()
     seed_publication_table()
     
+    add_foreign_keys()
+    
     return
 
+
+def drop_foreign_keys():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """ALTER TABLE IF EXISTS PROFILE DROP CONSTRAINT IF EXISTS profile_uni_id_fkey;"""
+        cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS FEED DROP CONSTRAINT IF EXISTS feed_post_id_fkey;"""
+        cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS PUBLICATION DROP CONSTRAINT IF EXISTS publication_author_id_fkey;"""
+        cursor.execute(query)
+
+        connection.commit()
+
+
+def add_foreign_keys():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """ALTER TABLE PROFILE ADD FOREIGN KEY (uni_id) REFERENCES UNIVERSITIES(id);"""
+        cursor.execute(query)
+        query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id);"""
+        cursor.execute(query)
+
+        connection.commit()
 
 # Create the feed table with two fields, post_id and number_of_likes.
 def create_feed_table():
@@ -36,7 +65,7 @@ def create_feed_table():
 
         query = """CREATE TABLE FEED (
                 feed_id SERIAL PRIMARY KEY,
-                post_id INTEGER REFERENCES POSTS ON DELETE CASCADE,
+                post_id INTEGER,
                 publication_id INTEGER,
                 number_of_likes INTEGER,
                 created_at TIMESTAMP)"""
@@ -84,37 +113,47 @@ def test_feed_table():
         count = cursor.fetchone()[0]
         return count
 
-
 # Create the profile table with two fields, profile_id, name and surname.
 def create_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
+        
+        query = """DROP TABLE IF EXISTS UNIVERSITIES"""
+        cursor.execute(query)
+        query = """CREATE TABLE UNIVERSITIES (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(30),
+                country VARCHAR(15)
+        )"""
+        cursor.execute(query) 
 
         query = """DROP TABLE IF EXISTS PROFILE"""
         cursor.execute(query)
         query = """CREATE TABLE PROFILE (
-                profile_id INTEGER,
+                id SERIAL PRIMARY KEY,
                 name VARCHAR(20),
-                surname VARCHAR(20)
-        )"""
-
-        cursor.execute(query)
+                surname VARCHAR(20),
+                uni_id INTEGER,
+                message VARCHAR(80)
+        )"""        
+        cursor.execute(query)        
+        
         connection.commit()
 
         return True
 
 
 # Seed the profile table with 2 random values.
-def seed_profile_table():
+def seed_universities_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
+        
         query = """INSERT INTO
-                PROFILE (profile_id, name, surname)
+                UNIVERSITIES (id, name, country)
                 VALUES
-                    (1, 'Sara', 'Benincasa'),
-                    (2, 'Chirantha', 'Premathilaka')"""
-
+                    (1, 'Istanbul Technical University','Turkey'),
+                    (2, 'Harvard Unviersity','USA'),
+                    (3, 'MIT','USA')"""
         cursor.execute(query)
         connection.commit()
 
@@ -267,7 +306,7 @@ def create_publication_table():
                 publication_id SERIAL PRIMARY KEY,
                 publication_title VARCHAR(40),
                 publisher VARCHAR(20),
-                author_id INTEGER REFERENCES AUTHORS ON DELETE CASCADE)"""
+                author_id INTEGER)"""
                 
         try:
             cursor.execute(query)

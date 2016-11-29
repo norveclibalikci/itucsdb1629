@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<ul>
+    	<li><a href="{{ url_for('profile.add_profile') }}">Add Profile</a></li>
+    	<li><a href="{{ url_for('profile.delete_profile') }}">Delete Profile</a></li>
+    	<li><a href="{{ url_for('profile.update_profile') }}">Update Profile</a></li>
+    	
+</ul>
+
+{% for name, surname, uni, country in profile %}
+
+      <div class="row">
+        <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row center valign-wrapper">
+            <div class="col s10 center">
+              <h4 class="pink-text text-darken-1 profile-text">{{ name }} {{ surname }}</h4><br>
+              <div class="row center grey-text text-light-1">
+          			<i>{{ uni }} -- {{ country }}</i>
+      		  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+      <div class="row center grey-text text-light-1">
+          This page is created by Diedon Bujari.
+      </div>
+      
+{% endblock %}

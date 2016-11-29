@@ -81,7 +81,6 @@ def list_all_the_posts():
     if request.method == "GET":
         posts = get_all_posts()
 
-
         return render_template("feed/list_all_posts.html", posts=posts)
     else:
         id_list = request.form.getlist('selected_posts')
