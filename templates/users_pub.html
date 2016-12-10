@@ -15,12 +15,14 @@
 
                        <span class="card-title"> {{publication_title}}  </span>
                             <p>
-                                {{publication_title}}
+							{% if current_user.is_admin %}
+							 hello admin
+							{% endif %}
                             </p>
                         </div>
                         <div class="col s3 m3 card-action right">
-                            <form action="/unfollow" method="post">
-							 <input name = 'user_id' id = 'user_id' value = {{user_id}} />
+                            <form action="/user_pubs/unfollow" method="post">
+
 							 <input name = 'publication_id' id =  'publication_id' value = {{publication_id}} />
                               <button class="btn waves-effect waves-light"  type="submit" value="follow" name="action">unFOLLOW
 
@@ -49,8 +51,8 @@
                             </p>
                         </div>
                         <div class="col s3 m3 card-action right">
-                            <form action="/follow" method="post">
-							 <input name = 'user_id' id = 'user_id' value = {{user_id}} />
+                            <form action="/user_pubs/follow" method="post">
+
 							 <input name = 'publication_id' id =  'publication_id' value = {{publication_id}} />
                                <button class="btn waves-effect waves-light"  type="submit" value="unfollow" name="action">FOLLOW
 
