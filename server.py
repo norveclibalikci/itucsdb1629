@@ -6,18 +6,26 @@ import psycopg2 as dbApi
 from flask import Flask
 from Feed import feed
 from flask import redirect
-
+from flask_login import  LoginManager,UserMixin
 from Profile import profile
 from Publication import publication
 from Auth import auth
+from Auth import get_user
 from Home import home
 from Post import post
 from SQL_init import create_and_seed_database
 
 
-app = Flask(__name__)
+lm = LoginManager()
+
+
+
+@lm.user_loader
+def load_user(user_id):
+    return get_user(user_id)
 
 # Register the blueprints for different team members, in order to minimize the conflicts.
+app = Flask(__name__)
 app.register_blueprint(home)
 app.register_blueprint(auth)
 app.register_blueprint(feed)
@@ -25,6 +33,9 @@ app.register_blueprint(post)
 app.register_blueprint(profile)
 app.register_blueprint(publication)
 
+
+
+lm.init_app(app)
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -44,6 +55,8 @@ def init_db():
     return redirect('/')
 
 if __name__ == '__main__':
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
     if VCAP_APP_PORT is not None:
         port, debug = int(VCAP_APP_PORT), False
