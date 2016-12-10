@@ -4,12 +4,12 @@ from flask import current_app as app
 
 # Create and seed all the database tables.
 def create_and_seed_database():
-    
+
     drop_foreign_keys()
-    
+
     create_user_table()
     seed_user_table()
-    
+
     create_category_table()
     seed_category_table()
 
@@ -21,15 +21,15 @@ def create_and_seed_database():
 
     create_feed_table()
     seed_feed_table()
-    
+
     create_authors_table()
     seed_authors_table()
-    
+
     create_publication_table()
     seed_publication_table()
-    
+
     add_foreign_keys()
-    
+
     return
 
 
@@ -44,6 +44,7 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS POSTS DROP CONSTRAINT IF EXISTS posts_category_id_fkey;"""
         cursor.execute(query)
+
 
         connection.commit()
 
@@ -123,7 +124,7 @@ def test_feed_table():
 def create_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        
+
         query = """DROP TABLE IF EXISTS UNIVERSITIES"""
         cursor.execute(query)
         query = """CREATE TABLE UNIVERSITIES (
@@ -131,7 +132,7 @@ def create_profile_table():
                 name VARCHAR(30),
                 country VARCHAR(15)
         )"""
-        cursor.execute(query) 
+        cursor.execute(query)
 
         query = """DROP TABLE IF EXISTS PROFILE"""
         cursor.execute(query)
@@ -141,9 +142,9 @@ def create_profile_table():
                 surname VARCHAR(20),
                 uni_id INTEGER,
                 message VARCHAR(80)
-        )"""        
-        cursor.execute(query)        
-        
+        )"""
+        cursor.execute(query)
+
         connection.commit()
 
         return True
@@ -153,7 +154,7 @@ def create_profile_table():
 def seed_universities_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        
+
         query = """INSERT INTO
                 UNIVERSITIES (id, name, country)
                 VALUES
@@ -184,7 +185,7 @@ def create_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS USERS"""
+        query = """DROP TABLE IF EXISTS USERS CASCADE"""
         cursor.execute(query)
         query = """CREATE TABLE USERS (
                 id SERIAL PRIMARY KEY,
@@ -207,9 +208,12 @@ def seed_user_table():
         query = """INSERT INTO
                 USERS (name, password,mail,secret)
                 VALUES
+                    ('admin','admin','admin@admin.com','admin'),
                     ('John Doe', 'badpassword','abc@gmail.com','mom1'),
                     ('Jack Doe', 'g00d!p455W0rd*','def@gmail.com','mom2'),
-                    ('Jamie Doe', 'onemorebadpassword','xyz@gmail.com','mom3')"""
+                    ('Jamie Doe', 'onemorebadpassword','xyz@gmail.com','mom3')
+                     """
+
 
         cursor.execute(query)
         connection.commit()
@@ -233,14 +237,14 @@ def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS PUBLICATION"""
+        query = """DROP TABLE IF EXISTS PUBLICATION CASCADE"""
         cursor.execute(query)
         query = """CREATE TABLE PUBLICATION (
                 publication_id SERIAL PRIMARY KEY,
                 publication_title VARCHAR(40),
                 publisher VARCHAR(20),
                 author_id INTEGER)"""
-                
+
         try:
             cursor.execute(query)
         except:
@@ -315,7 +319,7 @@ def seed_authors_table():
         except:
             return False
         connection.commit()
-        
+
         return True
 
 # Create the post table with four variables, post_id, profile_id, category_id and content
@@ -331,7 +335,7 @@ def create_post_table():
                 user_id INTEGER,
                 category_id INTEGER,
                 title VARCHAR(50),
-                content VARCHAR(250)    
+                content VARCHAR(250)
         )"""
         cursor.execute(query)
         connection.commit()
@@ -344,7 +348,7 @@ def create_category_table():
 
         query = """DROP TABLE IF EXISTS CATEGORIES CASCADE"""
         cursor.execute(query)
-        
+
         query = """CREATE TABLE CATEGORIES (
                 category_id SERIAL PRIMARY KEY,
                 category_name VARCHAR(40)  UNIQUE,
@@ -354,7 +358,7 @@ def create_category_table():
         cursor.execute(query)
         connection.commit()
         return True
-    
+
 
 # Seed the post table with 3 random values.
 def seed_post_table():
