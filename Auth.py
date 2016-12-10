@@ -3,6 +3,7 @@ from flask import render_template
 from flask import  request,url_for
 from flask import redirect
 from flask import current_app as app
+from flask_login import UserMixin,login_user,current_user
 import psycopg2 as dbApi
 
 from SQL_init import create_user_table
@@ -10,6 +11,41 @@ from SQL_init import seed_user_table
 from SQL_init import test_user_table
 from multiprocessing.managers import public_methods
 
+
+from flask_login import UserMixin
+from flask_login.utils import login_required
+
+class User(UserMixin):
+    def __init__(self, user_id, password):
+        self.user_id = user_id
+        self.password = password
+        self.active = True
+        self.is_admin = False
+
+    def get_id(self):
+        return self.user_id
+
+    @property
+    def is_active(self):
+        return self.active
+def get_user(user_id):
+        with dbApi.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            cursor.execute("""SELECT id FROM USERS
+                            where %s = id
+                            """, [user_id])
+            connection.commit()
+
+            user_id = cursor.fetchone()[0]
+            cursor.execute("""SELECT password FROM USERS
+                            where %s = id
+                            """, [user_id])
+            connection.commit()
+            pw_var = cursor.fetchone()[0]
+            user = User(user_id,pw_var)if pw_var else None
+            if user.user_id == 1:
+                user.is_admin = True
+            return user
 
 
 
@@ -29,6 +65,7 @@ def main():
             email_var = request.form.get('email')
             pw_var = request.form.get('password')
             if check_login(email_var,pw_var):
+
                     with dbApi.connect(app.config['dsn']) as connection:
                         cursor = connection.cursor()
 
@@ -38,10 +75,12 @@ def main():
                         connection.commit()
 
                         user_id = cursor.fetchone()[0]
-                        users_publications = get_publications(user_id)
-                        users_not_publications = get_no_publications(user_id)
-                        return render_template('users_pub.html',userspubs = users_publications,notuserpubs =  users_not_publications,user_id = user_id )
-            else :
+                        user = User(user_id,pw_var)
+
+                        login_user(user)
+
+                        return redirect('/user_pubs')
+            else:
                 return redirect('/auth')
     return  render_template('login.html')
 @auth.route("/create_acc",methods=['GET','POST'])
@@ -168,7 +207,7 @@ def create_and_test_user_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS USERSPUBS"""
+        query = """DROP TABLE IF EXISTS USERSPUBS CASCADE """
         cursor.execute(query)
         query = """CREATE TABLE USERSPUBS (
                  user_id SERIAL REFERENCES USERS ON DELETE CASCADE,
@@ -209,21 +248,18 @@ def get_no_publications(user_id):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT publication_id, publication_title FROM PUBLICATION WHERE publication_id in (
-                    SELECT publication_id  FROM USERSPUBS
-                    WHERE publication_id not in (SELECT publication_id  FROM USERSPUBS
-                                WHERE user_id = %s
-                                GROUP BY publication_id)
-                    GROUP BY publication_id)
+        query = """SELECT publication_id, publication_title FROM PUBLICATION WHERE publication_id not in (
+                SELECT publication_id FROM USERSPUBS
+                WHERE user_id = %s)
                 """ % user_id
 
         cursor.execute(query)
         connection.commit()
 
     return cursor
-@auth.route('/follow', methods=['GET', 'POST'])
+@auth.route("/user_pubs/follow" , methods=['POST'])
 def follow():
-    user_id = request.form.get('user_id')
+    user_id = current_user.user_id
     publication_id = request.form.get('publication_id')
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -232,23 +268,32 @@ def follow():
                 VALUES(%s,%s)
                 """ ,( user_id,publication_id))
         connection.commit()
-    return redirect('/auth')
-@auth.route('/unfollow', methods=['GET', 'POST'])
+    return redirect("/user_pubs")
+@auth.route("/user_pubs/unfollow" , methods=['POST'])
 def unfollow():
-    user_id = request.form.get('user_id')
+    user_id = current_user.user_id
+
+
     publication_id = request.form.get('publication_id')
-    print(user_id)
-    print(publication_id)
+
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         cursor.execute("""DELETE FROM USERSPUBS WHERE user_id = %s AND publication_id = %s
                 """ ,( user_id,publication_id))
         connection.commit()
-    return redirect('/auth')
-@auth.route("/user_pub")
-def users_publications():
 
+    return redirect("/user_pubs")
+@auth.route("/user_pubs")
+@login_required
+def users_publications():
+    print(current_user.user_id)
+
+    if current_user.is_admin:
+        print("hello admin")
+    print("in userpub funtion")
+    users_publications = get_publications(current_user.user_id)
+    users_not_publications = get_no_publications(current_user.user_id)
     return render_template('users_pub.html',userspubs = users_publications,notuserpubs =  users_not_publications )
 
 
