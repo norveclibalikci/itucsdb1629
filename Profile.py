@@ -6,23 +6,27 @@ from flask import render_template
 from flask import redirect
 from flask import request,url_for
 from flask import current_app as app
+from flask_login.utils import login_required
 
 from SQL_init import test_profile_table
 
 profile = Blueprint('profile', __name__)
 
 @profile.route("/profile")
+@login_required
 def main():
     profile = list_profiles()
     advertisement=get_all_advertisements()
     return render_template('profile/profile.html', profile=profile, advertisement=advertisement)
 
 @profile.route("/test-profile-table")
+@login_required
 def testdb():
     count = test_profile_table()
     return "Number of records in the PROFILE table: %d." % count
 
 @profile.route("/add_profile",methods=['GET','POST'])
+@login_required
 def add_profile():
     if request.method == 'POST':
         profile_name = request.form.get('first_name')
@@ -37,6 +41,7 @@ def add_profile():
         return render_template('profile/add_profile.html', universities=universities)
 
 @profile.route('/delete_profile',methods=['GET','POST'])
+@login_required
 def delete_profile():
         if request.method == 'POST':
             profile_id = request.form.get('profile_id')
@@ -47,15 +52,19 @@ def delete_profile():
             return render_template('profile/delete_profile.html', profiles=profiles)
 
 @profile.route("/update_profile",methods=['GET','POST'])
+@login_required
 def update_profile():
     if request.method == 'POST':
-            profile_name = request.form.get('first_name')
-            new_profile_name = request.form.get('new_first_name')
-            up_todate_profile(profile_name,new_profile_name)
+            profile_id = request.form.get('profile_id')
+            new_mess = request.form.get('new_mess')
+            up_todate_profile(profile_id,new_mess)
             return redirect('/profile')
-    return render_template('profile/update_profile.html')
+    else: 
+        profiles = get_all_profiles()
+        return render_template('profile/update_profile.html', profiles=profiles)
 
 @profile.route("/advertise",methods=['GET','POST'])
+@login_required
 def advertise():
     if request.method == 'POST':
         advert_name = request.form.get('advertiser_name')
@@ -87,12 +96,12 @@ def remove_profile(firstname_):
 
         return True
 
-def up_todate_profile(firstname_, newfirstname_):
+def up_todate_profile(profileid_, newmess_):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        cursor.execute("""UPDATE PROFILE SET name = %s
-                where name = %s""", (newfirstname_, firstname_,))
+        cursor.execute("""UPDATE PROFILE SET message = %s
+                where id = %s""", (newmess_, profileid_))
         connection.commit()
 
         return True

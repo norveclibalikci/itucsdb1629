@@ -2,14 +2,14 @@
 {% block body %}
 
       <div class="page-header">
-        <h1>Delete Profile</h1>
+        <h1>Delete your comment:</h1>
       </div>
 
       <form role="form" action="" method="post" name="deleteprofile"
             class="form-horizontal">
             
         <div>
-		<label for="university" class="control-label col-sm-2">Select the profile to delete:</label>    
+		<label for="profile" class="control-label col-sm-2">Select the profile to delete:</label>    
 		<div class="input-field col s12">
 			<select name="profile_id">
 				{% for id, name, surname in profiles %}
@@ -19,7 +19,7 @@
   		</div>
   		</div>
 
-        <button class="btn waves-effect waves-light" type="submit" name="action">Delete Profile!
+        <button class="btn waves-effect waves-light" type="submit" name="action">Delete!
     		<i class="material-icons right">remove_circle_outline</i>
   		</button>
   		
