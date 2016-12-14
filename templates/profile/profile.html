@@ -5,20 +5,36 @@
 <a href="{{ url_for('profile.add_profile') }}" class="waves-effect waves-light btn"><i class="material-icons right">add_circle_outline</i>Add Profile</a>
 <a href="{{ url_for('profile.delete_profile') }}" class="waves-effect waves-light btn"><i class="material-icons right">remove_circle_outline</i>Delete Profile</a>
 <a href="{{ url_for('profile.update_profile') }}" class="waves-effect waves-light btn"><i class="material-icons right">create</i>Update Profile</a>
+<a href="{{ url_for('profile.advertise') }}" class="waves-effect waves-light btn"><i class="material-icons right">trending_up</i>Advertise</a>
 </div>
 <br>
 
 {% for name, surname, uni, country, mess in profile %}
-
       <div class="row">
         <div class="card-panel grey lighten-5 z-depth-1">
           <div class="row center">
-              <h4 class="pink-text text-darken-1 profile-text">{{ name }} {{ surname }}</h4>
-              <div class="row center grey-text text-darken-1">
+              <h4 class="pink-text text-darken-4 profile-text">{{ name }} {{ surname }}</h4>
+              <div class="row center blue-grey-text text-darken-4">
           			<i>{{ uni }} --- {{ country }}</i>
       		  </div>
-      		  <div class="row center grey-text text-light-1">
+      		  <div class="row center grey-text text-darken-1">
           			<i>"{{ mess }}"</i>
+      		  </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+
+{% for advertiser, product, description in advertisement %}
+      <div class="row">
+        <div class="card-panel cyan lighten-4 z-depth-1">
+          <div class="row center">
+              <h4 class="pink-text text-darken-4 profile-text">{{ advertiser }}</h4>
+              <div class="row center blue-grey-text text-darken-4">
+          			<i>{{ product }}</i>
+      		  </div>
+      		  <div class="row center grey-text text-darken-1">
+          			<i>"{{ description }}"</i>
       		  </div>
           </div>
         </div>

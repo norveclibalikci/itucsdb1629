@@ -14,7 +14,8 @@ profile = Blueprint('profile', __name__)
 @profile.route("/profile")
 def main():
     profile = list_profiles()
-    return render_template('profile/profile.html', profile=profile)
+    advertisement=get_all_advertisements()
+    return render_template('profile/profile.html', profile=profile, advertisement=advertisement)
 
 @profile.route("/test-profile-table")
 def testdb():
@@ -54,6 +55,15 @@ def update_profile():
             return redirect('/profile')
     return render_template('profile/update_profile.html')
 
+@profile.route("/advertise",methods=['GET','POST'])
+def advertise():
+    if request.method == 'POST':
+        advert_name = request.form.get('advertiser_name')
+        advert_product = request.form.get('product')
+        advert_description = request.form.get('description')
+        insert_advert(advert_name, advert_product, advert_description)
+        return redirect('/profile')
+    return render_template('profile/advertise.html')
 
 def insert_profile(firstname_, surname_, uni_id, message):
     with dbApi.connect(app.config['dsn']) as connection:
@@ -67,7 +77,6 @@ def insert_profile(firstname_, surname_, uni_id, message):
 
         return True
 
-
 def remove_profile(firstname_):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -77,7 +86,6 @@ def remove_profile(firstname_):
         connection.commit()
 
         return True
-
 
 def up_todate_profile(firstname_, newfirstname_):
     with dbApi.connect(app.config['dsn']) as connection:
@@ -89,6 +97,16 @@ def up_todate_profile(firstname_, newfirstname_):
 
         return True
 
+def insert_advert(advertname_, advertproduct_, advertdescription_):
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        cursor.execute("""INSERT INTO ADVERTISERS(advertiser, product, description) 
+        VALUES(%s, %s, %s)
+                """, (advertname_, advertproduct_, advertdescription_))
+        connection.commit()
+
+        return True
 
 def get_all_profiles():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -99,7 +117,6 @@ def get_all_profiles():
         connection.commit()
         
         return cursor
-
 
 def list_profiles():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -112,13 +129,21 @@ def list_profiles():
         
         return cursor
 
-
-
 def get_all_universities():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         query = """SELECT id, name FROM UNIVERSITIES;"""
+        cursor.execute(query)
+        connection.commit()
+        
+        return cursor
+
+def get_all_advertisements():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT advertiser, product, description FROM ADVERTISERS;"""
         cursor.execute(query)
         connection.commit()
         

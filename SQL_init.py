@@ -129,7 +129,7 @@ def create_profile_table():
         cursor.execute(query)
         query = """CREATE TABLE UNIVERSITIES (
                 id SERIAL PRIMARY KEY,
-                name VARCHAR(30),
+                name VARCHAR(50),
                 country VARCHAR(15)
         )"""
         cursor.execute(query)
@@ -142,6 +142,15 @@ def create_profile_table():
                 surname VARCHAR(20),
                 uni_id INTEGER,
                 message VARCHAR(80)
+        )"""
+        cursor.execute(query)
+        
+        query = """DROP TABLE IF EXISTS ADVERTISERS"""
+        cursor.execute(query)
+        query = """CREATE TABLE ADVERTISERS (
+                advertiser VARCHAR(20),
+                product VARCHAR(20),
+                description VARCHAR(120)
         )"""
         cursor.execute(query)
 
@@ -158,9 +167,12 @@ def seed_universities_table():
         query = """INSERT INTO
                 UNIVERSITIES (id, name, country)
                 VALUES
-                    (1, 'Istanbul Technical University','Turkey'),
+                    (1, 'Istanbul Technical University (ITU)','Turkey'),
                     (2, 'Harvard Unviersity','USA'),
-                    (3, 'MIT','USA')"""
+                    (3, 'Massachusetts Institute of Technology (MIT)','USA'),
+                    (4, 'University College London (UCL)', 'UK'),
+                    (5, 'University of Oxford', 'UK'),
+                    (6, 'Stanford University', 'USA')"""
         cursor.execute(query)
         connection.commit()
 
