@@ -16,6 +16,7 @@ from flask_login.utils import login_required
 
 feed = Blueprint('feed', __name__)
 
+
 @feed.route("/feed")
 @login_required
 def main():
@@ -26,49 +27,39 @@ def main():
 @feed.route("/create-feed-table")
 @login_required
 def create_table():
-    create_feed_table()
+    if current_user.is_admin:
+        create_feed_table()
     return redirect('/')
 
 
 @feed.route("/seed-feed-table")
 @login_required
 def seed_table():
-    seed_feed_table()
+    if current_user.is_admin:
+        seed_feed_table()
     return redirect('/')
 
 
 @feed.route("/create-and-seed-feed-table")
 @login_required
 def create_and_seed():
-    create_feed_table()
-    seed_feed_table()
+    if current_user.is_admin:
+        create_feed_table()
+        seed_feed_table()
     return redirect('/')
 
 
 @feed.route("/test-feed-table")
 @login_required
 def testdb():
-    count = test_feed_table()
+    if current_user.is_admin:
+        count = test_feed_table()
     return "Number of records: %d." % count
-
-
-@feed.route("/create-feed-post", methods=['GET', 'POST'])
-@login_required
-def create_post_feed():
-    if request.method == "POST":
-        id = request.form.get('post_id')
-        title = request.form.get('post_title')
-        author = request.form.get('author')
-        likes = request.form.get('number_of_likes')
-        create_feed_post(id, title, author, likes)
-        return redirect('/feed')
-    return render_template("feed/create_feed_post.html")
 
 
 @feed.route("/upvote-post/<post_id>/<likes>")
 @login_required
 def update_post_feed(post_id, likes):
-
     upvote_feed_post(post_id, likes)
     return redirect('/feed')
 
@@ -83,7 +74,8 @@ def delete_post_feed(post_id):
 @feed.route("/delete-from-posts/<post_id>")
 @login_required
 def delete_post_from_posts(post_id):
-    delete_posts_post(post_id)
+    if current_user.is_admin:
+        delete_posts_post(post_id)
     return redirect('/feed')
 
 
@@ -143,19 +135,6 @@ def get_all_feed():
         return cursor
 
 
-def create_feed_post(post_id, post_title, post_author, post_likes):
-    with dbApi.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = """INSERT INTO FEED (post_id, post_title, author, number_of_likes) VALUES(%s,'%s','%s',%s)""" % (
-            post_id, post_title, post_author, post_likes)
-
-        cursor.execute(query)
-        connection.commit()
-
-        return True
-
-
 def get_feed_post_with_id(id):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -170,7 +149,6 @@ def get_feed_post_with_id(id):
 
 def upvote_feed_post(post_id, likes):
     with dbApi.connect(app.config['dsn']) as connection:
-
         likes = int(likes) + 1
         cursor = connection.cursor()
 
@@ -193,6 +171,7 @@ def delete_feed_post(id):
         connection.commit()
 
         return True
+
 
 def delete_posts_post(post_id):
     with dbApi.connect(app.config['dsn']) as connection:

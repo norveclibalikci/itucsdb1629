@@ -29,6 +29,8 @@ def create_and_seed_database():
 
     create_and_test_user_publication_table()
 
+    create_products_table()
+
     add_foreign_keys()
 
     return
@@ -49,6 +51,8 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS USERSPUBS DROP CONSTRAINT IF EXISTS userpubs_publication_id_fkey;"""
         cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS BOOKS DROP CONSTRAINT IF EXISTS products_user_id_fkey;"""
+        cursor.execute(query)
 
         connection.commit()
 
@@ -67,6 +71,8 @@ def add_foreign_keys():
         query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
         cursor.execute(query)
         query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (publication_id) REFERENCES PUBLICATION(publication_id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE BOOKS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
         cursor.execute(query)
 
         connection.commit()
@@ -130,6 +136,27 @@ def test_feed_table():
         count = cursor.fetchone()[0]
         return count
 
+# Create the feed table with two fields, post_id and number_of_likes.
+def create_products_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS BOOKS"""
+        cursor.execute(query)
+
+        query = """CREATE TABLE BOOKS (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER,
+                title VARCHAR(255),
+                description VARCHAR(255),
+                author VARCHAR (255),
+                price NUMERIC,
+                is_used BOOLEAN,
+                created_at TIMESTAMP)"""
+        cursor.execute(query)
+
+        connection.commit()
+        return True
 
 # Create the profile table with two fields, profile_id, name and surname.
 def create_profile_table():
