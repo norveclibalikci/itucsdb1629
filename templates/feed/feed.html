@@ -1,44 +1,47 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-        <br><br>
-        <h1 class="header center red-text text-lighten-1">Feed</h1>
-        <div class="row center">
-            <h5 class="header col s12 light">This page is where the post feed will be shown.</h5>
-        </div>
-
-        {% for id, post_title, author, likes in feed %}
-
-
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center red-text text-lighten-1">Feed</h1>
             <div class="row center">
-                <div class="col s12 m12">
-                    <div class="card light-blue lighten-3">
-                        <div class="card-content">
-                            <span class="card-title">{{ post_title }}</span>
-                            <p>
-                                {{ author }}
-                            </p>
-                        </div>
-                        <div class="card-action" id="feedactions">
-                            <a>Likes: {{ likes }}</a>
-                            <a href="/upvote-post/{{id}}/{{likes}}">Upvote</a>
-                            <a href="/delete-from-feed/{{id}}">Remove from feed</a>
-                            <a href="/delete-from-posts/{{id}}">Delete this post</a>
+                <h5 class="header col s12 light">This page is where the post feed will be shown.</h5>
+            </div>
+
+            {% for id, post_title, author, likes in feed %}
+
+                <div class="row center">
+                    <div class="col s12 m12">
+                        <div class="card light-blue lighten-3">
+                            <div class="card-content">
+                                <span class="card-title">{{ post_title }}</span>
+                                <p>
+                                    {{ author }}
+                                </p>
+                            </div>
+                            <div class="card-action" id="feedactions">
+                                <a>Likes: {{ likes }}</a>
+                                <a href="/upvote-post/{{ id }}/{{ likes }}">Upvote</a>
+                                <a href="/delete-from-feed/{{ id }}">Remove from feed</a>
+                                {% if current_user.is_admin %}
+                                    <a href="/delete-from-posts/{{ id }}">Delete this post</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
 
-        <div class="row center">
-            <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
-            <a class="btn-large waves-effect waves-light red lighten-1" href="/add-posts-to-feed">Update Feed List</a>
-        </div>
-        <div class="row center grey-text">
-            This page is created by Burak Karakan.
+            {% endfor %}
+
+            <div class="row center">
+                <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
+                <a class="btn-large waves-effect waves-light red lighten-1" href="/add-posts-to-feed">Update Feed
+                    List</a>
+            </div>
+            <div class="row center grey-text">
+                This page is created by Burak Karakan.
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
