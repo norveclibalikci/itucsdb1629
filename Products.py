@@ -110,11 +110,10 @@ def delete_book(id):
 def update_book(id, title, description, author, price, is_used):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
-        if is_used == "None":
-            is_used = False
-        else:
+        if is_used == "on":
             is_used = True
+        else:
+            is_used = False
 
         query = """UPDATE BOOKS SET
         title='%s',
