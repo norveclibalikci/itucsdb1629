@@ -13,10 +13,21 @@ footer.page-footer {
 }
 
 .profile-text {
-	font-weight:bold;
-	font-size:30px;
+    font-weight: bold;
+    font-size: 30px;
 }
 
-#feedactions a{
+#feedactions a {
     color: aliceblue !important;
+}
+
+#logged-in-user {
+    margin-top: 11px;
+    line-height: 1.5;
+    text-align: center;
+    margin-right: -90px;
+    border-left: 2px solid #0577ab;
+    border-right: 2px solid #0577ab;
+    padding-left: 25px;
+    padding-right: 25px;
 }

@@ -11,28 +11,34 @@ from SQL_init import create_feed_table
 from SQL_init import seed_feed_table
 from SQL_init import test_feed_table
 
+from flask_login import current_user
+from flask_login.utils import login_required
+
 feed = Blueprint('feed', __name__)
 
-
 @feed.route("/feed")
+@login_required
 def main():
     feed = get_all_feed()
     return render_template('feed/feed.html', feed=feed)
 
 
 @feed.route("/create-feed-table")
+@login_required
 def create_table():
     create_feed_table()
     return redirect('/')
 
 
 @feed.route("/seed-feed-table")
+@login_required
 def seed_table():
     seed_feed_table()
     return redirect('/')
 
 
 @feed.route("/create-and-seed-feed-table")
+@login_required
 def create_and_seed():
     create_feed_table()
     seed_feed_table()
@@ -40,12 +46,14 @@ def create_and_seed():
 
 
 @feed.route("/test-feed-table")
+@login_required
 def testdb():
     count = test_feed_table()
     return "Number of records: %d." % count
 
 
 @feed.route("/create-feed-post", methods=['GET', 'POST'])
+@login_required
 def create_post_feed():
     if request.method == "POST":
         id = request.form.get('post_id')
@@ -58,6 +66,7 @@ def create_post_feed():
 
 
 @feed.route("/upvote-post/<post_id>/<likes>")
+@login_required
 def update_post_feed(post_id, likes):
 
     upvote_feed_post(post_id, likes)
@@ -65,18 +74,21 @@ def update_post_feed(post_id, likes):
 
 
 @feed.route("/delete-from-feed/<post_id>")
+@login_required
 def delete_post_feed(post_id):
     delete_feed_post(post_id)
     return redirect('/feed')
 
 
 @feed.route("/delete-from-posts/<post_id>")
+@login_required
 def delete_post_from_posts(post_id):
     delete_posts_post(post_id)
     return redirect('/feed')
 
 
 @feed.route("/add-posts-to-feed", methods=['GET', 'POST'])
+@login_required
 def list_all_the_posts():
     if request.method == "GET":
         posts = get_all_posts()

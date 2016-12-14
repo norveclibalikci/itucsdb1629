@@ -22,7 +22,22 @@
             <li><a href="/profile">Profile</a></li>
             <li><a href="/publications">Publications</a></li>
             <li><a href="/post">Posts</a></li>
-            <li><a href="/auth">Login</a></li>
+            {% if current_user.is_authenticated %}
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+                <li id="logged-in-user">
+                    <b>Welcome</b>
+                    <br>
+                    {{ current_user.name }}
+                </li>
+
+            {% else %}
+                <li>
+                    <a href="/auth">Login</a>
+                </li>
+            {% endif %}
+
         </ul>
 
         <ul id="nav-mobile" class="side-nav">
@@ -57,10 +72,10 @@
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
 <script src="{{ url_for('static', filename='js/init.js') }}"></script>
-  <script>
-  $(document).ready(function() {
-	    $('select').material_select();
-	});</script>
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+    });</script>
 
 </body>
 </html>

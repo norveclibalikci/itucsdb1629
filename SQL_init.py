@@ -4,7 +4,6 @@ from flask import current_app as app
 
 # Create and seed all the database tables.
 def create_and_seed_database():
-
     drop_foreign_keys()
 
     create_user_table()
@@ -28,6 +27,8 @@ def create_and_seed_database():
     create_publication_table()
     seed_publication_table()
 
+    create_and_test_user_publication_table()
+
     add_foreign_keys()
 
     return
@@ -44,7 +45,10 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS POSTS DROP CONSTRAINT IF EXISTS posts_category_id_fkey;"""
         cursor.execute(query)
-
+        query = """ALTER TABLE IF EXISTS USERSPUBS DROP CONSTRAINT IF EXISTS userpubs_user_id_fkey;"""
+        cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS USERSPUBS DROP CONSTRAINT IF EXISTS userpubs_publication_id_fkey;"""
+        cursor.execute(query)
 
         connection.commit()
 
@@ -60,7 +64,13 @@ def add_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE POSTS ADD FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id) ON DELETE CASCADE;"""
         cursor.execute(query)
+        query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (publication_id) REFERENCES PUBLICATION(publication_id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+
         connection.commit()
+
 
 # Create the feed table with two fields, post_id and number_of_likes.
 def create_feed_table():
@@ -119,6 +129,7 @@ def test_feed_table():
 
         count = cursor.fetchone()[0]
         return count
+
 
 # Create the profile table with two fields, profile_id, name and surname.
 def create_profile_table():
@@ -214,7 +225,6 @@ def seed_user_table():
                     ('Jamie Doe', 'onemorebadpassword','xyz@gmail.com','mom3')
                      """
 
-
         cursor.execute(query)
         connection.commit()
 
@@ -232,6 +242,7 @@ def test_user_table():
         count = cursor.fetchone()[0]
 
         return count
+
 
 def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -272,7 +283,6 @@ def seed_publication_table():
         return True
 
 
-
 def test_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -287,7 +297,7 @@ def test_publication_table():
 
 
 def create_authors_table():
-     with dbApi.connect(app.config['dsn']) as connection:
+    with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """DROP TABLE IF EXISTS AUTHORS CASCADE"""
         cursor.execute(query)
@@ -302,6 +312,7 @@ def create_authors_table():
         connection.commit()
 
         return True
+
 
 def seed_authors_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -321,6 +332,7 @@ def seed_authors_table():
         connection.commit()
 
         return True
+
 
 # Create the post table with four variables, post_id, profile_id, category_id and content
 def create_post_table():
@@ -374,6 +386,8 @@ def seed_post_table():
         cursor.execute(query)
         connection.commit()
         return True
+
+
 def seed_category_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -386,6 +400,8 @@ def seed_category_table():
         cursor.execute(query)
         connection.commit()
         return True
+
+
 def test_post_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -396,3 +412,31 @@ def test_post_table():
 
         count = cursor.fetchone()[0]
         return count
+
+
+def create_and_test_user_publication_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS USERSPUBS CASCADE """
+        cursor.execute(query)
+        query = """CREATE TABLE USERSPUBS (
+                 user_id INTEGER,
+                 publication_id INTEGER
+                )"""
+
+        cursor.execute(query)
+        connection.commit()
+
+        query = """INSERT INTO
+                USERSPUBS (user_id,publication_id)
+                VALUES
+                ('1','2'),
+                ('1','1'),
+                ('2','1')
+                    """
+
+        cursor.execute(query)
+        connection.commit()
+
+        return "okay"

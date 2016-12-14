@@ -33,8 +33,7 @@ app.register_blueprint(post)
 app.register_blueprint(profile)
 app.register_blueprint(publication)
 
-
-
+lm.login_view = "/auth"
 lm.init_app(app)
 
 def get_elephantsql_dsn(vcap_services):
