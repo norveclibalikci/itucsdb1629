@@ -1,8 +1,7 @@
 User Guide
 ==========
 
-**explain how your application works from the user perspective, use
-screenshots whereever appropriate**
+First of all, using XLarge requires an account, which you can create easily by following the "Create account" link at the bottom of the login screen, which leds you to the registration page. After the registration, you can use XLarge without any hassle. You can update the feed, sell new books, comment on sellings, create and read different posts.
 
 **to add a picture, use the following example**::
 
@@ -14,8 +13,8 @@ screenshots whereever appropriate**
 
 .. toctree::
 
-   member1
-   member2
+   Burak Karakan
+   Diedon Bujari
    member3
    member4
    member5
