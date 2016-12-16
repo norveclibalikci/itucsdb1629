@@ -77,7 +77,23 @@
 <script>
     $(document).ready(function () {
         $('select').material_select();
-    });</script>
+    });
+    $(document).ready(function () {
+        $('input#input_text, textarea#textarea1').characterCounter();
+    });
+
+    $('.edit-comment').click(function (e) {
+        e.preventDefault();
+        var formName = $(this).data("form-id");
+        console.log(formName);
+        $('#edit-form' + formName).val(
+            $(this).closest('blockquote').children('span').text()
+        );
+        Materialize.updateTextFields();
+        $('#form-row' + formName).show();
+    })
+
+</script>
 
 </body>
 </html>

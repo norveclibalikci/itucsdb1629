@@ -24,6 +24,13 @@ def main():
     return render_template('feed/feed.html', feed=feed)
 
 
+@feed.route("/deleted-feed")
+@login_required
+def deleted_feed():
+    feed = get_all_deleted_feed()
+    return render_template('feed/deleted_feed.html', feed=feed)
+
+
 @feed.route("/create-feed-table")
 @login_required
 def create_table():
@@ -108,6 +115,17 @@ def insert_into_feed(id_list):
         return True
 
 
+def insert_into_deleted_feed(post):
+    with dbApi.connect(app.config['dsn']) as connection:
+        now = datetime.now()
+        query = """INSERT INTO DELETED_FEED (remover_id, post_id, publication_id, number_of_likes) VALUES
+              (%d, %d, %d, %d)""" % (int(current_user.id), int(post[0]), int(post[1]), int(post[2]))
+        cursor = connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+        return True
+
+
 def get_all_posts():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -133,6 +151,19 @@ def get_all_feed():
         cursor.execute(query)
         connection.commit()
         return cursor
+
+
+def get_all_deleted_feed():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """SELECT DELETED_FEED.post_id, title, name FROM DELETED_FEED
+        JOIN POSTS ON DELETED_FEED.post_id = POSTS.post_id
+        JOIN USERS ON DELETED_FEED.remover_id = USERS.id"""
+        cursor.execute(query)
+        connection.commit()
+        return cursor
+
 
 
 def get_feed_post_with_id(id):
@@ -164,6 +195,10 @@ def upvote_feed_post(post_id, likes):
 def delete_feed_post(id):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
+
+        query = "SELECT post_id, publication_id, number_of_likes FROM FEED WHERE post_id=%s" % id
+        cursor.execute(query)
+        insert_into_deleted_feed(cursor.fetchone())
 
         query = """DELETE FROM FEED
         WHERE post_id = %s;""" % id

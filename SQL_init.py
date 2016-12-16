@@ -30,6 +30,7 @@ def create_and_seed_database():
     create_and_test_user_publication_table()
 
     create_products_table()
+    create_comments_table()
 
     add_foreign_keys()
 
@@ -43,6 +44,10 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS FEED DROP CONSTRAINT IF EXISTS feed_post_id_fkey;"""
         cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS DELETED_FEED DROP CONSTRAINT IF EXISTS deleted_feed_remover_id_fkey;"""
+        cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS DELETED_FEED DROP CONSTRAINT IF EXISTS deleted_feed_post_id_fkey;"""
+        cursor.execute(query)
         query = """ALTER TABLE IF EXISTS PUBLICATION DROP CONSTRAINT IF EXISTS publication_author_id_fkey;"""
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS POSTS DROP CONSTRAINT IF EXISTS posts_category_id_fkey;"""
@@ -52,6 +57,10 @@ def drop_foreign_keys():
         query = """ALTER TABLE IF EXISTS USERSPUBS DROP CONSTRAINT IF EXISTS userpubs_publication_id_fkey;"""
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS BOOKS DROP CONSTRAINT IF EXISTS products_user_id_fkey;"""
+        cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS COMMENTS DROP CONSTRAINT IF EXISTS comments_user_id_fkey;"""
+        cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS COMMENTS DROP CONSTRAINT IF EXISTS comments_book_id_fkey;"""
         cursor.execute(query)
 
         connection.commit()
@@ -64,6 +73,10 @@ def add_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
         cursor.execute(query)
+        query = """ALTER TABLE DELETED_FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE DELETED_FEED ADD FOREIGN KEY (remover_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+        cursor.execute(query)
         query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
         cursor.execute(query)
         query = """ALTER TABLE POSTS ADD FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id) ON DELETE CASCADE;"""
@@ -73,6 +86,10 @@ def add_foreign_keys():
         query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (publication_id) REFERENCES PUBLICATION(publication_id) ON DELETE CASCADE;"""
         cursor.execute(query)
         query = """ALTER TABLE BOOKS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (book_id) REFERENCES BOOKS(id) ON DELETE CASCADE;"""
         cursor.execute(query)
 
         connection.commit()
@@ -98,13 +115,29 @@ def create_feed_table():
         cursor.execute(query)
 
         query = """CREATE TABLE DELETED_FEED (
-                feed_id SERIAL PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
+                remover_id INTEGER,
                 post_id INTEGER,
                 publication_id INTEGER,
-                number_of_likes INTEGER,
-                deleted_at TIMESTAMP)"""
+                number_of_likes INTEGER)"""
         cursor.execute(query)
 
+        connection.commit()
+        return True
+
+def create_comments_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS COMMENTS"""
+        cursor.execute(query)
+
+        query = """CREATE TABLE COMMENTS (
+                id SERIAL PRIMARY KEY,
+                book_id INTEGER,
+                user_id INTEGER,
+                comment VARCHAR(255))"""
+        cursor.execute(query)
         connection.commit()
         return True
 

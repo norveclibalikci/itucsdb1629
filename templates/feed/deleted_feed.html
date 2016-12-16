@@ -4,17 +4,18 @@
     <div class="section no-pad-bot" id="index-banner">
         <div class="container">
             <br><br>
-            <h1 class="header center red-text text-lighten-1">Feed</h1>
+            <h1 class="header center red-text text-lighten-1">Deleted Feed Posts</h1>
+
             {% if not feed %}
                 <div class="row center">
-                    <h5 class="header col s12 light">There are no feed posts, you can start adding one by one.</h5>
+                    <h5 class="header col s12 light">There are no deleted posts.</h5>
                 </div>
             {% else %}
                 <div class="row center">
-                    <h5 class="header col s12 light">The best and selected posts, check them out.</h5>
+                    <h5 class="header col s12 light">These are no deleted posts by the admin.</h5>
                 </div>
 
-                {% for id, post_title, author, likes in feed %}
+                {% for id, post_title, remover in feed %}
 
                     <div class="row center">
                         <div class="col s12 m12">
@@ -22,15 +23,12 @@
                                 <div class="card-content">
                                     <span class="card-title">{{ post_title }}</span>
                                     <p>
-                                        {{ author }}
+                                        Removed by {{ remover }}
                                     </p>
                                 </div>
                                 <div class="card-action" id="feedactions">
-                                    <a>Likes: {{ likes }}</a>
-                                    <a href="/upvote-post/{{ id }}/{{ likes }}">Upvote</a>
                                     {% if current_user.is_admin %}
-                                        <a href="/delete-from-feed/{{ id }}">Remove from feed</a>
-                                        <a href="/delete-from-posts/{{ id }}">Delete this post</a>
+                                        <a href="/delete-from-posts/{{ id }}">Delete this post completely!</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -39,12 +37,8 @@
 
                 {% endfor %}
             {% endif %}
-
             <div class="row center">
-                <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
-                <a class="btn-large waves-effect waves-light red lighten-1" href="/add-posts-to-feed">Update Feed
-                    List</a>
-                <a class="btn-large waves-effect waves-light red lighten-1" href="/deleted-feed">Deleted Feed</a>
+                <a class="btn-large waves-effect waves-light red lighten-1" href="/feed">Back to Feed</a>
             </div>
             <div class="row center grey-text">
                 This page is created by Burak Karakan.

@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <h3 class="header center red-text text-lighten-1">{{ title }}</h3>
+
+    <div style="position:relative;top:5px;" class="row">
+        <div class="row center card grey lighten-5">
+            <div class="card-content">
+                <span class="card-title red-text text-darken-4">{{ name }} {{ surname }}</span>
+                <div class="row center blue-grey-text text-darken-4">
+                    The book "{{ title }}" is for sale for {{ price }} $.
+                </div>
+                <div class="row center grey-text text-darken-1">
+                    Author: {{ author }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if comments %}
+        <h5 class="header center red-text text-lighten-1"><u>Comments from our users</u></h5>
+        {% for comment_id, book_id, comment, writer in comments %}
+            <blockquote>
+                <span>{{ comment }}</span>
+                <div class="grey-text" style="display: inline-block;"> - {{ writer }}</div>
+
+                {% if current_user.is_admin %}
+                    <a class="right" href="/book/{{ book_id }}/remove-comment/{{ comment_id }}">
+                        <small>Delete</small>
+                    </a>
+                    <a class="right edit-comment" href="/book/{{ book_id }}/remove-comment/{{ comment_id }}"
+                       data-form-id="{{ comment_id + book_id }}">
+                        <small> Edit</small>
+                        &nbsp;</a>
+                {% endif %}
+
+                <div id=form-row{{ comment_id + book_id }} class="row" style="display: none;">
+                    <form class="col s12" method="post" action="/book/{{ book_id }}/edit-comment/{{ comment_id }}">
+                        <div class="row">
+                            <div class="input-field col s12">
+                        <textarea id="edit-form{{ comment_id + book_id }}" class="materialize-textarea" name="edited-comment"
+                                  length="255"
+                                  maxlength="255"></textarea>
+                                <label for="textarea1">Edit the comment</label>
+                            </div>
+                        </div>
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </form>
+                </div>
+            </blockquote>
+
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <form class="col s12" method="post">
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" name="comment" length="255"
+                              maxlength="255"></textarea>
+                    <label for="textarea1">Add a comment</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+
+    <br>
+    <div class="row center grey-text text-light-1">
+        This page is created by Burak Karakan.
+    </div>
+
+{% endblock %}
