@@ -172,7 +172,7 @@ def change_password(new_pw, secret_quest, mail_addres):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        cursor.execute("""SELECT user_id FROM USERS
+        cursor.execute("""SELECT id FROM USERS
                 where %s = mail AND %s = secret
                 """, (mail_addres, secret_quest))
         connection.commit()
@@ -182,7 +182,7 @@ def change_password(new_pw, secret_quest, mail_addres):
         if user_id_change:
 
             cursor.execute("""UPDATE USERS SET password = %s
-                    where user_id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
+                    where id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
 
             connection.commit()
             return True
@@ -206,7 +206,7 @@ def delete_account(password, mail, secret):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        cursor.execute("""SELECT user_id FROM USERS
+        cursor.execute("""SELECT id FROM USERS
                 where mail = %s  AND secret = %s
                 """, (mail, secret))
         connection.commit()
@@ -216,7 +216,7 @@ def delete_account(password, mail, secret):
         cursor = connection.cursor()
         if user_id_delete:
 
-            cursor.execute("""DELETE FROM USERS where user_id = %s  """, (user_id_delete,))
+            cursor.execute("""DELETE FROM USERS where id = %s  """, (user_id_delete,))
 
             connection.commit()
             return True
@@ -256,7 +256,7 @@ def get_no_publications(user_id):
 
 @auth.route("/user_pubs/follow", methods=['POST'])
 def follow():
-    user_id = current_user.user_id
+    user_id = current_user.id
     publication_id = request.form.get('publication_id')
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -270,7 +270,7 @@ def follow():
 
 @auth.route("/user_pubs/unfollow", methods=['POST'])
 def unfollow():
-    user_id = current_user.user_id
+    user_id = current_user.id
 
     publication_id = request.form.get('publication_id')
 
