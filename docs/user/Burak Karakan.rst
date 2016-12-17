@@ -1,7 +1,17 @@
 Parts Implemented by Burak Karakan
 ================================
 
-**Feed**
+Layout & Top Bar
+----------------
+
+The layout has been created by Burak Karakan in order to maintain the same experience across the whole system. It has a simple to use navigation with a one-line information footer below. Wherever you want to head over, just click the link and **TA DAA!** - you are over there.
+
+.. figure:: http://i67.tinypic.com/10xhqgj.png
+   :scale: 50 %
+   :alt: Feed screenshot
+
+Feed
+----
 
 The *Feed* page is the heart of the user experience of **XLarge**. The feed looks as follows:
 
@@ -20,7 +30,8 @@ By simply checking the boxes, and clicking the button "Add these to feed", the f
    
 Also, if you are an admin and you did not like a post in the feed, you can simply click the link below every post card which is called "Remove From Feed" to remove a post from the feed. After this operation, the post will be removed from the feed and sent to the *deleted feed* section. *Deleted feed* part holds the information about a removed post, such as the post statistics and the admin who removed the post from the feed. Also, since you are an admin, you can also remove a post completely from the table by clicking the link below the card called "Delete this post". This option is also available for admins in the *deleted feed* section, and its functionality is to delete a post not only from the feed, but also from the system completely. If an admin chooses to click this button, the post gets completely removed from XLarge.
    
-**Books For Sale**
+Books For Sale
+--------------
 
 The second part implemented by *Burak Karakan* is the book selling part of the **XLarge** platform. We thought that in order to create an engaged user base, we need to allow users to **get in touch with each other** by selling books they already have in hand. XLarge acts as an *online publishing platform for its users*, and the users are already interested in reading things, which makes the experience *far more valuable* when it comes to exchanging or selling books. 
 
@@ -40,4 +51,23 @@ By just clicking "I want to sell books!", you can start selling books immediatel
    
    
 When you fill the form, your book will be available immediately for all of our users. Also if you are an admin, you can delete or edit a book whenever you want. Therefore, with **XLarge - Books for Sale**, you can buy the books you want with appropriate pricing.
+
+Also, if you are have a collaborative personality, you can add comments about the books you know, and inform the other people that are considering to buy the book you already know something about. In order to share your comment, just fill the box below the comments and bam - you are done!
+
+.. figure:: http://i66.tinypic.com/282nwo2.jpg
+   :scale: 50 %
+   :alt: Book display screenshot
    
+   
+If you are an admin and want to edit a comment, you can just click the links that are only visible to you, called `Edit` and `Delete`, where you can edit the comment right in the place without visiting another file! Just click on the link, change the values in the following text file, and that's it!
+
+.. figure:: http://i68.tinypic.com/23hb1i1.png
+   :scale: 50 %
+   :alt: Book display screenshot
+   
+   
+Hope you enjoy using XLarge as your personal newspaper, where you are the content and you are the author at the same time!
+
+.. figure:: http://i65.tinypic.com/2qktduf.jpg
+   :scale: 50 %
+   :alt: Book display screenshot
