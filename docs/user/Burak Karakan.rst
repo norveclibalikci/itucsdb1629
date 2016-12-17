@@ -22,9 +22,9 @@ The *Feed* page is the heart of the user experience of **XLarge**. The feed look
    
 **Books For Sale**
 
-The second part implemented by *Burak Karakan* is the book selling part of the **XLarge** platform. We thought that in order to create an engaged user base, we need to allow users to **get in touch with each other** by selling books they already have in hand. XLarge acts as an *online publishing platform for its users*, and the users are already interested in reading things, which makes the experience *far more valuable* when it comes to exchanging or selling books.
+The second part implemented by *Burak Karakan* is the book selling part of the **XLarge** platform. We thought that in order to create an engaged user base, we need to allow users to **get in touch with each other** by selling books they already have in hand. XLarge acts as an *online publishing platform for its users*, and the users are already interested in reading things, which makes the experience *far more valuable* when it comes to exchanging or selling books. 
 
-   The *Books For Sale* section is easily accessible from the top navigation bar under the name of "For Sale". When you go to the link, the following page will welcome you:
+The *Books For Sale* section is easily accessible from the top navigation bar under the name of "For Sale". When you go to the link, the following page will welcome you:
    
 .. figure:: http://i68.tinypic.com/v8d2p.png
    :scale: 50 %
