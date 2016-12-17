@@ -2,7 +2,7 @@ Parts Implemented by Burak Karakan
 ================================
 
 Blueprints
-==========
+----------
 
 In order to achieve seperate workflows for each of the developers and minimize the VCS conflict problems, there was a need for different files for different developers. In Python, this is achieved using `BLueprint`s. The blueprints are implemented by Burak Karakan for each of the developers by creating different `.py` files and registering them to the app with the following code:
 
@@ -35,7 +35,7 @@ And in order to achieve this structure, every file uses a simple Blueprint decla
 
 
 Database Structures
-===================
+-------------------
 
 In order to keep the `Alter` statements and table creator queries seperate, there was a need to create seperate queries for creating or dropping the foreign keys, which is implemented by Burak Karakan. The methods are implemented as follows:
 
