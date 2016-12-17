@@ -26,8 +26,18 @@ The second part implemented by *Burak Karakan* is the book selling part of the *
 
    The *Books For Sale* section is easily accessible from the top navigation bar under the name of "For Sale". When you go to the link, the following page will welcome you:
    
-   .. figure:: http://i68.tinypic.com/v8d2p.png
+.. figure:: http://i68.tinypic.com/v8d2p.png
    :scale: 50 %
    :alt: Books For Sale screenshot
    
-   The interface allows you to identify new and second hand books by giving the book cards seperate colors; blue for used and orange for not used. This way, we allow you to give a quick glance at the books and target some of them without spending too much time. The interface is pretty simple, you can see the prices and authors of the books, you can see if they are used with a little description of the book.
+   The interface allows you to identify new and second hand books by giving the book cards seperate colors; blue for used and orange for not used. This way, we allow you to give a quick glance at the books and target some of them without spending too much time. The interface is pretty simple, you can see the prices and authors of the books, you can see if they are used just by the card colors with a little description of the book.
+   
+   By just clicking "I want to sell books!", you can start selling books immediately. After clicking, you will be welcomed by the following page, where you can start selling your books immediately.
+   
+.. figure:: http://i67.tinypic.com/k1ulg8.png
+   :scale: 50 %
+   :alt: Sell Book screenshot
+   
+   
+   When you fill the form, your book will be available immediately for all of our users. Also if you are an admin, you can delete or edit a book whenever you want. Therefore, with **XLarge - Books for Sale**, you can buy the books you want with appropriate pricing.
+   
