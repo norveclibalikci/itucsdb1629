@@ -43,7 +43,7 @@ Update a message:
 -----------------
 If you click the *Update a message* button, you will reach this page:
 
-.. figure:: http://i64.tinypic.com/2r2106t.png
+.. figure:: http://i63.tinypic.com/midusz.png
    :scale: 50 %
    :alt: 'Update a message' page screenshot
 
@@ -53,7 +53,7 @@ Advertise:
 ----------
 You are an advertiser and you have a product which you think can be very popular in the future? *XLarge* is the right platform to advertise. Just click the *Advertise* button, and you reach this page:
 
-.. figure:: http://i64.tinypic.com/2r2106t.png
+.. figure:: http://i65.tinypic.com/2z74o0k.png
    :scale: 50 %
    :alt: Advertise screenshot
 
