@@ -179,17 +179,18 @@ def change_password(new_pw, secret_quest, mail_addres):
                 """, (mail_addres, secret_quest))
         connection.commit()
         user_id_change = cursor.fetchone()
-
+        hashed_new_pw = pwd_context.encrypt(new_pw)
         cursor = connection.cursor()
         if user_id_change:
 
             cursor.execute("""UPDATE USERS SET password = %s
-                    where id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
+                    where id = %s   AND mail = %s  """, (hashed_new_pw, user_id_change, mail_addres,))
 
             connection.commit()
             return True
         else:
             return False
+
 
 
 def create_account(name_, password_, mail_, secret_):
