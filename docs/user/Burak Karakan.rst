@@ -6,7 +6,7 @@ Layout & Top Bar
 
 The layout has been created by Burak Karakan in order to maintain the same experience across the whole system. It has a simple to use navigation with a one-line information footer below. Wherever you want to head over, just click the link and **TA DAA!** - you are over there.
 
-.. figure:: http://i67.tinypic.com/10xhqgj.png
+.. figure:: http://i67.tinypic.com/23lbcdk.png
    :scale: 50 %
    :alt: Feed screenshot
 
