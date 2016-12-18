@@ -35,6 +35,7 @@ app.register_blueprint(profile)
 app.register_blueprint(publication)
 app.register_blueprint(product)
 app.register_blueprint(jobs)
+app.register_blueprint(cat_aut)
 
 lm.login_view = "/auth"
 lm.init_app(app)
