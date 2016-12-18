@@ -15,7 +15,7 @@ We used user table to work with login operations so user table is generated with
           query = """CREATE TABLE USERS (
                   id SERIAL PRIMARY KEY,
                   name VARCHAR(40),
-                  password VARCHAR(40),
+                  password CHAR(120),
                   mail VARCHAR(40),
                   secret VARCHAR(40)
           )"""
@@ -25,7 +25,7 @@ We used user table to work with login operations so user table is generated with
           return True
           
           
-In main function at auth.py we get login information and check if it exits in database and correct.If it exits then we create user class instance to work with flask-login plugin.With that instance we log our user to system.After that, if we call current_user we will get object that corresponds to logged in user.
+In main function at auth.py we get login information and check if it exits in database and correct.If it exits then we create user class instance to work with flask-login plugin.With that instance we log our user to system.After that, if we call current_user we will get object that corresponds to logged in user.Also we store passwords after hashing them.
 
 
 .. code-block:: python
@@ -35,14 +35,16 @@ In main function at auth.py we get login information and check if it exits in da
 
           email_var = request.form.get('email')
           pw_var = request.form.get('password')
+          hashed_pw = pwd_context.encrypt(pw_var)
+
           if check_login(email_var, pw_var):
 
               with dbApi.connect(app.config['dsn']) as connection:
                   cursor = connection.cursor()
 
                   cursor.execute("""SELECT id, name, mail FROM USERS
-                                  where %s = mail AND %s = password
-                                  """, (email_var, pw_var))
+                                  where %s = mail
+                                  """, (email_var,))
                   connection.commit()
 
                   user_info = cursor.fetchone()
@@ -54,7 +56,24 @@ In main function at auth.py we get login information and check if it exits in da
           else:
               return redirect('/auth')
       return render_template('login.html')
+      
+We check passwords by the help of pwd_context.verify function which is part of passlib library.
 
+.. code-block:: python
+
+  def check_login(mail_address, pw):
+      with dbApi.connect(app.config['dsn']) as connection:
+          cursor = connection.cursor()
+
+          cursor.execute("""SELECT password FROM USERS
+                          WHERE mail = %s """ , (mail_address,))
+          connection.commit()
+
+          password = cursor.fetchone()[0]
+
+          print(pwd_context.verify(pw,password))
+          return pwd_context.verify(pw,password)
+          
 If user dont have account, they can create new one by filling create new account form.
 
 .. code-block:: python
