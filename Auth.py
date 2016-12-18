@@ -4,6 +4,7 @@ from flask import request, url_for
 from flask import redirect
 from flask import current_app as app
 from flask_login import UserMixin, login_user, current_user
+from passlib.apps import custom_app_context as pwd_context
 import psycopg2 as dbApi
 
 from SQL_init import create_user_table
@@ -66,14 +67,16 @@ def main():
 
         email_var = request.form.get('email')
         pw_var = request.form.get('password')
+        hashed_pw = pwd_context.encrypt(pw_var)
+
         if check_login(email_var, pw_var):
 
             with dbApi.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
 
                 cursor.execute("""SELECT id, name, mail FROM USERS
-                                where %s = mail AND %s = password
-                                """, (email_var, pw_var))
+                                where %s = mail
+                                """, (email_var,))
                 connection.commit()
 
                 user_info = cursor.fetchone()
@@ -157,15 +160,14 @@ def check_login(mail_address, pw):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        cursor.execute("""select password from USERS
-                        WHERE mail = %s """, (mail_address,))
+        cursor.execute("""SELECT password FROM USERS
+                        WHERE mail = %s """ , (mail_address,))
         connection.commit()
+
         password = cursor.fetchone()[0]
-        print(password, pw)
-        if pw == password:
-            return True
-        else:
-            return False
+
+        print(pwd_context.verify(pw,password))
+        return pwd_context.verify(pw,password)
 
 
 def change_password(new_pw, secret_quest, mail_addres):
@@ -176,7 +178,7 @@ def change_password(new_pw, secret_quest, mail_addres):
                 where %s = mail AND %s = secret
                 """, (mail_addres, secret_quest))
         connection.commit()
-        user_id_change = cursor.fetchone()[0]
+        user_id_change = cursor.fetchone()
 
         cursor = connection.cursor()
         if user_id_change:
@@ -193,9 +195,9 @@ def change_password(new_pw, secret_quest, mail_addres):
 def create_account(name_, password_, mail_, secret_):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
+        hashed_pw = pwd_context.encrypt(password_)
         cursor.execute("""INSERT INTO USERS (name, password,mail,secret) VALUES(%s,%s,%s,%s)
-                """, (name_, password_, mail_, secret_,))
+                """, (name_, hashed_pw, mail_, secret_,))
 
         connection.commit()
 
@@ -210,7 +212,7 @@ def delete_account(password, mail, secret):
                 where mail = %s  AND secret = %s
                 """, (mail, secret))
         connection.commit()
-        user_id_delete = cursor.fetchone()[0]
+        user_id_delete = cursor.fetchone()
 
         print(user_id_delete)
         cursor = connection.cursor()
