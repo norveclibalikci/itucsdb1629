@@ -1,9 +1,13 @@
 Parts Implemented by Diedon Bujari
 ==================================
 
-Readers
-=======
+**Readers**
+-----------
 The **"Readers"** tab of *XLarge* is the one which makes new users enthusiastic about using our social media platform, and intent to create their own account. And the good side of this page is that: *it does not require authentication - everyone can see it!* The page looks like this:
+
+.. figure:: http://i63.tinypic.com/2z5kk0n.png
+   :scale: 50 %
+   :alt: Readers screenshot
 
 When entered this page, new users can see and read the messages of the others. If you are seeing the page for the first time, you can read the opinions of other users about the page and the posts, or any other message that have been made in general, and also write and read short stories.
 
@@ -12,6 +16,10 @@ In this page, you can also be familiar about any product which was publicized by
 Write a message:
 ----------------
 If you click the *Write a message* button, you will reach this page:
+
+.. figure:: http://i64.tinypic.com/2r2106t.png
+   :scale: 50 %
+   :alt: 'Write a message' page screenshot
 
 If you have any interesting story, which you want to share with others, this is the platform where you can do it. Your story is restricted to be **80 characters** in maximum, but, we think that this is the reason which makes all of the stories be read. No one wants to waste time by reading a *loooooooong* story; instead, he/she chooses and is interested to have a look at a short story. **Therefore, it is guaranteed that your story will be read by every visitor or user of the page.**
 
@@ -23,6 +31,10 @@ Delete a message:
 -----------------
 If you click the *Delete a message* button, you will reach this page:
 
+.. figure:: http://i64.tinypic.com/35lc2l5.png
+   :scale: 50 %
+   :alt: 'Delete a message' page screenshot
+
 However, the page is only accessible to the authenticated users of the page. The reason for this is preventing strangers delete the messages.
 
 In order to delete your own message, or any message which you think it is annoying or should not be in *XLarge*, you should only choose the writer of the message from the dropdown menu and click the *Delete!* button.
@@ -31,11 +43,19 @@ Update a message:
 -----------------
 If you click the *Update a message* button, you will reach this page:
 
+.. figure:: http://i64.tinypic.com/2r2106t.png
+   :scale: 50 %
+   :alt: 'Update a message' page screenshot
+
 If you have made a mistake in your message, changed your opinion about what you have written, or for any reason you want to update your message, you can do it easily. You should only choose the writer of the message from the dropdown menu and start writing your new message. At the end, do not forget to enter the *Update!* button! :)
 
 Advertise:
 ----------
-Your are an advertiser and you have a product which you think can be very popular in the future - *XLarge* is the right platform to advertise. Just click the *Advertise* button, and you reach this page:
+You are an advertiser and you have a product which you think can be very popular in the future? *XLarge* is the right platform to advertise. Just click the *Advertise* button, and you reach this page:
+
+.. figure:: http://i64.tinypic.com/2r2106t.png
+   :scale: 50 %
+   :alt: Advertise screenshot
 
 You should type your name or the one of your company and the name of the product. Then, you can give a **120-character** information about your product, which you think will make the readers be persuaded to buy your product. Clicking the *Advertise your product!* button, you have your product shared with everyone.
 
