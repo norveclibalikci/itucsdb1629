@@ -46,7 +46,7 @@ In order to define the required relationships, the following `ALTER` statements 
       def drop_foreign_keys():
           with dbApi.connect(app.config['dsn']) as connection:
               cursor = connection.cursor()
-              query = """ALTER TABLE IF EXISTS PROFILE DROP CONSTRAINT IF EXISTS profile_uni_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS PROFILE DROP CONSTRAINT IF EXISTS profile_job_id_fkey;"""
               cursor.execute(query)
               query = """ALTER TABLE IF EXISTS FEED DROP CONSTRAINT IF EXISTS feed_post_id_fkey;"""
               cursor.execute(query)
@@ -75,7 +75,7 @@ In order to define the required relationships, the following `ALTER` statements 
       def add_foreign_keys():
           with dbApi.connect(app.config['dsn']) as connection:
               cursor = connection.cursor()
-              query = """ALTER TABLE PROFILE ADD FOREIGN KEY (uni_id) REFERENCES UNIVERSITIES(id);"""
+              query = """ALTER TABLE PROFILE ADD FOREIGN KEY (job_id) REFERENCES JOBS(id);"""
               cursor.execute(query)
               query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
               cursor.execute(query)
