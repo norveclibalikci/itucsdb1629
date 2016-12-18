@@ -9,12 +9,15 @@ import psycopg2 as dbApi
 from flask import current_app as app
 from unicodedata import category
 
+from flask_login import current_user
+from flask_login.utils import login_required
 post = Blueprint('post', __name__)
 
 
 
 
 @post.route("/post")
+@login_required
 def main():
     return render_template('post.html', text=show_most_recent()[0], category1=str(show_most_relevant()[0]),category2=show_2nd_relevant()[0],category_name=show_most_recent()[1])
 
