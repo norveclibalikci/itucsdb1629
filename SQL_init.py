@@ -20,7 +20,10 @@ def create_and_seed_database():
 
     create_feed_table()
     seed_feed_table()
-
+    
+    create_pubcategory_table()
+    seed_pubcategory_table()
+    
     create_authors_table()
     seed_authors_table()
 
