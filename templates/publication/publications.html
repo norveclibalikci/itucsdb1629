@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="section no-pad-bot" id="index-banner">
+ <a class="btn-large waves-effect waves-light red lighten-1" href="/cat-aut">Categories and Authors</a>
+    <div class="container">
+        <h1 class="header  red-text text-lighten-1">Publications</h1>
+      {% for publication_id, publication_title, publisher , author_name, category_name in pubs %}
+         
+                <div class="col s12 m12">
+                    <div class="row card green lighten-3">
+                    	<div class="col s2 m2 img-pub card-content">
+                    		<a href="https://instagram.com/bbyalcinkaya">
+                    			<img class="circle responsive-img" src="http://www.asianscientist.com/wp-content/uploads/bfi_thumb/Indonesia-Makes-Scientific-Publication-A-Graduation-Requirement-For-All-Students-2rlgbd2tmwg2b4x7dtgbnk.jpg">
+                    		</a>
+                    	</div>
+                        <div class="col s6 m6 card-content white-text">
+                            <span class="card-title"> {{publication_title}}  </span>
+                            <p> 
+                           		 Author 	 {{author_name}} 
+                             </p> 
+                            <p> 
+                           	 	Publisher	 {{publisher}}
+                            </p>
+                            <p> 
+                           	 	Category	 {{category_name}}
+                            </p>
+                             {% if current_user.is_admin%}
+                          <form action="publications/delete " method="post">
+						<input name = 'publication_id' id ='publication_id' value = {{publication_id}} />
+                         <button class="btn waves-effect waves-light" type="submit" value="follow" name="action">Delete
+						  </button>
+							</form>
+							{%endif%}
+                        </div>
+                     
+			  		</button>
+                 </div>
+        
+         
+  	{% endfor %}
+  	{%if current_user.is_admin %}
+		<div class="row">
+		    <form class="col s12" method="POST" action="publications/add">
+			<div class="row">
+		        <div class="input-field col s12">
+		          <input name='author' id="author" type="text" class="validate">
+		          <label for="author">Author(s)</label>
+		        </div>
+		      </div>
+		      
+		      <div class="row">
+		        <div class="input-field col s12">
+		          <input name='title' id="title" type="text" class="validate">
+		          <label for="title">Title</label>
+		        </div>
+		      </div>
+		      
+		      <div class="row">
+		        <div class="input-field col s12">
+		          <input name='publisher' id="publisher" type="text" class="validate">
+		          <label for="publisher">Publisher</label>
+		        </div>
+		      </div>
+		       <div class="row">
+		        <div class="input-field col s12">
+		          <input name='category' id="category" type="text" class="validate">
+		          <label for="publisher">Category</label>
+		        </div>
+		      </div>
+		     
+		     
+			  <button class="btn waves-effect waves-light" type="submit" name="action">ADD
+			    <i class="material-icons right">send</i>
+			  </button>	
+			  	        
+		    </form>
+		  </div>
+		
+		  
+		  <div class="row">
+		    <form class="col s12"  method="POST" action="publications/delete">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='del_tit' id="del_tit" type="text" class="validate">
+		         		 <label for="del_tit">Enter title to delete</label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">DELETE
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   
+		  <div class="row">
+		    <form class="col s12"  method="POST" action="publications/select">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Enter the author names to see how many publications author's have </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Select
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   <div class="row">
+		    <form class="col s12"  method="POST" action="publications/update">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='up_name' id="up_name" type="text" class="validate">
+		         		 <label for="up_name">Enter the old title </label>
+		       		 </div>
+		     	 </div>
+		     	 <div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='up_tit' id="up_tit" type="text" class="validate">
+		         		 <label for="up_tit">Enter the new title </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Update
+			   	 <i class="material-icons right">send</i>
+				 </button>
+				  </form>
+		   </div>
+		   
+    </div>
+</div>
+{% endif %}
+
+		
+   <div class="row center">
+       <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
+  </div>
+  
+     <div class="row center grey-text">
+          This page is created by Ugur Uysal.
+       </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
