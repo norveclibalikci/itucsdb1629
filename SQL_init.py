@@ -279,7 +279,7 @@ def create_user_table():
         query = """CREATE TABLE USERS (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(40),
-                password VARCHAR(40),
+                password CHAR(120),
                 mail VARCHAR(40),
                 secret VARCHAR(40)
         )"""
@@ -293,15 +293,19 @@ def create_user_table():
 def seed_user_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
+        hashed_admin = pwd_context.encrypt('admin')
+        hashed_1 = pwd_context.encrypt('badpassword')
+        hashed_2= pwd_context.encrypt('g00d!p455W0rd*')
+        hashed_3 = pwd_context.encrypt('onemorebadpassword')
+        print(hashed_admin)
         query = """INSERT INTO
                 USERS (name, password,mail,secret)
                 VALUES
-                    ('admin','admin','admin@admin.com','admin'),
-                    ('John Doe', 'badpassword','abc@gmail.com','mom1'),
-                    ('Jack Doe', 'g00d!p455W0rd*','def@gmail.com','mom2'),
-                    ('Jamie Doe', 'onemorebadpassword','xyz@gmail.com','mom3')
-                     """
+                    ('admin','%s','admin@admin.com','admin'),
+                    ('John Doe','%s','abc@gmail.com','mom1'),
+                    ('Jack Doe', '%s','def@gmail.com','mom2'),
+                    ('Jamie Doe', '%s','xyz@gmail.com','mom3')
+                     """ % (hashed_admin,hashed_1,hashed_2,hashed_3)
 
         cursor.execute(query)
         connection.commit()
