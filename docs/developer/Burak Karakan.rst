@@ -363,7 +363,7 @@ And a `Delete` operation will execute the following method:
 UI Improvements
 ---------------
 
-There was the requirement for a layout structure to be built. The layout is built by Burak Karakan using the CSS framework called [Materialize](materializecss.com). The framework is based on the Google's Material Design guides, it is responsive and easy-to-use, has a grid and well-defined helper classes. The Material Design guides are pretty clear in user interface decisions, and using a framework allows to keep system UI consistent across different pages and functionalities. Also, in order to create a smooth experience in the pages, jQuery, one of the most popular JavaScript libraries, is included and used across the system.
+There was the requirement for a layout structure to be built. The layout is built by Burak Karakan using the CSS framework [Materialize](http://materializecss.com/). The framework is based on the Google's Material Design guides, it is responsive and easy-to-use, has a grid and well-defined helper classes. The Material Design guides are pretty clear in user interface decisions, and using a framework allows to keep system UI consistent across different pages and functionalities. Also, in order to create a smooth experience in the pages, jQuery, one of the most popular JavaScript libraries, is included and used across the system.
 
 XLarge UI is inspired by simplicity. Therefore, the simplistic usages of effects and styling are adopted. In the `Feed` page, simple cards to show posts are used in order to keep the interface minimalistic. 
 
