@@ -1,0 +1,114 @@
+ {% extends "layout.html" %}
+{% block body %}
+ <h1 class="header col s6 m6 red-text text-lighten-1">Authors</h1>
+{% for author_id, author_name  in authors %}
+            <div class="row ">
+                <div class="col s6 m6">
+                    <div class="row card green lighten-3">
+                    	<div class="col s2 m2 img-pub card-content">
+                    		<a href="https://instagram.com/bbyalcinkaya">
+                    			<img class="circle responsive-img" src="https://neurosculptinginstitute.com/wp-content/uploads/2015/08/Co-Author.jpg">
+                    		</a>
+                    	</div>
+                        <div class="col s6 m6 card-content black-text">
+                            <p>
+                               {{author_name}}
+                            </p>
+                        {% if current_user.is_admin%}
+                          <form action="cat-aut/author-delete " method="post">
+					<input name = 'author_id' id ='author_id' value = {{author_id}} />
+                         <button class="btn waves-effect waves-light" type="submit" value="follow" name="action">Delete
+						  </button>
+							</form>
+							{%endif%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+  			{% endfor %}
+  	{%if current_user.is_admin %}
+	<div class="row">
+		    <form class="col s12"  method="POST" action="cat-aut/author-add">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Add an Author</label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Add an Author
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+		   <div class="row">
+		    <form class="col s12"  method="POST" action="cat-aut/author-update">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='up_name' id="up_name" type="text" class="validate">
+		         		 <label for="name">Enter the old name </label>
+		       		 </div>
+		       		 <div class="row">
+		        <div class="input-field col s12">
+		         	 <input name='aut_name' id="aut_name" type="text" class="validate">
+		         		 <label for="aut_name">Enter the new name </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Update Author
+			   	 <i class="material-icons right">send</i>
+				 </button>
+				  </form>
+		   </div>
+		   
+    </div>
+    {%endif%}	
+    
+    <h1 class="header col s6 m6 red-text text-lighten-1">Categories</h1>
+		{% for category_id, category_name  in cat %}
+            <div class="row ">
+                <div class="col s6 m6">
+                    <div class="row card green lighten-3">
+                        <div class="col s6 m6 card-content white-text">
+                            <p>
+                               {{category_name}}
+                            </p>
+                             {% if current_user.is_admin%}
+                          <form action="cat-aut/cat-del " method="post">
+					<input name = 'category_id' id ='category_id' value = {{category_id}} />
+                         <button class="btn waves-effect waves-light" type="submit" value="follow" name="action">Delete
+						  </button>
+							</form>
+							{%endif%}
+                        </div>
+                        <div class="col s3 m3 card-action right">
+                            <a href="http://twitter.com/norveclibalikci"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  			{% endfor %}
+</div>
+{%if current_user.is_admin %}
+		<div class="row">
+		    <form class="col s12"  method="POST" action="cat-aut/cat-add">
+		    	<div class="row">
+		        	<div class="input-field col s12">
+		         	 <input name='cat_name' id="cat_name" type="text" class="validate">
+		         		 <label for="aut_name">Add a category </label>
+		       		 </div>
+		     	 </div>
+		    <button class="btn waves-effect waves-light" type="submit" name="action">Add a category
+			   	 <i class="material-icons right">send</i>
+				  </button>
+				  </form>
+		   </div>
+{%endif%}	   
+		   
+	
+	<div class="row center">
+       <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
+  </div>
+		 <div class="row center grey-text">
+          This page is created by Ugur Uysal.
+       </div>
+	{% endblock %}
+			
