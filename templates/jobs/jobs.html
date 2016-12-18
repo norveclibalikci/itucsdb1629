@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <h1 class="header center red-text text-lighten-1">Job offerings by XLarge Inc</h1>
+            <div class="row center">
+                <div class="grey-text">
+                    
+                </div>
+            </div>
+			
+            {% for id, name, job_title, description, location, salary, is_used in jobs %}
+
+                <div class="row center">
+                    <div class="col s12 m12">
+                        <div class="card
+                        
+                        light-blue lighten-3">
+                        
+                         
+                       
+
+                        <div class="card-content">
+                            <span class="card-title">{{ job_title }}</span>
+
+                            <p>
+                                {{ description }}
+                                <br>
+                                Salary: <b>{{ salary }}$ </b>
+                            </p>
+                        </div>
+                        <div class="card-action" id="feedactions">
+                            <a> Location: {{ location }}</a>
+                            {% if is_remote %}
+                                <a>Office</a>
+                            {% else %}
+                                <a>Remote</a>
+                            {% endif %}
+                            {% if current_user.is_admin %}
+                                <a href="/delete-job/{{ id }}">Delete this job</a>
+                                <a href="/update-job/{{ id }}" style="margin-right: 0;"><i class="tiny material-icons right-align">mode_edit</i></a>
+
+                            {% endif %}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+            {% if current_user.is_admin %}
+            <div class="row center">
+                <a class="btn-large waves-effect waves-light red lighten-1" href="/add-new-job">Add new job offer</a>
+            </div>
+            {% endif %}
+            <div class="row center">
+                <a class="btn-large waves-effect waves-light red lighten-1" href="/">Back to Home</a>
+                
+            </div>
+            <div class="row center grey-text">
+                This page is created by Şahin Olut.
+            </div>
+        </div>
+    </div>
+{% endblock %}
