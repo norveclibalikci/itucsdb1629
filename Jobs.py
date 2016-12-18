@@ -42,7 +42,7 @@ def create_new_job(job_title, description, location, salary, is_remote):
         else:
             is_remote = True
 
-        query = """INSERT INTO JOBS (user_id, job_title, description, location, salary, is_remote)
+        query = """INSERT INTO JOB_OFFERS (user_id, job_title, description, location, salary, is_remote)
 VALUES (%s, '%s', '%s', '%s', %d, %s);""" % (
         current_user.id, job_title, description, location, int(salary), is_remote)
 
@@ -56,11 +56,11 @@ def list_all_jobs():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT JOBS.id,
+        query = """SELECT JOB_OFFERS.id,
         us.name, job_title, description, location, salary,
         is_remote
-        from JOBS JOIN USERS as us
-        ON us.id = JOBS.user_id
+        from JOB_OFFERS JOIN USERS as us
+        ON us.id = JOB_OFFERS.user_id
         ORDER BY salary;"""
         cursor.execute(query)
         connection.commit()
@@ -71,14 +71,14 @@ def select_job(id):
 
         query = """SELECT job_title, description, location, salary,
         is_remote
-        from JOBS where id=%s""" % id
+        from JOB_OFFERS where id=%s""" % id
         cursor.execute(query)
         connection.commit()
         return cursor
 def delete_offer(id):
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """DELETE FROM JOBS
+        query = """DELETE FROM JOB_OFFERS
         WHERE id = %s;""" % id
         cursor.execute(query)
         connection.commit()
@@ -121,7 +121,7 @@ def update_job(job_id, job_title, description, location, salary, is_remote):
         else:
             is_remote = False
 
-        query = """UPDATE JOBS SET
+        query = """UPDATE JOB_OFFERS SET
         job_title='%s',
         description='%s',
         location='%s',
