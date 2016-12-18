@@ -22,7 +22,7 @@ The *Feed* page is the heart of the user experience of **XLarge**. The feed look
 
 You can simply update the feed page by clicking the button "Update Feed List" at the bottom of the page, which takes you to the update page. The update page fetches the existing posts of *XLarge* which are not already in the feed, and allows you to select the ones to add into the feed. You can add new posts to the feed by just checking the box next to the name of the post name. An example selection is as follows:
 
-.. figure:: http://i63.tinypic.com/pwvh4.png
+.. figure:: http://i66.tinypic.com/svlaio.jpg
    :scale: 50 %
    :alt: Update Feed screenshot
    
