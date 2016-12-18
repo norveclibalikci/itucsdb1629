@@ -14,6 +14,7 @@ from Auth import auth
 from Auth import get_user
 from Home import home
 from Post import post
+from Jobs import jobs
 from SQL_init import create_and_seed_database
 
 lm = LoginManager()
@@ -33,6 +34,7 @@ app.register_blueprint(post)
 app.register_blueprint(profile)
 app.register_blueprint(publication)
 app.register_blueprint(product)
+app.register_blueprint(jobs)
 
 lm.login_view = "/auth"
 lm.init_app(app)
