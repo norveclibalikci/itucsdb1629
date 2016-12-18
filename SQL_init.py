@@ -31,7 +31,7 @@ def create_and_seed_database():
 
     create_products_table()
     create_comments_table()
-
+    create_jobs_table()
     add_foreign_keys()
 
     return
@@ -145,7 +145,23 @@ def create_comments_table():
         cursor.execute(query)
         connection.commit()
         return True
-
+def create_jobs_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """ DROP TABLE IF EXISTS JOBS"""
+        cursor.execute(query)
+        query ="""CREATE TABLE JOBS ( 
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER,
+                job_title VARCHAR(255),
+                description VARCHAR(255),
+                location VARCHAR(255),
+                salary NUMERIC,
+                is_remote BOOLEAN)
+                """
+        cursor.execute(query)
+        connection.commit()
+        return True
 
 # Seed the feed table with 3 random values.
 def seed_feed_table():
