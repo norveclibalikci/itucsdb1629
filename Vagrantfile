@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell do |shell|
         shell.path = "vagrant/initpg.sh"
     end
-
+	
     # configure phppgadmin
     config.vm.provision :shell do |shell|
         shell.path = "vagrant/phppgadmin.sh"

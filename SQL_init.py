@@ -16,7 +16,7 @@ def create_and_seed_database():
     seed_post_table()
 
     create_profile_table()
-    seed_universities_table()
+    seed_jobs_table()
 
     create_feed_table()
     seed_feed_table()
@@ -40,7 +40,7 @@ def create_and_seed_database():
 def drop_foreign_keys():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """ALTER TABLE IF EXISTS PROFILE DROP CONSTRAINT IF EXISTS profile_uni_id_fkey;"""
+        query = """ALTER TABLE IF EXISTS PROFILE DROP CONSTRAINT IF EXISTS profile_job_id_fkey;"""
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS FEED DROP CONSTRAINT IF EXISTS feed_post_id_fkey;"""
         cursor.execute(query)
@@ -69,7 +69,7 @@ def drop_foreign_keys():
 def add_foreign_keys():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """ALTER TABLE PROFILE ADD FOREIGN KEY (uni_id) REFERENCES UNIVERSITIES(id);"""
+        query = """ALTER TABLE PROFILE ADD FOREIGN KEY (job_id) REFERENCES JOBS(id);"""
         cursor.execute(query)
         query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
         cursor.execute(query)
@@ -125,6 +125,7 @@ def create_feed_table():
         connection.commit()
         return True
 
+
 def create_comments_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -169,6 +170,7 @@ def test_feed_table():
         count = cursor.fetchone()[0]
         return count
 
+
 # Create the feed table with two fields, post_id and number_of_likes.
 def create_products_table():
     with dbApi.connect(app.config['dsn']) as connection:
@@ -191,18 +193,15 @@ def create_products_table():
         connection.commit()
         return True
 
-# Create the profile table with two fields, profile_id, name and surname.
+
+# Create the profile and jobs tables.
 def create_profile_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS UNIVERSITIES"""
+        query = """DROP TABLE IF EXISTS JOBS"""
         cursor.execute(query)
-        query = """CREATE TABLE UNIVERSITIES (
-                id SERIAL PRIMARY KEY,
-                name VARCHAR(50),
-                country VARCHAR(15)
-        )"""
+        query = """CREATE TABLE JOBS (id SERIAL PRIMARY KEY,job VARCHAR(50))"""
         cursor.execute(query)
 
         query = """DROP TABLE IF EXISTS PROFILE"""
@@ -211,11 +210,11 @@ def create_profile_table():
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(20),
                 surname VARCHAR(20),
-                uni_id INTEGER,
+                job_id INTEGER,
                 message VARCHAR(80)
         )"""
         cursor.execute(query)
-        
+
         query = """DROP TABLE IF EXISTS ADVERTISERS"""
         cursor.execute(query)
         query = """CREATE TABLE ADVERTISERS (
@@ -224,26 +223,29 @@ def create_profile_table():
                 description VARCHAR(120)
         )"""
         cursor.execute(query)
-
         connection.commit()
 
         return True
 
 
-# Seed the profile table with 2 random values.
-def seed_universities_table():
+# Seed the jobs table.
+def seed_jobs_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                UNIVERSITIES (id, name, country)
+                JOBS (id, job)
                 VALUES
-                    (1, 'Istanbul Technical University (ITU)','Turkey'),
-                    (2, 'Harvard Unviersity','USA'),
-                    (3, 'Massachusetts Institute of Technology (MIT)','USA'),
-                    (4, 'University College London (UCL)', 'UK'),
-                    (5, 'University of Oxford', 'UK'),
-                    (6, 'Stanford University', 'USA')"""
+                    (1, 'Accountant'),
+                    (2, 'Architect'),
+                    (3, 'Chef'),
+                    (4, 'Computer Programmer'),
+                    (5, 'Director'),
+                    (6, 'Engineer'),
+                    (7, 'Lawyer'),
+                    (8, 'Student'),
+                    (9, 'Teacher'),
+                    (10, 'Teacher Assistant')"""
         cursor.execute(query)
         connection.commit()
 
