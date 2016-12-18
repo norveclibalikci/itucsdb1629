@@ -34,7 +34,7 @@ def create_and_seed_database():
 
     create_products_table()
     create_comments_table()
-    create_jobs_table()
+    create_joboffers_table()
     add_foreign_keys()
 
     return
@@ -148,12 +148,12 @@ def create_comments_table():
         cursor.execute(query)
         connection.commit()
         return True
-def create_jobs_table():
+def create_joboffers_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """ DROP TABLE IF EXISTS JOBS"""
+        query = """ DROP TABLE IF EXISTS JOB_OFFERS"""
         cursor.execute(query)
-        query ="""CREATE TABLE JOBS ( 
+        query ="""CREATE TABLE JOB_OFFERS ( 
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER,
                 job_title VARCHAR(255),
