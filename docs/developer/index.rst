@@ -62,6 +62,6 @@ In order to XLarge to start working properly, the `/init-db` route can be used. 
 
    Burak Karakan
    member2
-   member3
+   Ahmet Bilal Can
    member4
    member5
