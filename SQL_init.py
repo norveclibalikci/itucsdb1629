@@ -1,6 +1,6 @@
 import psycopg2 as dbApi
 from flask import current_app as app
-
+from passlib.apps import custom_app_context as pwd_context
 
 # Create and seed all the database tables.
 def create_and_seed_database():
