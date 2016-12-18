@@ -62,6 +62,8 @@ def drop_foreign_keys():
         cursor.execute(query)
         query = """ALTER TABLE IF EXISTS COMMENTS DROP CONSTRAINT IF EXISTS comments_book_id_fkey;"""
         cursor.execute(query)
+        query = """ALTER TABLE IF EXISTS PUBLICATION DROP CONSTRAINT IF EXISTS publication_category_id_fkey;"""
+        cursor.execute(query)
 
         connection.commit()
 
@@ -90,6 +92,8 @@ def add_foreign_keys():
         query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
         cursor.execute(query)
         query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (book_id) REFERENCES BOOKS(id) ON DELETE CASCADE;"""
+        cursor.execute(query)
+        query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE;"""
         cursor.execute(query)
 
         connection.commit()
@@ -318,6 +322,44 @@ def test_user_table():
         return count
 
 
+def create_pubcategory_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """DROP TABLE IF EXISTS category"""
+        cursor.execute(query)
+        query = """CREATE TABLE category (
+                category_id SERIAL PRIMARY KEY,
+                category_name VARCHAR(20) UNIQUE)"""
+        try:
+            cursor.execute(query)
+        except:
+            return False;
+        connection.commit()
+
+        return True
+    
+def seed_pubcategory_table():
+    with dbApi.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+
+        query = """INSERT INTO
+                category (category_name)
+                VALUES
+                    ('Science'),
+                    ('Sports'),
+                    ('Health'),
+                    ('Economy'),
+                    ('Technology'),
+                    ('Literature')"""
+        try:
+            cursor.execute(query)
+        except:
+            return False
+        connection.commit()
+
+        return True
+    
 def create_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -328,7 +370,8 @@ def create_publication_table():
                 publication_id SERIAL PRIMARY KEY,
                 publication_title VARCHAR(40),
                 publisher VARCHAR(20),
-                author_id INTEGER)"""
+                author_id INTEGER,
+                category_id INTEGER)"""
 
         try:
             cursor.execute(query)
@@ -344,10 +387,13 @@ def seed_publication_table():
         cursor = connection.cursor()
 
         query = """INSERT INTO
-                PUBLICATION (publication_title, publisher, author_id)
+                PUBLICATION (publication_title, publisher, author_id, category_id)
                 VALUES
-                    ('IoT', 'IEEE',1),
-                    ('AI','Science',2)"""
+                    ('IoT', 'IEEE Spectrum',1,5),
+                    ('AI','Science',2,1),
+                    ('Six pack','Mans Health',4,2),
+                    ('Poems', 'Best Poems', 3, 6),
+                    ('Cancer', 'Your Life', 4, 3)"""
         try:
             cursor.execute(query)
         except:
@@ -355,7 +401,6 @@ def seed_publication_table():
         connection.commit()
 
         return True
-
 
 def test_publication_table():
     with dbApi.connect(app.config['dsn']) as connection:
