@@ -24,7 +24,7 @@ This is the *E/R diagram* of the **Readers** feature of *XLarge*:
 
 .. figure:: http://i65.tinypic.com/vwzlu9.png
    :scale: 50 %
-   :alt: Burak - E/R diagram
+   :alt: Diedon - E/R diagram
 
 The *"profile"* of the reader entity is connected to the *"jobs"* entity with the *"job_id"* foreign key. This is done in order to keep the profession of the reader, which will be showed also in the Readers' main page. The *"advertisers"* entity is independent from the other two entities, containing the information about the person or the company advertising.
 
