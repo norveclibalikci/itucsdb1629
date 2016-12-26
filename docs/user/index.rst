@@ -2,7 +2,6 @@ User Guide
 ==========
 
 .. image:: logo.png
-    :scale: 50 %
     :alt: XLarge Logo
 
 
