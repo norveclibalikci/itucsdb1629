@@ -1,7 +1,7 @@
 User Guide
 ==========
 
-.. image:: http://i65.tinypic.com/2qktduf.png
+.. image:: logo.png
     :scale: 50 %
     :alt: XLarge Logo
 
