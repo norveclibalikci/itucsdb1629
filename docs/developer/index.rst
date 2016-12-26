@@ -80,4 +80,4 @@ In order XLarge to start working properly, the *`/init-db`* route can be used. W
    Diedon Bujari
    Ahmet Bilal Can
    Uğur Uysal
-   member5
+   Şahin Olut
