@@ -92,8 +92,10 @@ Reference with F_key operation are done with these queries
 
 .. code-block:: python
 
-       query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE;"""
-       query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
+       query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (category_id) 
+        REFERENCES category(category_id) ON DELETE CASCADE;"""
+       query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) 
+        REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
       
 
 All CRUD operations are implemented in Publication.py and Cat_aut.py files.
@@ -189,7 +191,8 @@ All CRUD operations are implemented in Publication.py and Cat_aut.py files.
         cursor = connection.cursor()
 
         query = """SELECT COUNT(publication_id) FROM PUBLICATION,AUTHORS
-                    WHERE  author_name= %s AND PUBLICATION.author_id = AUTHORS.author_id"""
+                    WHERE  author_name= %s AND 
+                    PUBLICATION.author_id = AUTHORS.author_id"""
 
         cursor.execute(query,(aut_name,))
         connection.commit()
@@ -216,8 +219,10 @@ All CRUD operations are implemented in Publication.py and Cat_aut.py files.
  def get_all_publications():
    with dbApi.connect(app.config['dsn']) as connection:
        cursor = connection.cursor()
-       query = """SELECT publication_id, publication_title, publisher, author_name, category_name FROM PUBLICATION,AUTHORS,category
-                            WHERE PUBLICATION.author_id = AUTHORS.author_id AND PUBLICATION.category_id = category.category_id """
+       query = """SELECT publication_id, publication_title, publisher, author_name, 
+          category_name FROM PUBLICATION,AUTHORS,category
+                            WHERE PUBLICATION.author_id = AUTHORS.author_id 
+                            AND PUBLICATION.category_id = category.category_id """
        cursor.execute(query)
        connection.commit()
        return cursor
@@ -278,7 +283,8 @@ Category and author operation are here
  def main():
    cat = get_all_cat()
    authors = get_all_authors()
-   return render_template('publication/cat_and_authors.html', cat =cat, authors=authors)
+   return render_template('publication/cat_and_authors.html', 
+   cat =cat, authors=authors)
 
  @cat_aut.route("/cat-aut/cat-add",  methods= ['POST'])
  @login_required

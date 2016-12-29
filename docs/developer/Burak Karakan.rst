@@ -46,27 +46,38 @@ In order to define the required relationships, the following `ALTER` statements 
       def drop_foreign_keys():
           with dbApi.connect(app.config['dsn']) as connection:
               cursor = connection.cursor()
-              query = """ALTER TABLE IF EXISTS PROFILE DROP CONSTRAINT IF EXISTS profile_job_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS PROFILE 
+              DROP CONSTRAINT IF EXISTS profile_job_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS FEED DROP CONSTRAINT IF EXISTS feed_post_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS FEED 
+              DROP CONSTRAINT IF EXISTS feed_post_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS DELETED_FEED DROP CONSTRAINT IF EXISTS deleted_feed_remover_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS DELETED_FEED 
+              DROP CONSTRAINT IF EXISTS deleted_feed_remover_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS DELETED_FEED DROP CONSTRAINT IF EXISTS deleted_feed_post_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS DELETED_FEED 
+              DROP CONSTRAINT IF EXISTS deleted_feed_post_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS PUBLICATION DROP CONSTRAINT IF EXISTS publication_author_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS PUBLICATION 
+              DROP CONSTRAINT IF EXISTS publication_author_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS POSTS DROP CONSTRAINT IF EXISTS posts_category_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS POSTS DROP 
+              CONSTRAINT IF EXISTS posts_category_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS USERSPUBS DROP CONSTRAINT IF EXISTS userpubs_user_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS USERSPUBS 
+              DROP CONSTRAINT IF EXISTS userpubs_user_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS USERSPUBS DROP CONSTRAINT IF EXISTS userpubs_publication_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS USERSPUBS 
+              DROP CONSTRAINT IF EXISTS userpubs_publication_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS BOOKS DROP CONSTRAINT IF EXISTS products_user_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS BOOKS DROP 
+              CONSTRAINT IF EXISTS products_user_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS COMMENTS DROP CONSTRAINT IF EXISTS comments_user_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS COMMENTS DROP 
+              CONSTRAINT IF EXISTS comments_user_id_fkey;"""
               cursor.execute(query)
-              query = """ALTER TABLE IF EXISTS COMMENTS DROP CONSTRAINT IF EXISTS comments_book_id_fkey;"""
+              query = """ALTER TABLE IF EXISTS COMMENTS DROP 
+              CONSTRAINT IF EXISTS comments_book_id_fkey;"""
               cursor.execute(query)
 
               connection.commit()
@@ -75,27 +86,38 @@ In order to define the required relationships, the following `ALTER` statements 
       def add_foreign_keys():
           with dbApi.connect(app.config['dsn']) as connection:
               cursor = connection.cursor()
-              query = """ALTER TABLE PROFILE ADD FOREIGN KEY (job_id) REFERENCES JOBS(id);"""
+              query = """ALTER TABLE PROFILE ADD FOREIGN KEY (job_id) 
+              REFERENCES JOBS(id);"""
               cursor.execute(query)
-              query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE FEED ADD FOREIGN KEY (post_id) 
+              REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE DELETED_FEED ADD FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE DELETED_FEED ADD FOREIGN KEY (post_id) 
+              REFERENCES POSTS(post_id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE DELETED_FEED ADD FOREIGN KEY (remover_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE DELETED_FEED ADD FOREIGN KEY (remover_id) 
+              REFERENCES USERS(id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE PUBLICATION ADD FOREIGN KEY (author_id) 
+              REFERENCES AUTHORS(author_id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE POSTS ADD FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE POSTS ADD FOREIGN KEY (category_id) 
+              REFERENCES CATEGORIES(category_id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (user_id) 
+              REFERENCES USERS(id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (publication_id) REFERENCES PUBLICATION(publication_id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE USERSPUBS ADD FOREIGN KEY (publication_id) 
+              REFERENCES PUBLICATION(publication_id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE BOOKS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE BOOKS ADD FOREIGN KEY (user_id) 
+              REFERENCES USERS(id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (user_id) 
+              REFERENCES USERS(id) ON DELETE CASCADE;"""
               cursor.execute(query)
-              query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (book_id) REFERENCES BOOKS(id) ON DELETE CASCADE;"""
+              query = """ALTER TABLE COMMENTS ADD FOREIGN KEY (book_id) 
+              REFERENCES BOOKS(id) ON DELETE CASCADE;"""
               cursor.execute(query)
 
               connection.commit()
@@ -191,9 +213,11 @@ In order to insert into the feed a new post by checking the checkboxes, the foll
       def insert_into_feed(id_list):
           with dbApi.connect(app.config['dsn']) as connection:
               now = datetime.now()
-              query = "INSERT INTO FEED (post_id, publication_id, number_of_likes, created_at) VALUES "
+              query = """INSERT INTO FEED (post_id, 
+                publication_id, number_of_likes, created_at) VALUES """
               for id in id_list:
-                  query += "(" + id + ", 0, 0, '" + now.strftime('%Y-%m-%d %H:%M:%S') + "'),"
+                  query += "(" + id + ", 0, 0, '"
+                  query += now.strftime('%Y-%m-%d %H:%M:%S') + "'),"
 
               query = query[:-1]
               cursor = connection.cursor()
@@ -234,7 +258,8 @@ The Feed posts could be removed by the admins, and a removed post would be inser
           with dbApi.connect(app.config['dsn']) as connection:
               cursor = connection.cursor()
 
-              query = "SELECT post_id, publication_id, number_of_likes FROM FEED WHERE post_id=%s" % id
+              query = """SELECT post_id, publication_id, number_of_likes 
+                FROM FEED WHERE post_id=%s""" % id
               cursor.execute(query)
               insert_into_deleted_feed(cursor.fetchone())
 
@@ -249,8 +274,10 @@ The Feed posts could be removed by the admins, and a removed post would be inser
       def insert_into_deleted_feed(post):
           with dbApi.connect(app.config['dsn']) as connection:
               now = datetime.now()
-              query = """INSERT INTO DELETED_FEED (remover_id, post_id, publication_id, number_of_likes) VALUES
-                    (%d, %d, %d, %d)""" % (int(current_user.id), int(post[0]), int(post[1]), int(post[2]))
+              query = """INSERT INTO DELETED_FEED 
+                (remover_id, post_id, publication_id, number_of_likes) VALUES
+                    (%d, %d, %d, %d)""" % (int(current_user.id), int(post[0]), 
+                    int(post[1]), int(post[2]))
               cursor = connection.cursor()
               cursor.execute(query)
               connection.commit()
@@ -324,9 +351,11 @@ Adding, updating and removing a book is simply implemented by using the followin
                   is_used = False
 
               cursor = connection.cursor()
-              cursor.execute("""INSERT INTO BOOKS (user_id, title, description, author, price, is_used, created_at)
+              cursor.execute("""INSERT INTO BOOKS (user_id, title, description, 
+              author, price, is_used, created_at)
                               VALUES (%s, %s, %s, %s, %s, %s, %s);""", (
-                              current_user.id, title, description, author, price, is_used, now.strftime('%Y-%m-%d %H:%M:%S')))
+                              current_user.id, title, description, author, 
+                              price, is_used, now.strftime('%Y-%m-%d %H:%M:%S')))
               connection.commit()
               return True
 
@@ -340,7 +369,8 @@ Since all the comments are displayed in the book details page, the admin can del
           with dbApi.connect(app.config['dsn']) as connection:
               cursor = connection.cursor()
 
-              cursor.execute("""UPDATE COMMENTS SET comment = %s WHERE id = %s""", (new_comment, comment_id))
+              cursor.execute("""UPDATE COMMENTS SET comment = %s 
+                WHERE id = %s""", (new_comment, comment_id))
               connection.commit()
               return True
 

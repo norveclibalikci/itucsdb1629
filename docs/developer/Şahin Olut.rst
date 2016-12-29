@@ -136,8 +136,9 @@ Adding new job:
         else:
             is_remote = True
 
-        query = """INSERT INTO JOB_OFFERS (user_id, job_title, description, location, salary, is_remote)
-  VALUES (%s, '%s', '%s', '%s', %d, %s);""" % (
+        query = """INSERT INTO JOB_OFFERS (user_id, job_title, 
+        description, location, salary, is_remote)
+          VALUES (%s, '%s', '%s', '%s', %d, %s);""" % (
         current_user.id, job_title, description, location, int(salary), is_remote)
 
         cursor = connection.cursor()

@@ -106,7 +106,8 @@ In the main page of the *Readers* tab, you can see all the messages written and 
           def main():
               profile = list_profiles()
               advertisement = get_all_advertisements()
-              return render_template('profile/profile.html', profile=profile, advertisement=advertisement)
+              return render_template('profile/profile.html', profile=profile, 
+                advertisement=advertisement)
 
 The *list_profiles()* function returns information about the message writter (name, surname, profession and message). This is generated with the following Python code that is mixed with an SQL query:
 

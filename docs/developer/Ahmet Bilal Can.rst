@@ -82,8 +82,8 @@ If user dont have account, they can create new one by filling create new account
       with dbApi.connect(app.config['dsn']) as connection:
           cursor = connection.cursor()
 
-          cursor.execute("""INSERT INTO USERS (name, password,mail,secret) VALUES(%s,%s,%s,%s)
-                  """, (name_, password_, mail_, secret_,))
+          cursor.execute("""INSERT INTO USERS (name, password,mail,secret) 
+          VALUES(%s,%s,%s,%s)""", (name_, password_, mail_, secret_,))
 
           connection.commit()
 
@@ -108,7 +108,8 @@ If user forgot his/her password, he/she can get new one.In order to do this foll
         if user_id_change:
 
             cursor.execute("""UPDATE USERS SET password = %s
-                    where id = %s   AND mail = %s  """, (new_pw, user_id_change, mail_addres,))
+                    where id = %s   AND mail = %s  """, 
+                    (new_pw, user_id_change, mail_addres,))
 
             connection.commit()
             return True
@@ -133,7 +134,8 @@ User can delete his/her account.
           cursor = connection.cursor()
           if user_id_delete:
 
-              cursor.execute("""DELETE FROM USERS where id = %s  """, (user_id_delete,))
+              cursor.execute("""DELETE FROM USERS where id = %s  """, 
+                (user_id_delete,))
 
               connection.commit()
               return True
@@ -148,7 +150,8 @@ If user login succesfully, publications page will occur with 2 part.First part i
       with dbApi.connect(app.config['dsn']) as connection:
           cursor = connection.cursor()
 
-          query = """SELECT publication_id, publication_title FROM PUBLICATION WHERE publication_id in(
+          query = """SELECT publication_id, publication_title FROM PUBLICATION 
+            WHERE publication_id in(
                   SELECT publication_id FROM USERSPUBS
                   WHERE user_id = %s)
                   """ % user_id
@@ -214,7 +217,8 @@ If user press these buttons,query will update database and functions will return
       with dbApi.connect(app.config['dsn']) as connection:
           cursor = connection.cursor()
 
-          cursor.execute("""DELETE FROM USERSPUBS WHERE user_id = %s AND publication_id = %s
+          cursor.execute("""DELETE FROM USERSPUBS WHERE user_id = %s 
+              AND publication_id = %s
                   """, (user_id, publication_id))
           connection.commit()
 
