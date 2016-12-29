@@ -166,7 +166,8 @@ If user login succesfully, publications page will occur with 2 part.First part i
     with dbApi.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """SELECT publication_id, publication_title FROM PUBLICATION WHERE publication_id not in (
+        query = """SELECT publication_id, publication_title FROM PUBLICATION   
+                WHERE publication_id not in (
                 SELECT publication_id FROM USERSPUBS
                 WHERE user_id = %s)
                 """ % user_id
