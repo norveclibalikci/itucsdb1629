@@ -15,7 +15,7 @@ Feed
 
 The *Feed* page is the heart of the user experience of **XLarge**. The feed looks as follows:
 
-.. figure:: images/burak/2.png
+.. figure:: images/burak/2.PNG
    :scale: 100 %
    :alt: Feed screenshot
 
