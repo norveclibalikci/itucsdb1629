@@ -16,7 +16,7 @@ In order to achieve seperate workflows for each of the developers and minimize t
       from Home import home
       from Post import post
 
-      # Register the blueprints for different team members, in order to minimize the conflicts.
+      # Register the blueprints for different team members to minimize the conflicts.
       app = Flask(__name__)
       app.register_blueprint(home)
       app.register_blueprint(auth)
