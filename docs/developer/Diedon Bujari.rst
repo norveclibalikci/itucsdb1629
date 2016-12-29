@@ -8,7 +8,7 @@ Although the **"Readers"** is not dependent to any of the other functionalities,
 It has a simple structure, containing three entities. Its structure can be shown using the E/R diagram shown below:
 
 .. figure:: images/diedon/1.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Readers E/R diagram
 
 These entities are generated with the following SQL operations:

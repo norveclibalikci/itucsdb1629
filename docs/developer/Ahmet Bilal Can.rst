@@ -224,5 +224,5 @@ If user press these buttons,query will update database and functions will return
 Relations of user,publication and userspub table given as:
 
 .. figure:: images/ahmet/1.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Books E/R diagram

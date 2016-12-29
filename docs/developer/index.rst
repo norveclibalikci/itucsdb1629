@@ -15,7 +15,7 @@ We tried to use the convention to show the foreign keys in *snake_case*, by usin
 The following is the *E/R diagram* of the **Feed** and **Books for Sale** features with additional sub-feature entities and relationships:
 
 .. figure:: burak-db.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Burak - E/R diagram
    
 The *"feed"* and *"deleted_feed"* entities are connected to the *"posts"* entity with the *"post_id"* foreign keys. The *"deleted_feed"* entity is also related to the users table in order to keep the remover of the post. The books table is also related to the user in order to determine the seller of the book, and the *"comments"* entity is related to both books and users, in order to keep the owner of the comment and where it belongs to.
@@ -23,7 +23,7 @@ The *"feed"* and *"deleted_feed"* entities are connected to the *"posts"* entity
 This is the *E/R diagram* of the **Readers** feature of *XLarge*:
 
 .. figure:: diedon-db.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Diedon - E/R diagram
 
 The *"profile"* of the reader entity is connected to the *"jobs"* entity with the *"job_id"* foreign key. This is done in order to keep the profession of the reader, which will be showed also in the Readers' main page. The *"advertisers"* entity is independent from the other two entities, containing the information about the person or the company advertising.

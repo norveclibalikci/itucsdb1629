@@ -356,25 +356,25 @@ Delete, update and add operations are only availeble for admins.
 E/R diagram of tables
 -------------------
 .. figure:: images/ugur/1.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Publications E/R diagram
 
 
 Authors Admin panel
 -----------------
 .. figure:: images/ugur/2.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Authors Admin panel
    
 Categories Admin Panel
 ----------------------
 .. figure:: images/ugur/3.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Categories Admin panel
    
 Publications Admin Panel
 ----------------------
 .. figure:: images/ugur/4.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Publications Admin panel
 
