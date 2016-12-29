@@ -11,7 +11,7 @@ First of all, using XLarge requires an account, which you can create easily by f
 - The page can be also used by the readers and advertisers: you can give comments about the posts, write your own story shortly, or write your opinion about anything else related with the page; on the other hand, if you are an advertiser, and you want to publicize or boost any of your products, you can do it here.
 
 .. figure:: images/welcome.jpg
-    :scale: 50 %
+    :scale: 100 %
     :alt: XLarge Logo
 
 

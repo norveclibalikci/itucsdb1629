@@ -275,7 +275,7 @@ The User Interface:
 The layout of the *Readers* tab is simple, but expresses sympathy:
 
 .. figure:: images/diedon/2.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Readers page screenshot
 
 There are four buttons, which redirect you to the related pages: Write a message, Delete a message, Update a message and Advertise. 
@@ -283,23 +283,23 @@ There are four buttons, which redirect you to the related pages: Write a message
 If you click the *Write a message* button, you will be redirected to the form where the reader should fill the required information, and when finished, click the *Message* button to share the message.
 
 .. figure:: images/diedon/3.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Write a message page screenshot
 
 If you click the *Delete a message* button, you will be redirected to the login page, where you should give your account email and password. If you are an authenticated user of our platform, you can delete a message by selecting the name and the surname of the writer from the dropdown menu and then, click the *Delete* button.
 
 .. figure:: images/diedon/4.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Delete a message page screenshot
 
 If you click the *Update a message* button, you will be redirected to the the form where the reader should select the name and the surname of the writer from the dropdown menu, and update his/her message by writing a new one. At the end, just click the *Update* button.
 
 .. figure:: images/diedon/5.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Update a message page screenshot
 
 If you click the *Advertise* button, you will be redirected to the form where the advertiser fills his/her/company's information and gives some description about the product being advertised. At the end, just click the *Advertise your product* button.
 
 .. figure:: images/diedon/6.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Advertise page screenshot

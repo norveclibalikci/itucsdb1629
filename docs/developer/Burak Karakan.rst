@@ -368,20 +368,20 @@ There was the requirement for a layout structure to be built. The layout is buil
 XLarge UI is inspired by simplicity. Therefore, the simplistic usages of effects and styling are adopted. In the `Feed` page, simple cards to show posts are used in order to keep the interface minimalistic. 
 
 .. figure:: images/burak/3.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Feed page
    
    
 In the book selling, the listing page is pretty similar to the `Feed` page, just by the nuance that the card colors differ from each other by the status of the book, used or not used.
 
 .. figure:: images/burak/4.jpg
-   :scale: 50 %
+   :scale: 100 %
    :alt: Feed page
    
 The Book displaying page has the book information on top, while the comments are listed below the book card, which looks like as follows:
 
 .. figure:: images/burak/5.png
-   :scale: 50 %
+   :scale: 100 %
    :alt: Feed page
    
 The textbox below is useful for adding comments easily without routing to another page, which has a simple JS character counter that counts the number of characters in the textbox. Also the admins have the ability to edit the posts with a textbox appearing below the comment. The textbox is loaded with the initial view and displayed with the following JavaScript:
