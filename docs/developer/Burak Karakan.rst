@@ -4,7 +4,7 @@ Parts Implemented by Burak Karakan
 Blueprints
 ----------
 
-In order to achieve seperate workflows for each of the developers and minimize the VCS conflict problems, there was a need for different files for different developers. In Python, this is achieved using `BLueprint`s. The blueprints are implemented by Burak Karakan for each of the developers by creating different `.py` files and registering them to the app with the following code:
+In order to achieve seperate workflows for each of the developers and minimize the VCS conflict problems, there was a need for different files for different developers. In Python, this is achieved using `Blueprint`s. The blueprints are implemented by Burak Karakan for each of the developers by creating different `.py` files and registering them to the app with the following code:
 
 .. code-block:: python
 

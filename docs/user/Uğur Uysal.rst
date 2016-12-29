@@ -7,17 +7,17 @@ For normal user's here screenshots
 Publicaitons Page
 --------------
 .. figure:: images/ugur/1.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Publicaitons Page
    
 Authors
 -------
 .. figure:: images/ugur/2.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Authors
  
 Categories 
 ---------
 .. figure:: images/ugur/3.png
-   :scale: 50 %
+   :scale: 90 %
    :alt: Categories
