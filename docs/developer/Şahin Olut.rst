@@ -5,7 +5,7 @@ POSTS Table
 -----------
 
 .. figure:: images/sahin/1.jpg
-  :scale: 20 %
+  :scale: 90 %
   :alt: E/R Diagram for my tables
 
 Posts table saves the post and its content including the title, category, creator of post. Category and post table are linked each other with category_id, which is foreign key to CATEROGIES table. Whenever a category is removed, posts with that category are removed as well.(ON CASCADE keyword used)

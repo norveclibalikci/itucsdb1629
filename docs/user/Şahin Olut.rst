@@ -12,19 +12,19 @@ Just writing on text boxes and clicking on the button below, post can be sent ea
 
 
 .. figure:: images/sahin/2.jpg
- :scale: 50 %
+ :scale: 90 %
  :alt: Send new post
  
  After sending new post, it can bee seen that latest post section is updated as shown above. Moreover, you can see the categories for your last 2 posts. Admins are allowed to edit data about posts and categories. Also, if a category is removed, posts with that category is removed too.
  
  .. figure:: images/sahin/3.jpg
-  :scale: 50 %
+  :scale: 90 %
   :alt: Deleting categories
 
 In the screenshot above, aliens and Cyber Security categories are removed, so posts related to them are removed automatically too.
 
  .. figure:: images/sahin/4.jpg
-  :scale: 50 %
+  :scale: 90 %
   :alt: Editing post
     
 Job offers
