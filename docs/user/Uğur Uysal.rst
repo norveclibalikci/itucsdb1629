@@ -6,18 +6,18 @@ For normal user's here screenshots
 
 Publicaitons Page
 --------------
-.. figure:: http://i.hizliresim.com/LZZ4Bo.png
+.. figure:: images/ugur/1.png
    :scale: 50 %
    :alt: Publicaitons Page
    
 Authors
 -------
-.. figure:: http://i.hizliresim.com/r66VA3.png
+.. figure:: images/ugur/2.png
    :scale: 50 %
    :alt: Authors
  
 Categories 
 ---------
-.. figure:: http://i.hizliresim.com/411kEA.png
+.. figure:: images/ugur/3.png
    :scale: 50 %
    :alt: Categories

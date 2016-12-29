@@ -4,7 +4,7 @@ Parts Implemented by Şahin Olut
 POSTS Table
 -----------
 
-.. figure:: http://i.hizliresim.com/8PPb47.jpg
+.. figure:: images/sahin/1.png
   :scale: 20 %
   :alt: E/R Diagram for my tables
 

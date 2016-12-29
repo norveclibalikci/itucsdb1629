@@ -108,7 +108,7 @@ Feed
 
 The Feed is actually one of the most important parts of the user experience in XLarge. The Feed is a simple entity that connects some existing posts to the feed by referencing them with their ID. Also, a user seeing the post on the Feed page can upvote it, and in order to keep the likes counter, the `feed` entity is used again. An admin can delete posts from Feed, and in order to keep track of these deleted posts, there is the `deleted_feed` entity. This entity holds the removed feed posts by the remover user ID, and is connected to the posts by the post ID. The E/R diagram of the feed structure is as follows:
 
-.. figure:: http://i67.tinypic.com/drba13.png
+.. figure:: images/burak/1.png
    :scale: 50 %
    :alt: Feed E/R diagram
    
@@ -264,7 +264,7 @@ Books for Sale
 
 In the "*Books for Sale*" part, we tried to create an engaging feature for **XLarge**. At first, there was a need for a `books` entity, which all the books would remain in. After implementing the book displaying, adding, updating and removing features, next thing to build was the ability for users to comment on books. The book details are moved to a new page, which has a comment box at the bottom of the page. The comments are stored in an entity named as `comments`, which is connected to the `users` entity in order to track who posted the comment. The E/R diagram of the `Books for Sale` feature is as follows:
 
-.. figure:: http://i63.tinypic.com/2gucxf4.png
+.. figure:: images/burak/2.png
    :scale: 50 %
    :alt: Books E/R diagram
    
@@ -367,20 +367,20 @@ There was the requirement for a layout structure to be built. The layout is buil
 
 XLarge UI is inspired by simplicity. Therefore, the simplistic usages of effects and styling are adopted. In the `Feed` page, simple cards to show posts are used in order to keep the interface minimalistic. 
 
-.. figure:: http://i67.tinypic.com/nmfbc4.png
+.. figure:: images/burak/3.png
    :scale: 50 %
    :alt: Feed page
    
    
 In the book selling, the listing page is pretty similar to the `Feed` page, just by the nuance that the card colors differ from each other by the status of the book, used or not used.
 
-.. figure:: http://i68.tinypic.com/v8d2p.jpg
+.. figure:: images/burak/4.jpg
    :scale: 50 %
    :alt: Feed page
    
 The Book displaying page has the book information on top, while the comments are listed below the book card, which looks like as follows:
 
-.. figure:: http://i66.tinypic.com/282nwo2.png
+.. figure:: images/burak/5.png
    :scale: 50 %
    :alt: Feed page
    

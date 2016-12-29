@@ -6,7 +6,7 @@ Layout & Top Bar
 
 The layout has been created by Burak Karakan in order to maintain the same experience across the whole system. It has a simple to use navigation with a one-line information footer below. Wherever you want to head over, just click the link and **TA DAA!** - you are over there.
 
-.. figure:: http://i67.tinypic.com/23lbcdk.png
+.. figure:: images/burak/1.png
    :scale: 50 %
    :alt: Feed screenshot
 
@@ -15,14 +15,14 @@ Feed
 
 The *Feed* page is the heart of the user experience of **XLarge**. The feed looks as follows:
 
-.. figure:: http://i66.tinypic.com/svlaio.jpg
+.. figure:: images/burak/2.png
    :scale: 50 %
    :alt: Feed screenshot
 
 
 You can simply update the feed page by clicking the button "Update Feed List" at the bottom of the page, which takes you to the update page. The update page fetches the existing posts of *XLarge* which are not already in the feed, and allows you to select the ones to add into the feed. You can add new posts to the feed by just checking the box next to the name of the post name. An example selection is as follows:
 
-.. figure:: http://i66.tinypic.com/svlaio.jpg
+.. figure:: images/burak/3.jpg
    :scale: 50 %
    :alt: Update Feed screenshot
    
@@ -37,7 +37,7 @@ The second part implemented by *Burak Karakan* is the book selling part of the *
 
 The *Books For Sale* section is easily accessible from the top navigation bar under the name of "For Sale". When you go to the link, the following page will welcome you:
    
-.. figure:: http://i68.tinypic.com/v8d2p.png
+.. figure:: images/burak/4.png
    :scale: 50 %
    :alt: Books For Sale screenshot
    
@@ -45,7 +45,7 @@ The interface allows you to identify new and second hand books by giving the boo
    
 By just clicking "I want to sell books!", you can start selling books immediately. After clicking, you will be welcomed by the following page, where you can start selling your books immediately.
    
-.. figure:: http://i67.tinypic.com/k1ulg8.png
+.. figure:: images/burak/5.png
    :scale: 50 %
    :alt: Sell Book screenshot
    
@@ -54,20 +54,20 @@ When you fill the form, your book will be available immediately for all of our u
 
 Also, if you are have a collaborative personality, you can add comments about the books you know, and inform the other people that are considering to buy the book you already know something about. In order to share your comment, just fill the box below the comments and bam - you are done!
 
-.. figure:: http://i66.tinypic.com/282nwo2.jpg
+.. figure:: images/burak/6.jpg
    :scale: 50 %
    :alt: Book display screenshot
    
    
 If you are an admin and want to edit a comment, you can just click the links that are only visible to you, called `Edit` and `Delete`, where you can edit the comment right in the place without visiting another file! Just click on the link, change the values in the following text file, and that's it!
 
-.. figure:: http://i68.tinypic.com/23hb1i1.png
+.. figure:: images/burak/7.png
    :scale: 50 %
    :alt: Book display screenshot
    
    
 Hope you enjoy using XLarge as your personal newspaper, where you are the content and you are the author at the same time!
 
-.. figure:: http://i65.tinypic.com/2qktduf.jpg
+.. figure:: images/burak/8.jpg
    :scale: 50 %
    :alt: Book display screenshot

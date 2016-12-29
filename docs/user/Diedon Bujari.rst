@@ -5,7 +5,7 @@ Parts Implemented by Diedon Bujari
 -----------
 The **"Readers"** tab of *XLarge* is the one which makes new users enthusiastic about using our social media platform, and intent to create their own account. And the good side of this page is that: *it does not require authentication - everyone can see it!* The page looks like this:
 
-.. figure:: http://i63.tinypic.com/2z5kk0n.png
+.. figure:: images/diedon/1.png
    :scale: 50 %
    :alt: Readers screenshot
 
@@ -17,7 +17,7 @@ Write a message:
 ----------------
 If you click the *Write a message* button, you will reach this page:
 
-.. figure:: http://i64.tinypic.com/2r2106t.png
+.. figure:: images/diedon/2.png
    :scale: 50 %
    :alt: 'Write a message' page screenshot
 
@@ -31,7 +31,7 @@ Delete a message:
 -----------------
 If you click the *Delete a message* button, you will reach this page:
 
-.. figure:: http://i64.tinypic.com/35lc2l5.png
+.. figure:: images/diedon/3.png
    :scale: 50 %
    :alt: 'Delete a message' page screenshot
 
@@ -43,7 +43,7 @@ Update a message:
 -----------------
 If you click the *Update a message* button, you will reach this page:
 
-.. figure:: http://i63.tinypic.com/midusz.png
+.. figure:: images/diedon/4.png
    :scale: 50 %
    :alt: 'Update a message' page screenshot
 
@@ -53,7 +53,7 @@ Advertise:
 ----------
 You are an advertiser and you have a product which you think can be very popular in the future? *XLarge* is the right platform to advertise. Just click the *Advertise* button, and you reach this page:
 
-.. figure:: http://i65.tinypic.com/2z74o0k.png
+.. figure:: images/diedon/5.png
    :scale: 50 %
    :alt: Advertise screenshot
 

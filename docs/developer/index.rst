@@ -14,7 +14,7 @@ We tried to use the convention to show the foreign keys in *snake_case*, by usin
 
 The following is the *E/R diagram* of the **Feed** and **Books for Sale** features with additional sub-feature entities and relationships:
 
-.. figure:: http://i63.tinypic.com/ehnrlv.png
+.. figure:: burak-db.png
    :scale: 50 %
    :alt: Burak - E/R diagram
    
@@ -22,7 +22,7 @@ The *"feed"* and *"deleted_feed"* entities are connected to the *"posts"* entity
 
 This is the *E/R diagram* of the **Readers** feature of *XLarge*:
 
-.. figure:: http://i65.tinypic.com/vwzlu9.png
+.. figure:: diedon-db.png
    :scale: 50 %
    :alt: Diedon - E/R diagram
 
